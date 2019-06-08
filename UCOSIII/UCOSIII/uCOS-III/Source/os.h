@@ -83,7 +83,7 @@ extern "C" {
 #else
 #define  OS_SCHED_LOCK_TIME_MEAS_STOP()
 #endif
-
+//临界段保护代码
 #if OS_CFG_ISR_POST_DEFERRED_EN > 0u                             /* Deferred ISR Posts ------------------------------ */
                                                                  /* Lock the scheduler                                */
 #define  OS_CRITICAL_ENTER()                                       \
