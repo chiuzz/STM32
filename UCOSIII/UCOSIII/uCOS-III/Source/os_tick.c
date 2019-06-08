@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -117,19 +117,19 @@ void  OS_TickTaskInit (OS_ERR  *p_err)
 
     OS_TickListInit();                                      /* Initialize the tick list data structures               */
 
-                                                            /* ---------------- CREATE THE TICK TASK ---------------- */
+    /* ---------------- CREATE THE TICK TASK ---------------- */
     if (OSCfg_TickTaskStkBasePtr == (CPU_STK *)0) {
-       *p_err = OS_ERR_TICK_STK_INVALID;
+        *p_err = OS_ERR_TICK_STK_INVALID;
         return;
     }
 
     if (OSCfg_TickTaskStkSize < OSCfg_StkSizeMin) {
-       *p_err = OS_ERR_TICK_STK_SIZE_INVALID;
+        *p_err = OS_ERR_TICK_STK_SIZE_INVALID;
         return;
     }
 
     if (OSCfg_TickTaskPrio >= (OS_CFG_PRIO_MAX - 1u)) {     /* Only one task at the 'Idle Task' priority              */
-       *p_err = OS_ERR_TICK_PRIO_INVALID;
+        *p_err = OS_ERR_TICK_PRIO_INVALID;
         return;
     }
 
@@ -237,7 +237,7 @@ void  OS_TickListInsert (OS_TCB   *p_tcb,
             p_tcb->TickCtrMatch = (OS_TICK        )0u;
             p_tcb->TickRemain   = (OS_TICK        )0u;
             p_tcb->TickSpokePtr = (OS_TICK_SPOKE *)0;
-           *p_err               =  OS_ERR_TIME_ZERO_DLY;         /* ... do NOT delay.                                 */
+            *p_err               =  OS_ERR_TIME_ZERO_DLY;         /* ... do NOT delay.                                 */
             return;
         }
         p_tcb->TickCtrMatch = time;
@@ -264,7 +264,7 @@ void  OS_TickListInsert (OS_TCB   *p_tcb,
         p_tcb->TickCtrMatch = (OS_TICK        )0u;
         p_tcb->TickRemain   = (OS_TICK        )0u;
         p_tcb->TickSpokePtr = (OS_TICK_SPOKE *)0;
-       *p_err               =  OS_ERR_TIME_ZERO_DLY;             /* ... do NOT delay.                                 */
+        *p_err               =  OS_ERR_TIME_ZERO_DLY;             /* ... do NOT delay.                                 */
         return;
     }
 
@@ -281,7 +281,7 @@ void  OS_TickListInsert (OS_TCB   *p_tcb,
         p_tcb1     = p_spoke->FirstPtr;                          /* Point to current first TCB in the list            */
         while (p_tcb1 != (OS_TCB *)0) {
             p_tcb1->TickRemain = p_tcb1->TickCtrMatch            /* Compute time remaining of current TCB in list     */
-                               - OSTickCtr;
+                                 - OSTickCtr;
             if (p_tcb->TickRemain > p_tcb1->TickRemain) {        /* Do we need to insert AFTER current TCB in list?   */
                 if (p_tcb1->TickNextPtr != (OS_TCB *)0) {        /* Yes, are we pointing at the last TCB in the list? */
                     p_tcb1               =  p_tcb1->TickNextPtr; /* No,  Point to next TCB in the list                */
@@ -313,7 +313,7 @@ void  OS_TickListInsert (OS_TCB   *p_tcb,
         p_spoke->NbrEntriesMax = p_spoke->NbrEntries;
     }
     p_tcb->TickSpokePtr = p_spoke;                               /* Link back to tick spoke                           */
-   *p_err               = OS_ERR_NONE;
+    *p_err               = OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -435,74 +435,74 @@ void  OS_TickListUpdate (void)
         if (p_tcb != (OS_TCB *)0) {
             p_tcb_next = p_tcb->TickNextPtr;                           /* Point to next TCB to update                 */
             switch (p_tcb->TaskState) {
-                case OS_TASK_STATE_RDY:
-                case OS_TASK_STATE_PEND:
-                case OS_TASK_STATE_SUSPENDED:
-                case OS_TASK_STATE_PEND_SUSPENDED:
-                     break;
+            case OS_TASK_STATE_RDY:
+            case OS_TASK_STATE_PEND:
+            case OS_TASK_STATE_SUSPENDED:
+            case OS_TASK_STATE_PEND_SUSPENDED:
+                break;
 
-                case OS_TASK_STATE_DLY:
-                     p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
-                                       - OSTickCtr;
-                     if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
-                         p_tcb->TaskState = OS_TASK_STATE_RDY;
-                         OS_TaskRdy(p_tcb);                            /* Make task ready to run                      */
-                     } else {
-                         done             = DEF_TRUE;                  /* Don't find a match, we're done!             */
-                     }
-                     break;
+            case OS_TASK_STATE_DLY:
+                p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
+                                    - OSTickCtr;
+                if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
+                    p_tcb->TaskState = OS_TASK_STATE_RDY;
+                    OS_TaskRdy(p_tcb);                            /* Make task ready to run                      */
+                } else {
+                    done             = DEF_TRUE;                  /* Don't find a match, we're done!             */
+                }
+                break;
 
-                case OS_TASK_STATE_PEND_TIMEOUT:
-                     p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
-                                       - OSTickCtr;
-                     if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
+            case OS_TASK_STATE_PEND_TIMEOUT:
+                p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
+                                    - OSTickCtr;
+                if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
 #if (OS_MSG_EN > 0u)
-                         p_tcb->MsgPtr     = (void      *)0;
-                         p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+                    p_tcb->MsgPtr     = (void      *)0;
+                    p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-                         p_tcb->TS         = OS_TS_GET();
-                         OS_PendListRemove(p_tcb);                     /* Remove from wait list                       */
-                         OS_TaskRdy(p_tcb);
-                         p_tcb->TaskState  = OS_TASK_STATE_RDY;
-                         p_tcb->PendStatus = OS_STATUS_PEND_TIMEOUT;   /* Indicate pend timed out                     */
-                         p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;  /* Indicate no longer pending                  */
-                     } else {
-                         done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
-                     }
-                     break;
+                    p_tcb->TS         = OS_TS_GET();
+                    OS_PendListRemove(p_tcb);                     /* Remove from wait list                       */
+                    OS_TaskRdy(p_tcb);
+                    p_tcb->TaskState  = OS_TASK_STATE_RDY;
+                    p_tcb->PendStatus = OS_STATUS_PEND_TIMEOUT;   /* Indicate pend timed out                     */
+                    p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;  /* Indicate no longer pending                  */
+                } else {
+                    done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
+                }
+                break;
 
-                case OS_TASK_STATE_DLY_SUSPENDED:
-                     p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
-                                       - OSTickCtr;
-                     if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
-                         p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
-                         OS_TickListRemove(p_tcb);                     /* Remove from current wheel spoke             */
-                     } else {
-                         done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
-                     }
-                     break;
+            case OS_TASK_STATE_DLY_SUSPENDED:
+                p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
+                                    - OSTickCtr;
+                if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
+                    p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
+                    OS_TickListRemove(p_tcb);                     /* Remove from current wheel spoke             */
+                } else {
+                    done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
+                }
+                break;
 
-                case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
-                     p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
-                                       - OSTickCtr;
-                     if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
+            case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
+                p_tcb->TickRemain = p_tcb->TickCtrMatch           /* Compute time remaining of current TCB       */
+                                    - OSTickCtr;
+                if (OSTickCtr == p_tcb->TickCtrMatch) {           /* Process each TCB that expires               */
 #if (OS_MSG_EN > 0u)
-                         p_tcb->MsgPtr     = (void      *)0;
-                         p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+                    p_tcb->MsgPtr     = (void      *)0;
+                    p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-                         p_tcb->TS         = OS_TS_GET();
-                         OS_PendListRemove(p_tcb);                     /* Remove from wait list                       */
-                         OS_TickListRemove(p_tcb);                     /* Remove from current wheel spoke             */
-                         p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
-                         p_tcb->PendStatus = OS_STATUS_PEND_TIMEOUT;   /* Indicate pend timed out                     */
-                         p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;  /* Indicate no longer pending                  */
-                     } else {
-                         done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
-                     }
-                     break;
+                    p_tcb->TS         = OS_TS_GET();
+                    OS_PendListRemove(p_tcb);                     /* Remove from wait list                       */
+                    OS_TickListRemove(p_tcb);                     /* Remove from current wheel spoke             */
+                    p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
+                    p_tcb->PendStatus = OS_STATUS_PEND_TIMEOUT;   /* Indicate pend timed out                     */
+                    p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;  /* Indicate no longer pending                  */
+                } else {
+                    done              = DEF_TRUE;                 /* Don't find a match, we're done!             */
+                }
+                break;
 
-                default:
-                     break;
+            default:
+                break;
             }
             p_tcb = p_tcb_next;
         } else {

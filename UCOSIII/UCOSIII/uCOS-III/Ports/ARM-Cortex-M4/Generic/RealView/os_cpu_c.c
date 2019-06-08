@@ -17,11 +17,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -94,7 +94,7 @@ void  OSIdleTaskHook (void)
 
 void  OSInitHook (void)
 {
-                                                                    /* 8-byte align the ISR stack.                            */    
+    /* 8-byte align the ISR stack.                            */
     OS_CPU_ExceptStkBase = (CPU_STK *)(OSCfg_ISRStkBasePtr + OSCfg_ISRStkSize);
     OS_CPU_ExceptStkBase = (CPU_STK *)((CPU_STK)(OS_CPU_ExceptStkBase) & 0xFFFFFFF8);
 }
@@ -237,31 +237,31 @@ CPU_STK  *OSTaskStkInit (OS_TASK_PTR    p_task,
     (void)opt;                                                  /* Prevent compiler warning                               */
 
     p_stk = &p_stk_base[stk_size];                              /* Load stack pointer                                     */
-                                                                /* Align the stack to 8-bytes.                            */
+    /* Align the stack to 8-bytes.                            */
     p_stk = (CPU_STK *)((CPU_STK)(p_stk) & 0xFFFFFFF8);
 
 #if (__FPU_PRESENT==1)&&(__FPU_USED==1)     	/* Registers stacked as if auto-saved on exception        */
-	*(--p_stk) = (CPU_STK)0x00000000u; //No Name Register  
-	*(--p_stk) = (CPU_STK)0x00001000u; //FPSCR
-	*(--p_stk) = (CPU_STK)0x00000015u; //s15
-	*(--p_stk) = (CPU_STK)0x00000014u; //s14
-	*(--p_stk) = (CPU_STK)0x00000013u; //s13
-	*(--p_stk) = (CPU_STK)0x00000012u; //s12
-	*(--p_stk) = (CPU_STK)0x00000011u; //s11
-	*(--p_stk) = (CPU_STK)0x00000010u; //s10
-	*(--p_stk) = (CPU_STK)0x00000009u; //s9
-	*(--p_stk) = (CPU_STK)0x00000008u; //s8
-	*(--p_stk) = (CPU_STK)0x00000007u; //s7
-	*(--p_stk) = (CPU_STK)0x00000006u; //s6
-	*(--p_stk) = (CPU_STK)0x00000005u; //s5
-	*(--p_stk) = (CPU_STK)0x00000004u; //s4
-	*(--p_stk) = (CPU_STK)0x00000003u; //s3
-	*(--p_stk) = (CPU_STK)0x00000002u; //s2
-	*(--p_stk) = (CPU_STK)0x00000001u; //s1
-	*(--p_stk) = (CPU_STK)0x00000000u; //s0
+    *(--p_stk) = (CPU_STK)0x00000000u; //No Name Register
+    *(--p_stk) = (CPU_STK)0x00001000u; //FPSCR
+    *(--p_stk) = (CPU_STK)0x00000015u; //s15
+    *(--p_stk) = (CPU_STK)0x00000014u; //s14
+    *(--p_stk) = (CPU_STK)0x00000013u; //s13
+    *(--p_stk) = (CPU_STK)0x00000012u; //s12
+    *(--p_stk) = (CPU_STK)0x00000011u; //s11
+    *(--p_stk) = (CPU_STK)0x00000010u; //s10
+    *(--p_stk) = (CPU_STK)0x00000009u; //s9
+    *(--p_stk) = (CPU_STK)0x00000008u; //s8
+    *(--p_stk) = (CPU_STK)0x00000007u; //s7
+    *(--p_stk) = (CPU_STK)0x00000006u; //s6
+    *(--p_stk) = (CPU_STK)0x00000005u; //s5
+    *(--p_stk) = (CPU_STK)0x00000004u; //s4
+    *(--p_stk) = (CPU_STK)0x00000003u; //s3
+    *(--p_stk) = (CPU_STK)0x00000002u; //s2
+    *(--p_stk) = (CPU_STK)0x00000001u; //s1
+    *(--p_stk) = (CPU_STK)0x00000000u; //s0
 #endif
-	
-	*(--p_stk) = (CPU_STK)0x01000000u;                            /* xPSR                                                   */
+
+    *(--p_stk) = (CPU_STK)0x01000000u;                            /* xPSR                                                   */
     *(--p_stk) = (CPU_STK)p_task;                                 /* Entry Point                                            */
     *(--p_stk) = (CPU_STK)OS_TaskReturn;                          /* R14 (LR)                                               */
     *(--p_stk) = (CPU_STK)0x12121212u;                            /* R12                                                    */
@@ -271,24 +271,24 @@ CPU_STK  *OSTaskStkInit (OS_TASK_PTR    p_task,
     *(--p_stk) = (CPU_STK)p_arg;                                  /* R0 : argument                                          */
 
 #if (__FPU_PRESENT==1)&&(__FPU_USED==1)
-	*(--p_stk) = (CPU_STK)0x00000031u; //s31
-	*(--p_stk) = (CPU_STK)0x00000030u; //s30
-	*(--p_stk) = (CPU_STK)0x00000029u; //s29
-	*(--p_stk) = (CPU_STK)0x00000028u; //s28
-	*(--p_stk) = (CPU_STK)0x00000027u; //s27
-	*(--p_stk) = (CPU_STK)0x00000026u; //s26	
-	*(--p_stk) = (CPU_STK)0x00000025u; //s25
-	*(--p_stk) = (CPU_STK)0x00000024u; //s24
-	*(--p_stk) = (CPU_STK)0x00000023u; //s23
-	*(--p_stk) = (CPU_STK)0x00000022u; //s22
-	*(--p_stk) = (CPU_STK)0x00000021u; //s21
-	*(--p_stk) = (CPU_STK)0x00000020u; //s20
-	*(--p_stk) = (CPU_STK)0x00000019u; //s19
-	*(--p_stk) = (CPU_STK)0x00000018u; //s18
-	*(--p_stk) = (CPU_STK)0x00000017u; //s17
-	*(--p_stk) = (CPU_STK)0x00000016u; //s16
+    *(--p_stk) = (CPU_STK)0x00000031u; //s31
+    *(--p_stk) = (CPU_STK)0x00000030u; //s30
+    *(--p_stk) = (CPU_STK)0x00000029u; //s29
+    *(--p_stk) = (CPU_STK)0x00000028u; //s28
+    *(--p_stk) = (CPU_STK)0x00000027u; //s27
+    *(--p_stk) = (CPU_STK)0x00000026u; //s26
+    *(--p_stk) = (CPU_STK)0x00000025u; //s25
+    *(--p_stk) = (CPU_STK)0x00000024u; //s24
+    *(--p_stk) = (CPU_STK)0x00000023u; //s23
+    *(--p_stk) = (CPU_STK)0x00000022u; //s22
+    *(--p_stk) = (CPU_STK)0x00000021u; //s21
+    *(--p_stk) = (CPU_STK)0x00000020u; //s20
+    *(--p_stk) = (CPU_STK)0x00000019u; //s19
+    *(--p_stk) = (CPU_STK)0x00000018u; //s18
+    *(--p_stk) = (CPU_STK)0x00000017u; //s17
+    *(--p_stk) = (CPU_STK)0x00000016u; //s16
 #endif
-                                                                /* Remaining registers saved on process stack             */
+    /* Remaining registers saved on process stack             */
     *(--p_stk) = (CPU_STK)0x11111111u;                            /* R11                                                    */
     *(--p_stk) = (CPU_STK)0x10101010u;                            /* R10                                                    */
     *(--p_stk) = (CPU_STK)0x09090909u;                            /* R9                                                     */
@@ -366,7 +366,7 @@ void  OSTaskSwHook (void)
 #endif
 
 #if OS_CFG_SCHED_LOCK_TIME_MEAS_EN > 0u
-                                                                /* Keep track of per-task scheduler lock time             */
+    /* Keep track of per-task scheduler lock time             */
     if (OSTCBCurPtr->SchedLockTimeMax < OSSchedLockTimeMaxCur) {
         OSTCBCurPtr->SchedLockTimeMax = OSSchedLockTimeMaxCur;
     }
@@ -444,17 +444,17 @@ void  OS_CPU_SysTickInit (CPU_INT32U  cnts)
 
     CPU_REG_NVIC_ST_RELOAD = cnts - 1u;
 
-                                                            /* Set SysTick handler prio.                              */
+    /* Set SysTick handler prio.                              */
     prio                   = CPU_REG_NVIC_SHPRI3;
     prio                  &= DEF_BIT_FIELD(24, 0);
     prio                  |= DEF_BIT_MASK(OS_CPU_CFG_SYSTICK_PRIO, 24);
 
     CPU_REG_NVIC_SHPRI3    = prio;
 
-                                                            /* Enable timer.                                          */
+    /* Enable timer.                                          */
     CPU_REG_NVIC_ST_CTRL  |= CPU_REG_NVIC_ST_CTRL_CLKSOURCE |
                              CPU_REG_NVIC_ST_CTRL_ENABLE;
-                                                            /* Enable timer interrupt.                                */
+    /* Enable timer interrupt.                                */
     CPU_REG_NVIC_ST_CTRL  |= CPU_REG_NVIC_ST_CTRL_TICKINT;
 }
 

@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -134,10 +134,10 @@ void  OS_IntQPost (OS_OBJ_TYPE   type,
             OSPrioSaved         = OSPrioCur;                /* Save current priority                                  */
         }
 
-       *p_err                   = OS_ERR_NONE;
+        *p_err                   = OS_ERR_NONE;
     } else {
         OSIntQOvfCtr++;                                     /* Count the number of ISR queue overflows                */
-       *p_err                   = OS_ERR_INT_Q_FULL;
+        *p_err                   = OS_ERR_INT_Q_FULL;
     }
     CPU_CRITICAL_EXIT();
 }
@@ -163,92 +163,92 @@ void  OS_IntQRePost (void)
 
 
     switch (OSIntQOutPtr->Type) {                           /* Re-post to task                                        */
-        case OS_OBJ_TYPE_FLAG:
+    case OS_OBJ_TYPE_FLAG:
 #if OS_CFG_FLAG_EN > 0u
-             (void)OS_FlagPost((OS_FLAG_GRP *) OSIntQOutPtr->ObjPtr,
-                               (OS_FLAGS     ) OSIntQOutPtr->Flags,
-                               (OS_OPT       ) OSIntQOutPtr->Opt,
-                               (CPU_TS       ) OSIntQOutPtr->TS,
-                               (OS_ERR      *)&err);
+        (void)OS_FlagPost((OS_FLAG_GRP *) OSIntQOutPtr->ObjPtr,
+                          (OS_FLAGS     ) OSIntQOutPtr->Flags,
+                          (OS_OPT       ) OSIntQOutPtr->Opt,
+                          (CPU_TS       ) OSIntQOutPtr->TS,
+                          (OS_ERR      *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_Q:
+    case OS_OBJ_TYPE_Q:
 #if OS_CFG_Q_EN > 0u
-             OS_QPost((OS_Q      *) OSIntQOutPtr->ObjPtr,
-                      (void      *) OSIntQOutPtr->MsgPtr,
-                      (OS_MSG_SIZE) OSIntQOutPtr->MsgSize,
-                      (OS_OPT     ) OSIntQOutPtr->Opt,
-                      (CPU_TS     ) OSIntQOutPtr->TS,
-                      (OS_ERR    *)&err);
+        OS_QPost((OS_Q      *) OSIntQOutPtr->ObjPtr,
+                 (void      *) OSIntQOutPtr->MsgPtr,
+                 (OS_MSG_SIZE) OSIntQOutPtr->MsgSize,
+                 (OS_OPT     ) OSIntQOutPtr->Opt,
+                 (CPU_TS     ) OSIntQOutPtr->TS,
+                 (OS_ERR    *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_SEM:
+    case OS_OBJ_TYPE_SEM:
 #if OS_CFG_SEM_EN > 0u
-             (void)OS_SemPost((OS_SEM *) OSIntQOutPtr->ObjPtr,
-                              (OS_OPT  ) OSIntQOutPtr->Opt,
-                              (CPU_TS  ) OSIntQOutPtr->TS,
-                              (OS_ERR *)&err);
+        (void)OS_SemPost((OS_SEM *) OSIntQOutPtr->ObjPtr,
+                         (OS_OPT  ) OSIntQOutPtr->Opt,
+                         (CPU_TS  ) OSIntQOutPtr->TS,
+                         (OS_ERR *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_TASK_MSG:
+    case OS_OBJ_TYPE_TASK_MSG:
 #if OS_CFG_TASK_Q_EN > 0u
-             OS_TaskQPost((OS_TCB    *) OSIntQOutPtr->ObjPtr,
-                          (void      *) OSIntQOutPtr->MsgPtr,
-                          (OS_MSG_SIZE) OSIntQOutPtr->MsgSize,
-                          (OS_OPT     ) OSIntQOutPtr->Opt,
-                          (CPU_TS     ) OSIntQOutPtr->TS,
-                          (OS_ERR    *)&err);
+        OS_TaskQPost((OS_TCB    *) OSIntQOutPtr->ObjPtr,
+                     (void      *) OSIntQOutPtr->MsgPtr,
+                     (OS_MSG_SIZE) OSIntQOutPtr->MsgSize,
+                     (OS_OPT     ) OSIntQOutPtr->Opt,
+                     (CPU_TS     ) OSIntQOutPtr->TS,
+                     (OS_ERR    *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_TASK_RESUME:
+    case OS_OBJ_TYPE_TASK_RESUME:
 #if OS_CFG_TASK_SUSPEND_EN > 0u
-             (void)OS_TaskResume((OS_TCB *) OSIntQOutPtr->ObjPtr,
-                                 (OS_ERR *)&err);
+        (void)OS_TaskResume((OS_TCB *) OSIntQOutPtr->ObjPtr,
+                            (OS_ERR *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_TASK_SIGNAL:
-             (void)OS_TaskSemPost((OS_TCB *) OSIntQOutPtr->ObjPtr,
-                                  (OS_OPT  ) OSIntQOutPtr->Opt,
-                                  (CPU_TS  ) OSIntQOutPtr->TS,
-                                  (OS_ERR *)&err);
-             break;
+    case OS_OBJ_TYPE_TASK_SIGNAL:
+        (void)OS_TaskSemPost((OS_TCB *) OSIntQOutPtr->ObjPtr,
+                             (OS_OPT  ) OSIntQOutPtr->Opt,
+                             (CPU_TS  ) OSIntQOutPtr->TS,
+                             (OS_ERR *)&err);
+        break;
 
-        case OS_OBJ_TYPE_TASK_SUSPEND:
+    case OS_OBJ_TYPE_TASK_SUSPEND:
 #if OS_CFG_TASK_SUSPEND_EN > 0u
-             (void)OS_TaskSuspend((OS_TCB *) OSIntQOutPtr->ObjPtr,
-                                  (OS_ERR *)&err);
+        (void)OS_TaskSuspend((OS_TCB *) OSIntQOutPtr->ObjPtr,
+                             (OS_ERR *)&err);
 #endif
-             break;
+        break;
 
-        case OS_OBJ_TYPE_TICK:
+    case OS_OBJ_TYPE_TICK:
 #if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
-             OS_SchedRoundRobin(&OSRdyList[OSPrioSaved]);
+        OS_SchedRoundRobin(&OSRdyList[OSPrioSaved]);
 #endif
 
-             (void)OS_TaskSemPost((OS_TCB *)&OSTickTaskTCB,                /* Signal tick task                        */
-                                  (OS_OPT  ) OS_OPT_POST_NONE,
-                                  (CPU_TS  ) OSIntQOutPtr->TS,
-                                  (OS_ERR *)&err);
+        (void)OS_TaskSemPost((OS_TCB *)&OSTickTaskTCB,                /* Signal tick task                        */
+                             (OS_OPT  ) OS_OPT_POST_NONE,
+                             (CPU_TS  ) OSIntQOutPtr->TS,
+                             (OS_ERR *)&err);
 #if OS_CFG_TMR_EN > 0u
-             OSTmrUpdateCtr--;
-             if (OSTmrUpdateCtr == (OS_CTR)0u) {
-                 OSTmrUpdateCtr = OSTmrUpdateCnt;
-                 ts             = OS_TS_GET();                             /* Get timestamp                           */
-                 (void)OS_TaskSemPost((OS_TCB *)&OSTmrTaskTCB,             /* Signal timer task                       */
-                                      (OS_OPT  ) OS_OPT_POST_NONE,
-                                      (CPU_TS  ) ts,
-                                      (OS_ERR *)&err);
-             }
+        OSTmrUpdateCtr--;
+        if (OSTmrUpdateCtr == (OS_CTR)0u) {
+            OSTmrUpdateCtr = OSTmrUpdateCnt;
+            ts             = OS_TS_GET();                             /* Get timestamp                           */
+            (void)OS_TaskSemPost((OS_TCB *)&OSTmrTaskTCB,             /* Signal timer task                       */
+                                 (OS_OPT  ) OS_OPT_POST_NONE,
+                                 (CPU_TS  ) ts,
+                                 (OS_ERR *)&err);
+        }
 #endif
-             break;
+        break;
 
-        default:
-             break;
+    default:
+        break;
     }
 }
 
@@ -346,12 +346,12 @@ void  OS_IntQTaskInit (OS_ERR  *p_err)
     OSIntQOvfCtr = (OS_QTY)0u;                              /* Clear the ISR queue overflow counter                   */
 
     if (OSCfg_IntQBasePtr == (OS_INT_Q *)0) {
-       *p_err = OS_ERR_INT_Q;
+        *p_err = OS_ERR_INT_Q;
         return;
     }
 
     if (OSCfg_IntQSize < (OS_OBJ_QTY)2u) {
-       *p_err = OS_ERR_INT_Q_SIZE;
+        *p_err = OS_ERR_INT_Q_SIZE;
         return;
     }
 
@@ -379,14 +379,14 @@ void  OS_IntQTaskInit (OS_ERR  *p_err)
     OSIntQNbrEntries    = (OS_OBJ_QTY)0u;
     OSIntQNbrEntriesMax = (OS_OBJ_QTY)0u;
 
-                                                            /* -------------- CREATE THE ISR QUEUE TASK ------------- */
+    /* -------------- CREATE THE ISR QUEUE TASK ------------- */
     if (OSCfg_IntQTaskStkBasePtr == (CPU_STK *)0) {
-       *p_err = OS_ERR_INT_Q_STK_INVALID;
+        *p_err = OS_ERR_INT_Q_STK_INVALID;
         return;
     }
 
     if (OSCfg_IntQTaskStkSize < OSCfg_StkSizeMin) {
-       *p_err = OS_ERR_INT_Q_STK_SIZE_INVALID;
+        *p_err = OS_ERR_INT_Q_STK_SIZE_INVALID;
         return;
     }
 

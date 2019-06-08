@@ -58,7 +58,7 @@ void  App_OS_SetAllHooks   (void);
 void  App_OS_ClrAllHooks   (void);
 
 
-                                                                /* ---------------------- HOOKS --------------------- */
+/* ---------------------- HOOKS --------------------- */
 void  App_OS_TaskCreateHook(OS_TCB  *p_tcb);
 void  App_OS_TaskDelHook   (OS_TCB  *p_tcb);
 void  App_OS_TaskReturnHook(OS_TCB  *p_tcb);

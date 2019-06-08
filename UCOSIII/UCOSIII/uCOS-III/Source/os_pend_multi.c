@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -139,61 +139,61 @@ OS_OBJ_QTY  OSPendMulti (OS_PEND_DATA  *p_pend_data_tbl,
 
 #if OS_CFG_CALLED_FROM_ISR_CHK_EN > 0u
     if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* Can't pend from an ISR                                 */
-       *p_err = OS_ERR_PEND_ISR;
+        *p_err = OS_ERR_PEND_ISR;
         return ((OS_OBJ_QTY)0);
     }
 #endif
 
 #if OS_CFG_ARG_CHK_EN > 0u
     if (p_pend_data_tbl == (OS_PEND_DATA *)0) {             /* Validate 'p_pend_data_tbl'                             */
-       *p_err = OS_ERR_PTR_INVALID;
+        *p_err = OS_ERR_PTR_INVALID;
         return ((OS_OBJ_QTY)0);
     }
     if (tbl_size == (OS_OBJ_QTY)0) {                        /* Array size must be > 0                                 */
-       *p_err = OS_ERR_PTR_INVALID;
+        *p_err = OS_ERR_PTR_INVALID;
         return ((OS_OBJ_QTY)0);
     }
     switch (opt) {
-        case OS_OPT_PEND_BLOCKING:
-        case OS_OPT_PEND_NON_BLOCKING:
-             break;
+    case OS_OPT_PEND_BLOCKING:
+    case OS_OPT_PEND_NON_BLOCKING:
+        break;
 
-        default:
-            *p_err = OS_ERR_OPT_INVALID;
-             return ((OS_OBJ_QTY)0);
+    default:
+        *p_err = OS_ERR_OPT_INVALID;
+        return ((OS_OBJ_QTY)0);
     }
 #endif
 
     valid = OS_PendMultiValidate(p_pend_data_tbl,           /* -------- Validate objects to be OS_SEM or OS_Q ------- */
                                  tbl_size);
     if (valid == DEF_FALSE) {
-       *p_err = OS_ERR_OBJ_TYPE;                            /* Invalid, not OS_SEM or OS_Q                            */
+        *p_err = OS_ERR_OBJ_TYPE;                            /* Invalid, not OS_SEM or OS_Q                            */
         return ((OS_OBJ_QTY)0);
     }
 
-/*$PAGE*/
+    /*$PAGE*/
     CPU_CRITICAL_ENTER();
     nbr_obj_rdy = OS_PendMultiGetRdy(p_pend_data_tbl,       /* --------- SEE IF OBJECT(s) HAVE BEEN POSTED ---------- */
                                      tbl_size);
     if (nbr_obj_rdy > (OS_OBJ_QTY)0) {
         CPU_CRITICAL_EXIT();
-       *p_err = OS_ERR_NONE;
+        *p_err = OS_ERR_NONE;
         return ((OS_OBJ_QTY)nbr_obj_rdy);
     }
 
     if ((opt & OS_OPT_PEND_NON_BLOCKING) != (OS_OPT)0) {    /* Caller wants to block if not available?                */
         CPU_CRITICAL_EXIT();
-       *p_err = OS_ERR_PEND_WOULD_BLOCK;                    /* No                                                     */
+        *p_err = OS_ERR_PEND_WOULD_BLOCK;                    /* No                                                     */
         return ((OS_OBJ_QTY)0);
     } else {
         if (OSSchedLockNestingCtr > (OS_NESTING_CTR)0) {    /* Can't pend when the scheduler is locked                */
             CPU_CRITICAL_EXIT();
-           *p_err = OS_ERR_SCHED_LOCKED;
+            *p_err = OS_ERR_SCHED_LOCKED;
             return ((OS_OBJ_QTY)0);
         }
     }
     OS_CRITICAL_ENTER_CPU_CRITICAL_EXIT();                  /* Lock the scheduler/re-enable interrupts                */
-                                                            /* ------ NO OBJECT READY, PEND ON MULTIPLE OBJECTS ----- */
+    /* ------ NO OBJECT READY, PEND ON MULTIPLE OBJECTS ----- */
     OS_PendMultiWait(p_pend_data_tbl,                       /* Suspend task until object posted or timeout occurs     */
                      tbl_size,
                      timeout);
@@ -204,25 +204,25 @@ OS_OBJ_QTY  OSPendMulti (OS_PEND_DATA  *p_pend_data_tbl,
 
     CPU_CRITICAL_ENTER();
     switch (OSTCBCurPtr->PendStatus) {
-        case OS_STATUS_PEND_OK:                             /* We got one of the objects posted to                    */
-            *p_err = OS_ERR_NONE;
-             break;
+    case OS_STATUS_PEND_OK:                             /* We got one of the objects posted to                    */
+        *p_err = OS_ERR_NONE;
+        break;
 
-        case OS_STATUS_PEND_ABORT:                          /* Indicate that the multi-pend was aborted               */
-            *p_err = OS_ERR_PEND_ABORT;
-             break;
+    case OS_STATUS_PEND_ABORT:                          /* Indicate that the multi-pend was aborted               */
+        *p_err = OS_ERR_PEND_ABORT;
+        break;
 
-        case OS_STATUS_PEND_TIMEOUT:                        /* Indicate that we didn't get semaphore within timeout   */
-            *p_err = OS_ERR_TIMEOUT;
-             break;
+    case OS_STATUS_PEND_TIMEOUT:                        /* Indicate that we didn't get semaphore within timeout   */
+        *p_err = OS_ERR_TIMEOUT;
+        break;
 
-        case OS_STATUS_PEND_DEL:                            /* Indicate that an object pended on has been deleted     */
-            *p_err = OS_ERR_OBJ_DEL;
-            break;
+    case OS_STATUS_PEND_DEL:                            /* Indicate that an object pended on has been deleted     */
+        *p_err = OS_ERR_OBJ_DEL;
+        break;
 
-        default:
-            *p_err = OS_ERR_STATUS_INVALID;
-             break;
+    default:
+        *p_err = OS_ERR_STATUS_INVALID;
+        break;
     }
 
     OSTCBCurPtr->PendStatus = OS_STATUS_PEND_OK;

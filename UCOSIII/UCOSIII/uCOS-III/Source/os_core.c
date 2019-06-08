@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -102,7 +102,7 @@ void  OSInit (OS_ERR  *p_err)
             size  = OSCfg_ISRStkSize;
             while (size > (CPU_STK_SIZE)0) {
                 size--;
-               *p_stk = (CPU_STK)0;
+                *p_stk = (CPU_STK)0;
                 p_stk++;
             }
         }
@@ -127,7 +127,7 @@ void  OSInit (OS_ERR  *p_err)
 
     OS_RdyListInit();                                       /* Initialize the Ready List                              */
 
-    
+
 #if OS_CFG_FLAG_EN > 0u                                     /* Initialize the Event Flag module                       */
     OS_FlagInit(p_err);
     if (*p_err != OS_ERR_NONE) {
@@ -197,7 +197,7 @@ void  OSInit (OS_ERR  *p_err)
     }
 #endif
 
-    
+
     OS_IdleTaskInit(p_err);                                 /* Initialize the Idle Task                               */
     if (*p_err != OS_ERR_NONE) {
         return;
@@ -456,18 +456,18 @@ void  OSSchedLock (OS_ERR  *p_err)
 
 #if OS_CFG_CALLED_FROM_ISR_CHK_EN > 0u
     if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* Not allowed to call from an ISR                        */
-       *p_err = OS_ERR_SCHED_LOCK_ISR;
+        *p_err = OS_ERR_SCHED_LOCK_ISR;
         return;
     }
 #endif
 
     if (OSRunning != OS_STATE_OS_RUNNING) {                 /* Make sure multitasking is running                      */
-       *p_err = OS_ERR_OS_NOT_RUNNING;
+        *p_err = OS_ERR_OS_NOT_RUNNING;
         return;
     }
 
     if (OSSchedLockNestingCtr >= (OS_NESTING_CTR)250u) {    /* Prevent OSSchedLockNestingCtr overflowing              */
-       *p_err = OS_ERR_LOCK_NESTING_OVF;
+        *p_err = OS_ERR_LOCK_NESTING_OVF;
         return;
     }
 
@@ -477,7 +477,7 @@ void  OSSchedLock (OS_ERR  *p_err)
     OS_SchedLockTimeMeasStart();
 #endif
     CPU_CRITICAL_EXIT();
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -517,18 +517,18 @@ void  OSSchedUnlock (OS_ERR  *p_err)
 
 #if OS_CFG_CALLED_FROM_ISR_CHK_EN > 0u
     if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* Not allowed to call from an ISR                        */
-       *p_err = OS_ERR_SCHED_UNLOCK_ISR;
+        *p_err = OS_ERR_SCHED_UNLOCK_ISR;
         return;
     }
 #endif
 
     if (OSRunning != OS_STATE_OS_RUNNING) {                 /* Make sure multitasking is running                      */
-       *p_err = OS_ERR_OS_NOT_RUNNING;
+        *p_err = OS_ERR_OS_NOT_RUNNING;
         return;
     }
 
     if (OSSchedLockNestingCtr == (OS_NESTING_CTR)0) {       /* See if the scheduler is locked                         */
-       *p_err = OS_ERR_SCHED_NOT_LOCKED;
+        *p_err = OS_ERR_SCHED_NOT_LOCKED;
         return;
     }
 
@@ -536,7 +536,7 @@ void  OSSchedUnlock (OS_ERR  *p_err)
     OSSchedLockNestingCtr--;                                /* Decrement lock nesting level                           */
     if (OSSchedLockNestingCtr > (OS_NESTING_CTR)0) {
         CPU_CRITICAL_EXIT();                                /* Scheduler is still locked                              */
-       *p_err = OS_ERR_SCHED_LOCKED;
+        *p_err = OS_ERR_SCHED_LOCKED;
         return;
     }
 
@@ -546,7 +546,7 @@ void  OSSchedUnlock (OS_ERR  *p_err)
 
     CPU_CRITICAL_EXIT();                                    /* Scheduler should be re-enabled                         */
     OSSched();                                              /* Run the scheduler                                      */
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -597,7 +597,7 @@ void  OSSchedRoundRobinCfg (CPU_BOOLEAN   en,
         OSSchedRoundRobinDfltTimeQuanta = (OS_TICK)(OSCfg_TickRate_Hz / (OS_RATE_HZ)10);
     }
     CPU_CRITICAL_EXIT();
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
 }
 #endif
 
@@ -640,18 +640,18 @@ void  OSSchedRoundRobinYield (OS_ERR  *p_err)
 
 #if OS_CFG_CALLED_FROM_ISR_CHK_EN > 0u
     if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* Can't call this function from an ISR                   */
-       *p_err = OS_ERR_YIELD_ISR;
+        *p_err = OS_ERR_YIELD_ISR;
         return;
     }
 #endif
 
     if (OSSchedLockNestingCtr > (OS_NESTING_CTR)0) {        /* Can't yield if the scheduler is locked                 */
-       *p_err = OS_ERR_SCHED_LOCKED;
+        *p_err = OS_ERR_SCHED_LOCKED;
         return;
     }
 
     if (OSSchedRoundRobinEn != DEF_TRUE) {                  /* Make sure round-robin has been enabled                 */
-       *p_err = OS_ERR_ROUND_ROBIN_DISABLED;
+        *p_err = OS_ERR_ROUND_ROBIN_DISABLED;
         return;
     }
 
@@ -659,7 +659,7 @@ void  OSSchedRoundRobinYield (OS_ERR  *p_err)
     p_rdy_list = &OSRdyList[OSPrioCur];                     /* Can't yield if it's the only task at that priority     */
     if (p_rdy_list->NbrEntries < (OS_OBJ_QTY)2) {
         CPU_CRITICAL_EXIT();
-       *p_err = OS_ERR_ROUND_ROBIN_1;
+        *p_err = OS_ERR_ROUND_ROBIN_1;
         return;
     }
 
@@ -674,7 +674,7 @@ void  OSSchedRoundRobinYield (OS_ERR  *p_err)
     CPU_CRITICAL_EXIT();
 
     OSSched();                                              /* Run new task                                           */
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
 }
 #endif
 
@@ -719,9 +719,9 @@ void  OSStart (OS_ERR  *p_err)
         OSTCBCurPtr     = OSTCBHighRdyPtr;
         OSRunning       = OS_STATE_OS_RUNNING;
         OSStartHighRdy();                                   /* Execute target specific code to start task             */
-       *p_err           = OS_ERR_FATAL_RETURN;              /* OSStart() is not supposed to return                    */
+        *p_err           = OS_ERR_FATAL_RETURN;              /* OSStart() is not supposed to return                    */
     } else {
-       *p_err           = OS_ERR_OS_RUNNING;                /* OS is already running                                  */
+        *p_err           = OS_ERR_OS_RUNNING;                /* OS is already running                                  */
     }
 }
 
@@ -751,7 +751,7 @@ CPU_INT16U  OSVersion (OS_ERR  *p_err)
     }
 #endif
 
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
     return (OS_VERSION);
 }
 
@@ -823,7 +823,7 @@ void  OS_IdleTaskInit (OS_ERR  *p_err)
 #endif
 
     OSIdleTaskCtr = (OS_IDLE_CTR)0;
-                                                            /* ---------------- CREATE THE IDLE TASK ---------------- */
+    /* ---------------- CREATE THE IDLE TASK ---------------- */
     OSTaskCreate((OS_TCB     *)&OSIdleTaskTCB,
                  (CPU_CHAR   *)((void *)"uC/OS-III Idle Task"),
                  (OS_TASK_PTR)OS_IdleTask,
@@ -929,56 +929,56 @@ void  OS_PendAbort (OS_PEND_OBJ  *p_obj,
                     CPU_TS        ts)
 {
     switch (p_tcb->TaskState) {
-        case OS_TASK_STATE_RDY:                             /* Cannot Pend Abort a task that is ready                 */
-        case OS_TASK_STATE_DLY:                             /* Cannot Pend Abort a task that is delayed               */
-        case OS_TASK_STATE_SUSPENDED:                       /* Cannot Pend Abort a suspended task                     */
-        case OS_TASK_STATE_DLY_SUSPENDED:                   /* Cannot Pend Abort a suspended task that was also dly'd */
-             break;
+    case OS_TASK_STATE_RDY:                             /* Cannot Pend Abort a task that is ready                 */
+    case OS_TASK_STATE_DLY:                             /* Cannot Pend Abort a task that is delayed               */
+    case OS_TASK_STATE_SUSPENDED:                       /* Cannot Pend Abort a suspended task                     */
+    case OS_TASK_STATE_DLY_SUSPENDED:                   /* Cannot Pend Abort a suspended task that was also dly'd */
+        break;
 
-        case OS_TASK_STATE_PEND:
-        case OS_TASK_STATE_PEND_TIMEOUT:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_PendAbort1(p_obj,                            /* Indicate which object was pend aborted            */
-                               p_tcb,
-                               ts);
-             }
+    case OS_TASK_STATE_PEND:
+    case OS_TASK_STATE_PEND_TIMEOUT:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_PendAbort1(p_obj,                            /* Indicate which object was pend aborted            */
+                          p_tcb,
+                          ts);
+        }
 #if (OS_MSG_EN > 0u)
-             p_tcb->MsgPtr     = (void      *)0;
-             p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+        p_tcb->MsgPtr     = (void      *)0;
+        p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-             p_tcb->TS         = ts;
-             if (p_obj != (OS_PEND_OBJ *)0) {
-                 OS_PendListRemove(p_tcb);                       /* Remove task from all pend lists                   */
-             }
-             OS_TaskRdy(p_tcb);
-             p_tcb->TaskState  = OS_TASK_STATE_RDY;              /* Task will be ready                                */
-             p_tcb->PendStatus = OS_STATUS_PEND_ABORT;           /* Indicate pend was aborted                         */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
-             break;
+        p_tcb->TS         = ts;
+        if (p_obj != (OS_PEND_OBJ *)0) {
+            OS_PendListRemove(p_tcb);                       /* Remove task from all pend lists                   */
+        }
+        OS_TaskRdy(p_tcb);
+        p_tcb->TaskState  = OS_TASK_STATE_RDY;              /* Task will be ready                                */
+        p_tcb->PendStatus = OS_STATUS_PEND_ABORT;           /* Indicate pend was aborted                         */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
+        break;
 
-        case OS_TASK_STATE_PEND_SUSPENDED:
-        case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_PendAbort1(p_obj,                            /* Indicate which object was pend aborted            */
-                               p_tcb,
-                               ts);
-             }
+    case OS_TASK_STATE_PEND_SUSPENDED:
+    case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_PendAbort1(p_obj,                            /* Indicate which object was pend aborted            */
+                          p_tcb,
+                          ts);
+        }
 #if (OS_MSG_EN > 0u)
-             p_tcb->MsgPtr     = (void      *)0;
-             p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+        p_tcb->MsgPtr     = (void      *)0;
+        p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-             p_tcb->TS         = ts;
-             if (p_obj != (OS_PEND_OBJ *)0) {
-                 OS_PendListRemove(p_tcb);                       /* Remove task from all pend lists                   */
-             }
-             OS_TickListRemove(p_tcb);                           /* Cancel the timeout                                */
-             p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;        /* Pend Aborted task is still suspended              */
-             p_tcb->PendStatus = OS_STATUS_PEND_ABORT;           /* Indicate pend was aborted                         */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
-             break;
+        p_tcb->TS         = ts;
+        if (p_obj != (OS_PEND_OBJ *)0) {
+            OS_PendListRemove(p_tcb);                       /* Remove task from all pend lists                   */
+        }
+        OS_TickListRemove(p_tcb);                           /* Cancel the timeout                                */
+        p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;        /* Pend Aborted task is still suspended              */
+        p_tcb->PendStatus = OS_STATUS_PEND_ABORT;           /* Indicate pend was aborted                         */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
+        break;
 
-        default:
-             break;
+    default:
+        break;
     }
 }
 
@@ -1154,17 +1154,17 @@ void  OS_PendDbgNameAdd (OS_PEND_OBJ  *p_obj,
         p_obj->DbgNamePtr = p_tcb1->NamePtr;                /* ... Save in object                                     */
     } else {
         switch (p_tcb->PendOn) {
-            case OS_TASK_PEND_ON_TASK_Q:
-                 p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)"Task Q");
-                 break;
+        case OS_TASK_PEND_ON_TASK_Q:
+            p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)"Task Q");
+            break;
 
-            case OS_TASK_PEND_ON_TASK_SEM:
-                 p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)"Task Sem");
-                 break;
+        case OS_TASK_PEND_ON_TASK_SEM:
+            p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)"Task Sem");
+            break;
 
-            default:
-                 p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)" ");
-                 break;
+        default:
+            p_tcb->DbgNamePtr = (CPU_CHAR *)((void *)" ");
+            break;
         }
     }
 }
@@ -1695,52 +1695,52 @@ void  OS_PendObjDel (OS_PEND_OBJ  *p_obj,
                      CPU_TS        ts)
 {
     switch (p_tcb->TaskState) {
-        case OS_TASK_STATE_RDY:                                  /* These states should never occur                   */
-        case OS_TASK_STATE_DLY:
-        case OS_TASK_STATE_SUSPENDED:
-        case OS_TASK_STATE_DLY_SUSPENDED:
-             break;
+    case OS_TASK_STATE_RDY:                                  /* These states should never occur                   */
+    case OS_TASK_STATE_DLY:
+    case OS_TASK_STATE_SUSPENDED:
+    case OS_TASK_STATE_DLY_SUSPENDED:
+        break;
 
-        case OS_TASK_STATE_PEND:
-        case OS_TASK_STATE_PEND_TIMEOUT:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_PendObjDel1(p_obj,                           /* Indicate which object was pend aborted            */
-                                p_tcb,
-                                ts);
-             }
+    case OS_TASK_STATE_PEND:
+    case OS_TASK_STATE_PEND_TIMEOUT:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_PendObjDel1(p_obj,                           /* Indicate which object was pend aborted            */
+                           p_tcb,
+                           ts);
+        }
 #if (OS_MSG_EN > 0u)
-             p_tcb->MsgPtr     = (void *)0;
-             p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+        p_tcb->MsgPtr     = (void *)0;
+        p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-             p_tcb->TS         = ts;
-             OS_PendListRemove(p_tcb);                           /* Remove task from all wait lists                   */
-             OS_TaskRdy(p_tcb);
-             p_tcb->TaskState  = OS_TASK_STATE_RDY;              /* Task is readied because object is deleted         */
-             p_tcb->PendStatus = OS_STATUS_PEND_DEL;             /* Indicate pend was aborted                         */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;
-             break;
+        p_tcb->TS         = ts;
+        OS_PendListRemove(p_tcb);                           /* Remove task from all wait lists                   */
+        OS_TaskRdy(p_tcb);
+        p_tcb->TaskState  = OS_TASK_STATE_RDY;              /* Task is readied because object is deleted         */
+        p_tcb->PendStatus = OS_STATUS_PEND_DEL;             /* Indicate pend was aborted                         */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;
+        break;
 
-        case OS_TASK_STATE_PEND_SUSPENDED:
-        case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_PendObjDel1(p_obj,                           /* Indicate which object was pend aborted            */
-                                p_tcb,
-                                ts);
-             }
+    case OS_TASK_STATE_PEND_SUSPENDED:
+    case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_PendObjDel1(p_obj,                           /* Indicate which object was pend aborted            */
+                           p_tcb,
+                           ts);
+        }
 #if (OS_MSG_EN > 0u)
-             p_tcb->MsgPtr     = (void      *)0;
-             p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
+        p_tcb->MsgPtr     = (void      *)0;
+        p_tcb->MsgSize    = (OS_MSG_SIZE)0u;
 #endif
-             p_tcb->TS         = ts;
-             OS_TickListRemove(p_tcb);                           /* Cancel the timeout                                */
-             OS_PendListRemove(p_tcb);                           /* Remove task from all wait lists                   */
-             p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;        /* Task needs to remain suspended                    */
-             p_tcb->PendStatus = OS_STATUS_PEND_DEL;             /* Indicate pend was aborted                         */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
-             break;
+        p_tcb->TS         = ts;
+        OS_TickListRemove(p_tcb);                           /* Cancel the timeout                                */
+        OS_PendListRemove(p_tcb);                           /* Remove task from all wait lists                   */
+        p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;        /* Task needs to remain suspended                    */
+        p_tcb->PendStatus = OS_STATUS_PEND_DEL;             /* Indicate pend was aborted                         */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
+        break;
 
-        default:
-             break;
+    default:
+        break;
     }
 }
 
@@ -1848,70 +1848,70 @@ void  OS_Post (OS_PEND_OBJ  *p_obj,
                CPU_TS        ts)
 {
     switch (p_tcb->TaskState) {
-        case OS_TASK_STATE_RDY:                                  /* Cannot Pend Abort a task that is ready            */
-        case OS_TASK_STATE_DLY:                                  /* Cannot Pend Abort a task that is delayed          */
-        case OS_TASK_STATE_SUSPENDED:                            /* Cannot Post a suspended task                      */
-        case OS_TASK_STATE_DLY_SUSPENDED:                        /* Cannot Post a suspended task that was also dly'd  */
-             break;
+    case OS_TASK_STATE_RDY:                                  /* Cannot Pend Abort a task that is ready            */
+    case OS_TASK_STATE_DLY:                                  /* Cannot Pend Abort a task that is delayed          */
+    case OS_TASK_STATE_SUSPENDED:                            /* Cannot Post a suspended task                      */
+    case OS_TASK_STATE_DLY_SUSPENDED:                        /* Cannot Post a suspended task that was also dly'd  */
+        break;
 
-        case OS_TASK_STATE_PEND:
-        case OS_TASK_STATE_PEND_TIMEOUT:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_Post1(p_obj,                                 /* Indicate which object was posted to               */
-                          p_tcb,
-                          p_void,
-                          msg_size,
-                          ts);
-             } else {
+    case OS_TASK_STATE_PEND:
+    case OS_TASK_STATE_PEND_TIMEOUT:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_Post1(p_obj,                                 /* Indicate which object was posted to               */
+                     p_tcb,
+                     p_void,
+                     msg_size,
+                     ts);
+        } else {
 #if (OS_MSG_EN > 0u)
-                 p_tcb->MsgPtr  = p_void;                        /* Deposit message in OS_TCB of task waiting         */
-                 p_tcb->MsgSize = msg_size;                      /* ... assuming posting a message                    */
+            p_tcb->MsgPtr  = p_void;                        /* Deposit message in OS_TCB of task waiting         */
+            p_tcb->MsgSize = msg_size;                      /* ... assuming posting a message                    */
 #endif
-                 p_tcb->TS      = ts;
-             }
-             if (p_obj != (OS_PEND_OBJ *)0) {
-                 OS_PendListRemove(p_tcb);                       /* Remove task from wait list(s)                     */
+            p_tcb->TS      = ts;
+        }
+        if (p_obj != (OS_PEND_OBJ *)0) {
+            OS_PendListRemove(p_tcb);                       /* Remove task from wait list(s)                     */
 #if OS_CFG_DBG_EN > 0u
-                 OS_PendDbgNameRemove(p_obj,
-                                      p_tcb);
+            OS_PendDbgNameRemove(p_obj,
+                                 p_tcb);
 #endif
-             }
-             OS_TaskRdy(p_tcb);                                  /* Make task ready to run                            */
-             p_tcb->TaskState  = OS_TASK_STATE_RDY;
-             p_tcb->PendStatus = OS_STATUS_PEND_OK;              /* Clear pend status                                 */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
-             break;
+        }
+        OS_TaskRdy(p_tcb);                                  /* Make task ready to run                            */
+        p_tcb->TaskState  = OS_TASK_STATE_RDY;
+        p_tcb->PendStatus = OS_STATUS_PEND_OK;              /* Clear pend status                                 */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
+        break;
 
-        case OS_TASK_STATE_PEND_SUSPENDED:
-        case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
-             if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
-                 OS_Post1(p_obj,                                 /* Indicate which object was posted to               */
-                          p_tcb,
-                          p_void,
-                          msg_size,
-                          ts);
-             } else {
+    case OS_TASK_STATE_PEND_SUSPENDED:
+    case OS_TASK_STATE_PEND_TIMEOUT_SUSPENDED:
+        if (p_tcb->PendOn == OS_TASK_PEND_ON_MULTI) {
+            OS_Post1(p_obj,                                 /* Indicate which object was posted to               */
+                     p_tcb,
+                     p_void,
+                     msg_size,
+                     ts);
+        } else {
 #if (OS_MSG_EN > 0u)
-                 p_tcb->MsgPtr  = p_void;                        /* Deposit message in OS_TCB of task waiting         */
-                 p_tcb->MsgSize = msg_size;                      /* ... assuming posting a message                    */
+            p_tcb->MsgPtr  = p_void;                        /* Deposit message in OS_TCB of task waiting         */
+            p_tcb->MsgSize = msg_size;                      /* ... assuming posting a message                    */
 #endif
-                 p_tcb->TS      = ts;
-             }
-             OS_TickListRemove(p_tcb);                           /* Cancel any timeout                                */
-             if (p_obj != (OS_PEND_OBJ *)0) {
-                 OS_PendListRemove(p_tcb);                       /* Remove task from wait list(s)                     */
+            p_tcb->TS      = ts;
+        }
+        OS_TickListRemove(p_tcb);                           /* Cancel any timeout                                */
+        if (p_obj != (OS_PEND_OBJ *)0) {
+            OS_PendListRemove(p_tcb);                       /* Remove task from wait list(s)                     */
 #if OS_CFG_DBG_EN > 0u
-                 OS_PendDbgNameRemove(p_obj,
-                                      p_tcb);
+            OS_PendDbgNameRemove(p_obj,
+                                 p_tcb);
 #endif
-             }
-             p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
-             p_tcb->PendStatus = OS_STATUS_PEND_OK;              /* Clear pend status                                 */
-             p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
-             break;
+        }
+        p_tcb->TaskState  = OS_TASK_STATE_SUSPENDED;
+        p_tcb->PendStatus = OS_STATUS_PEND_OK;              /* Clear pend status                                 */
+        p_tcb->PendOn     = OS_TASK_PEND_ON_NOTHING;        /* Indicate no longer pending                        */
+        break;
 
-        default:
-             break;
+    default:
+        break;
     }
 }
 
@@ -2133,7 +2133,7 @@ void  OS_RdyListInsert (OS_TCB  *p_tcb)
 *              -----
 *
 * Returns    : none
-* 
+*
 * Note(s)    : 1) This function is INTERNAL to uC/OS-III and your application MUST NOT call it.
 ************************************************************************************************************************
 */
@@ -2305,32 +2305,32 @@ void  OS_RdyListMoveHeadToTail (OS_RDY_LIST  *p_rdy_list)
 
 
     switch (p_rdy_list->NbrEntries) {
-        case 0:
-        case 1:
-             break;
+    case 0:
+    case 1:
+        break;
 
-        case 2:                                             /* SWAP the TCBs                                          */
-             p_tcb1              = p_rdy_list->HeadPtr;     /* Point to current head                                  */
-             p_tcb2              = p_rdy_list->TailPtr;     /* Point to current tail                                  */
-             p_tcb1->PrevPtr     = p_tcb2;
-             p_tcb1->NextPtr     = (OS_TCB *)0;
-             p_tcb2->PrevPtr     = (OS_TCB *)0;
-             p_tcb2->NextPtr     = p_tcb1;
-             p_rdy_list->HeadPtr = p_tcb2;
-             p_rdy_list->TailPtr = p_tcb1;
-             break;
+    case 2:                                             /* SWAP the TCBs                                          */
+        p_tcb1              = p_rdy_list->HeadPtr;     /* Point to current head                                  */
+        p_tcb2              = p_rdy_list->TailPtr;     /* Point to current tail                                  */
+        p_tcb1->PrevPtr     = p_tcb2;
+        p_tcb1->NextPtr     = (OS_TCB *)0;
+        p_tcb2->PrevPtr     = (OS_TCB *)0;
+        p_tcb2->NextPtr     = p_tcb1;
+        p_rdy_list->HeadPtr = p_tcb2;
+        p_rdy_list->TailPtr = p_tcb1;
+        break;
 
-        default:                                            /* Move only if there are more than 2 OS_TCBs in the list */
-             p_tcb1              = p_rdy_list->HeadPtr;     /* Point to current head                                  */
-             p_tcb2              = p_rdy_list->TailPtr;     /* Point to current tail                                  */
-             p_tcb3              = p_tcb1->NextPtr;         /* Point to new list head                                 */
-             p_tcb3->PrevPtr     = (OS_TCB *)0;             /* Adjust back    link of new list head                   */
-             p_tcb1->NextPtr     = (OS_TCB *)0;             /* Adjust forward link of new list tail                   */
-             p_tcb1->PrevPtr     = p_tcb2;                  /* Adjust back    link of new list tail                   */
-             p_tcb2->NextPtr     = p_tcb1;                  /* Adjust forward link of old list tail                   */
-             p_rdy_list->HeadPtr = p_tcb3;                  /* Adjust new list head and tail pointers                 */
-             p_rdy_list->TailPtr = p_tcb1;
-             break;
+    default:                                            /* Move only if there are more than 2 OS_TCBs in the list */
+        p_tcb1              = p_rdy_list->HeadPtr;     /* Point to current head                                  */
+        p_tcb2              = p_rdy_list->TailPtr;     /* Point to current tail                                  */
+        p_tcb3              = p_tcb1->NextPtr;         /* Point to new list head                                 */
+        p_tcb3->PrevPtr     = (OS_TCB *)0;             /* Adjust back    link of new list head                   */
+        p_tcb1->NextPtr     = (OS_TCB *)0;             /* Adjust forward link of new list tail                   */
+        p_tcb1->PrevPtr     = p_tcb2;                  /* Adjust back    link of new list tail                   */
+        p_tcb2->NextPtr     = p_tcb1;                  /* Adjust forward link of old list tail                   */
+        p_rdy_list->HeadPtr = p_tcb3;                  /* Adjust new list head and tail pointers                 */
+        p_rdy_list->TailPtr = p_tcb1;
+        break;
     }
 }
 
@@ -2493,7 +2493,7 @@ void  OS_SchedLockTimeMeasStop (void)
 
     if (OSSchedLockNestingCtr == (OS_NESTING_CTR)0) {       /* Make sure we fully un-nested scheduler lock            */
         delta = CPU_TS_TmrRd()                              /* Compute the delta time between begin and end           */
-              - OSSchedLockTimeBegin;
+                - OSSchedLockTimeBegin;
         if (OSSchedLockTimeMax    < delta) {                /* Detect peak value                                      */
             OSSchedLockTimeMax    = delta;
         }
@@ -2605,7 +2605,7 @@ void  OS_TaskBlock (OS_TCB   *p_tcb,
         OS_TickListInsert(p_tcb,
                           timeout,
                           OS_OPT_TIME_TIMEOUT,
-                         &err);
+                          &err);
         if (err == OS_ERR_NONE) {
             p_tcb->TaskState = OS_TASK_STATE_PEND_TIMEOUT;
         } else {

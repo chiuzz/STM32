@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -117,11 +117,11 @@ void  OS_MsgPoolInit (OS_ERR  *p_err)
 
 #if OS_CFG_ARG_CHK_EN > 0u
     if (OSCfg_MsgPoolBasePtr == (OS_MSG *)0) {
-       *p_err = OS_ERR_MSG_POOL_NULL_PTR;
+        *p_err = OS_ERR_MSG_POOL_NULL_PTR;
         return;
     }
     if (OSCfg_MsgPoolSize == (OS_MSG_QTY)0) {
-       *p_err = OS_ERR_MSG_POOL_EMPTY;
+        *p_err = OS_ERR_MSG_POOL_EMPTY;
         return;
     }
 #endif
@@ -132,7 +132,7 @@ void  OS_MsgPoolInit (OS_ERR  *p_err)
     OSMsgPool.NbrFree    =  OSCfg_MsgPoolSize;
     OSMsgPool.NbrUsed    = (OS_MSG_QTY)0;
     OSMsgPool.NbrUsedMax = (OS_MSG_QTY)0;
-   *p_err                =  OS_ERR_NONE;
+    *p_err                =  OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -244,19 +244,19 @@ void  *OS_MsgQGet (OS_MSG_Q     *p_msg_q,
 #endif
 
     if (p_msg_q->NbrEntries == (OS_MSG_QTY)0) {
-       *p_msg_size = (OS_MSG_SIZE)0;
+        *p_msg_size = (OS_MSG_SIZE)0;
         if (p_ts != (CPU_TS *)0) {
-           *p_ts  = (CPU_TS  )0;
+            *p_ts  = (CPU_TS  )0;
         }
-       *p_err = OS_ERR_Q_EMPTY;
+        *p_err = OS_ERR_Q_EMPTY;
         return ((void *)0);
     }
 
     p_msg           = p_msg_q->OutPtr;
     p_void          = p_msg->MsgPtr;
-   *p_msg_size      = p_msg->MsgSize;
+    *p_msg_size      = p_msg->MsgSize;
     if (p_ts != (CPU_TS *)0) {
-       *p_ts  = p_msg->MsgTS;
+        *p_ts  = p_msg->MsgTS;
     }
     p_msg_q->OutPtr = p_msg->NextPtr;
     if (p_msg_q->OutPtr == (OS_MSG *)0) {
@@ -269,7 +269,7 @@ void  *OS_MsgQGet (OS_MSG_Q     *p_msg_q,
     OSMsgPool.NextPtr = p_msg;
     OSMsgPool.NbrFree++;
     OSMsgPool.NbrUsed--;
-   *p_err             = OS_ERR_NONE;
+    *p_err             = OS_ERR_NONE;
     return (p_void);
 }
 
@@ -326,12 +326,12 @@ void  OS_MsgQPut (OS_MSG_Q     *p_msg_q,
 #endif
 
     if (p_msg_q->NbrEntries >= p_msg_q->NbrEntriesSize) {
-       *p_err = OS_ERR_Q_MAX;                               /* Message queue cannot accept any more messages          */
+        *p_err = OS_ERR_Q_MAX;                               /* Message queue cannot accept any more messages          */
         return;
     }
 
     if (OSMsgPool.NbrFree == (OS_MSG_QTY)0) {
-       *p_err = OS_ERR_MSG_POOL_EMPTY;                      /* No more OS_MSG to use                                  */
+        *p_err = OS_ERR_MSG_POOL_EMPTY;                      /* No more OS_MSG to use                                  */
         return;
     }
 
@@ -364,6 +364,6 @@ void  OS_MsgQPut (OS_MSG_Q     *p_msg_q,
     p_msg->MsgPtr  = p_void;                                /* Deposit message in the message queue entry             */
     p_msg->MsgSize = msg_size;
     p_msg->MsgTS   = ts;
-   *p_err          = OS_ERR_NONE;
+    *p_err          = OS_ERR_NONE;
 }
 #endif

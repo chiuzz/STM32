@@ -14,11 +14,11 @@
 *
 * LICENSING TERMS:
 * ---------------
-*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or 
+*           uC/OS-III is provided in source form for FREE short-term evaluation, for educational use or
 *           for peaceful research.  If you plan or intend to use uC/OS-III in a commercial application/
-*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your 
-*           application/product.   We provide ALL the source code for your convenience and to help you 
-*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use 
+*           product then, you need to contact Micrium to properly license uC/OS-III for its use in your
+*           application/product.   We provide ALL the source code for your convenience and to help you
+*           experience uC/OS-III.  The fact that the source is provided does NOT mean that you can use
 *           it commercially without paying a licensing fee.
 *
 *           Knowledge of the source code may NOT be used to develop a similar product.
@@ -163,7 +163,7 @@ void  OSStatReset (OS_ERR  *p_err)
 #endif
 
 
-   *p_err = OS_ERR_NONE;
+    *p_err = OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -206,7 +206,7 @@ void  OSStatTaskCPUUsageInit (OS_ERR  *p_err)
 #if (OS_CFG_TMR_EN > 0u)
     OSTaskSuspend(&OSTmrTaskTCB, &err);
     if (err != OS_ERR_NONE) {
-       *p_err = err;
+        *p_err = err;
         return;
     }
 #endif
@@ -215,7 +215,7 @@ void  OSStatTaskCPUUsageInit (OS_ERR  *p_err)
               (OS_OPT  )OS_OPT_TIME_DLY,
               (OS_ERR *)&err);
     if (err != OS_ERR_NONE) {
-       *p_err = err;
+        *p_err = err;
         return;
     }
     CPU_CRITICAL_ENTER();
@@ -237,7 +237,7 @@ void  OSStatTaskCPUUsageInit (OS_ERR  *p_err)
 #if (OS_CFG_TMR_EN > 0u)
     OSTaskResume(&OSTmrTaskTCB, &err);
     if (err != OS_ERR_NONE) {
-       *p_err = err;
+        *p_err = err;
         return;
     }
 #endif
@@ -248,7 +248,7 @@ void  OSStatTaskCPUUsageInit (OS_ERR  *p_err)
     OSStatTaskCtrMax  = OSStatTaskCtr;                      /* Store maximum idle counter count                       */
     OSStatTaskRdy     = OS_STATE_RDY;
     CPU_CRITICAL_EXIT();
-   *p_err             = OS_ERR_NONE;
+    *p_err             = OS_ERR_NONE;
 }
 
 /*$PAGE*/
@@ -380,7 +380,7 @@ void  OS_StatTask (void  *p_arg)
 
 
 #if OS_CFG_TASK_PROFILE_EN > 0u
-                                                            /* ------------- INDIVIDUAL TASK CPU USAGE -------------- */
+        /* ------------- INDIVIDUAL TASK CPU USAGE -------------- */
         if (cycles_total > (OS_CYCLES)0u) {                                          /* 'cycles_total' scaling ...    */
             if (cycles_total < 400000u) {                                            /*            1 to       400,000 */
                 cycles_mult = 10000u;
@@ -421,9 +421,9 @@ void  OS_StatTask (void  *p_arg)
 
 #if OS_CFG_STAT_TASK_STK_CHK_EN > 0u
             OSTaskStkChk( p_tcb,                            /* Compute stack usage of active tasks only               */
-                         &p_tcb->StkFree,
-                         &p_tcb->StkUsed,
-                         &err);
+                          &p_tcb->StkFree,
+                          &p_tcb->StkUsed,
+                          &err);
 #endif
 
             CPU_CRITICAL_ENTER();
@@ -484,19 +484,19 @@ void  OS_StatTaskInit (OS_ERR  *p_err)
     OSStatTaskRdy    = OS_STATE_NOT_RDY;                    /* Statistic task is not ready                            */
     OSStatResetFlag  = DEF_FALSE;
 
-                                                            /* ---------------- CREATE THE STAT TASK ---------------- */
+    /* ---------------- CREATE THE STAT TASK ---------------- */
     if (OSCfg_StatTaskStkBasePtr == (CPU_STK *)0) {
-       *p_err = OS_ERR_STAT_STK_INVALID;
+        *p_err = OS_ERR_STAT_STK_INVALID;
         return;
     }
 
     if (OSCfg_StatTaskStkSize < OSCfg_StkSizeMin) {
-       *p_err = OS_ERR_STAT_STK_SIZE_INVALID;
+        *p_err = OS_ERR_STAT_STK_SIZE_INVALID;
         return;
     }
 
     if (OSCfg_StatTaskPrio >= (OS_CFG_PRIO_MAX - 1u)) {
-       *p_err = OS_ERR_STAT_PRIO_INVALID;
+        *p_err = OS_ERR_STAT_PRIO_INVALID;
         return;
     }
 
