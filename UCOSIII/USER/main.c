@@ -24,11 +24,11 @@
 //任务堆栈大小
 #define START_STK_SIZE 		512
 //任务控制块
-OS_TCB StartTaskTCB;
+OS_TCB StartTaskTCB;		//分配任务控制块
 //任务堆栈
-CPU_STK START_TASK_STK[START_STK_SIZE];
+CPU_STK START_TASK_STK[START_STK_SIZE];		//静态分配栈空间
 //任务函数
-void start_task(void *p_arg);
+void start_task(void *p_arg);		//声明任务函数原型
 
 //任务优先级
 #define LED0_TASK_PRIO		4
@@ -73,7 +73,7 @@ int main(void)
     LED_Init();         //LED初始化
 
 
-    OSInit(&err);		//初始化UCOSIII
+    OSInit(&err);		//初始化UCOSIII		至少创建空闲任务和时钟节拍任务，再调用其他任何ucos函数前要先调用OSInit
     OS_CRITICAL_ENTER();//进入临界区
     //创建开始任务
     OSTaskCreate((OS_TCB 	* )&StartTaskTCB,		//任务控制块
@@ -82,7 +82,7 @@ int main(void)
                  (void		* )0,					//传递给任务函数的参数
                  (OS_PRIO	  )START_TASK_PRIO,     //任务优先级
                  (CPU_STK   * )&START_TASK_STK[0],	//任务堆栈基地址
-                 (CPU_STK_SIZE)START_STK_SIZE/10,	//任务堆栈深度限位
+                 (CPU_STK_SIZE)START_STK_SIZE/10,	//任务堆栈深度限位	代表栈溢出警告之前剩余的栈空间，即小于该空间报警
                  (CPU_STK_SIZE)START_STK_SIZE,		//任务堆栈大小
                  (OS_MSG_QTY  )0,					//任务内部消息队列能够接收的最大消息数目,为0时禁止接收消息
                  (OS_TICK	  )0,					//当使能时间片轮转时的时间片长度，为0时为默认长度，
@@ -90,7 +90,7 @@ int main(void)
                  (OS_OPT      )OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR, //任务选项
                  (OS_ERR 	* )&err);				//存放该函数错误时的返回值
     OS_CRITICAL_EXIT();	//退出临界区
-    OSStart(&err);  //开启UCOSIII
+    OSStart(&err);  //开启UCOSIII	执行在此之前创建的优先级最高的任务
     while(1);
 }
 
@@ -101,7 +101,7 @@ void start_task(void *p_arg)
     CPU_SR_ALLOC();
     p_arg = p_arg;
 
-    CPU_Init();
+    CPU_Init();		//提供测量中断延时时间，获取时间戳等服务
 #if OS_CFG_STAT_TASK_EN > 0u
     OSStatTaskCPUUsageInit(&err);  	//统计任务
 #endif

@@ -295,21 +295,22 @@ void  OSTaskCreate (OS_TCB        *p_tcb,
     }
 #endif
 
+//检查数据有效性
 #if OS_CFG_ARG_CHK_EN > 0u                                  /* ---------------- VALIDATE ARGUMENTS ------------------ */
     if (p_tcb == (OS_TCB *)0) {                             /* User must supply a valid OS_TCB                        */
-        *p_err = OS_ERR_TCB_INVALID;
+        *p_err = OS_ERR_TCB_INVALID;	//检查任务控制块指针非空
         return;
     }
     if (p_task == (OS_TASK_PTR)0) {                         /* User must supply a valid task                          */
-        *p_err = OS_ERR_TASK_INVALID;
+        *p_err = OS_ERR_TASK_INVALID;	//检查任务函数非空
         return;
     }
     if (p_stk_base == (CPU_STK *)0) {                       /* User must supply a valid stack base address            */
-        *p_err = OS_ERR_STK_INVALID;
+        *p_err = OS_ERR_STK_INVALID;	//检查栈基地址非空
         return;
     }
     if (stk_size < OSCfg_StkSizeMin) {                      /* User must supply a valid minimum stack size            */
-        *p_err = OS_ERR_STK_SIZE_INVALID;
+        *p_err = OS_ERR_STK_SIZE_INVALID;	//栈空间最少64
         return;
     }
     if (stk_limit >= stk_size) {                            /* User must supply a valid stack limit                   */
