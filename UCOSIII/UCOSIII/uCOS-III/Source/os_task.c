@@ -204,7 +204,7 @@ void  OSTaskChangePrio (OS_TCB   *p_tcb,
 *              q_size         is the maximum number of messages that can be sent to the task
 *
 *              time_quanta    amount of time (in ticks) for time slice when round-robin between tasks.  Specify 0 to use
-*                             the default.
+*                             the default.		//使能时间片轮转调度时，时间片的长度，0为默认长度
 *
 *              p_ext          is a pointer to a user supplied memory location which is used as a TCB extension.
 *                             For example, this user memory can hold the contents of floating-point registers

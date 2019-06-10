@@ -556,10 +556,10 @@ void  OSSchedUnlock (OS_ERR  *p_err)
 *
 * Description: This function is called to change the round-robin scheduling parameters.
 *
-* Arguments  : en                determines whether round-robin will be enabled (when DEF_EN) or not (when DEF_DIS)
+* Arguments  : en                determines whether round-robin will be enabled (when DEF_EN) or not (when DEF_DIS)				//DEF_ENABLED / DEF_DISABLED
 *
-*              dflt_time_quanta  default number of ticks between time slices.  0 means assumes OSCfg_TickRate_Hz / 10.
-*
+*              dflt_time_quanta  default number of ticks between time slices.  0 means assumes OSCfg_TickRate_Hz / 10.		//默认时间片长度如果创建任务时设置为0，则用这个值代替
+*																																																													//如果这个值也为0，则用OSCfg_TickRate_Hz / 10作为默认
 *              p_err             is a pointer to a variable that will contain an error code returned by this function.
 *
 *                                    OS_ERR_NONE    The call was successful

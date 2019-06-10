@@ -12,7 +12,7 @@ CPU_STK       START_TASK_STK[START_TASK_STK_SIZE];
 void START_TASK(void *p_arg);
 
 #define				TASK1_STK_SIZE				64
-#define				TASK1_PRIO				10
+#define				TASK1_PRIO				11//10
 OS_TCB        TCB_TASK1;
 CPU_STK       TASK1_STK[TASK1_STK_SIZE];
 void TASK1(void *p_arg);
@@ -57,6 +57,9 @@ void START_TASK(void *p_arg)
 {
     OS_ERR err;
     CPU_SR_ALLOC();
+#if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
+    OSSchedRoundRobinCfg (DEF_ENABLED, (OS_TICK)1, &err);		//打开时间片轮转调度功能，设置默认时间片长度1
+#endif
     OS_CRITICAL_ENTER(); //进入临界段
     OSTaskCreate (&TCB_TASK1,		//2、创建任务
                   "TASK1",
@@ -67,7 +70,7 @@ void START_TASK(void *p_arg)
                   (CPU_STK_SIZE)(TASK1_STK_SIZE/10),
                   (CPU_STK_SIZE)TASK1_STK_SIZE,
                   (OS_MSG_QTY)0,
-                  (OS_TICK)0,
+                  (OS_TICK)2,		//2个时间片
                   (void*)0,
                   OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                   &err);
@@ -83,7 +86,7 @@ void START_TASK(void *p_arg)
                   (CPU_STK_SIZE)(TASK2_STK_SIZE/10),
                   (CPU_STK_SIZE)TASK2_STK_SIZE,
                   (OS_MSG_QTY)0,
-                  (OS_TICK)0,
+                  (OS_TICK)2,		//2个时间片
                   (void*)0,
                   OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                   &err);
@@ -98,22 +101,18 @@ void START_TASK(void *p_arg)
     }
 }
 
-
 void TASK1(void *p_arg)
 {
-    u8 i=0;
+    u8 j=0;
     OS_ERR err;
+    CPU_SR_ALLOC();
     while(1)
     {
-        if(i==5) {
-            OSTaskSuspend(&TCB_TASK2, &err);
+        for(j=0; ; j++) {
+            OS_CRITICAL_ENTER();
+            printf("test-zzz1--%d\r\n",j);
+            OS_CRITICAL_EXIT();
         }
-        else if(i==10) {
-            i=0;
-            OSTaskResume(&TCB_TASK2,&err);
-        }
-        i++;
-        printf("test-zzz1\r\n");
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -121,9 +120,15 @@ void TASK1(void *p_arg)
 void TASK2(void *p_arg)
 {
     OS_ERR err;
+    u8 j=0;
+    CPU_SR_ALLOC();
     while(1)
     {
-        printf("test-zzz2\r\n");
+        for(j=0; ; j++) {
+            OS_CRITICAL_ENTER();
+            printf("test-zzzzzz2--%d\r\n",j);
+            OS_CRITICAL_EXIT();
+        }
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }

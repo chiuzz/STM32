@@ -97,7 +97,17 @@ void  OSTaskResume (OS_TCB  *p_tcb,
 void  OSTaskDel (OS_TCB  *p_tcb,
                  OS_ERR  *p_err)
 
-
+/*
+************************************************************************************************************************
+*                                      CONFIGURE ROUND-ROBIN SCHEDULING PARAMETERS
+*
+* Description: This function is called to change the round-robin scheduling parameters.
+*
+************************************************************************************************************************
+*/
+void  OSSchedRoundRobinCfg (CPU_BOOLEAN   en,
+                            OS_TICK       dflt_time_quanta,
+                            OS_ERR       *p_err)
 
 
 
