@@ -266,7 +266,7 @@ void  OSTimeDlyHMSM (CPU_INT16U   hours,
         return;
     }
 
-    opt_non_strict = DEF_BIT_IS_SET(opt, OS_OPT_TIME_HMSM_NON_STRICT);
+    opt_non_strict = DEF_BIT_IS_SET(opt, OS_OPT_TIME_HMSM_NON_STRICT);		//OS_OPT_TIME_HMSM_NON_STRICT扩展了延时参数
     if (opt_non_strict != DEF_YES) {
         if (milli   > (CPU_INT32U)999u) {
             *p_err = OS_ERR_TIME_INVALID_MILLISECONDS;
