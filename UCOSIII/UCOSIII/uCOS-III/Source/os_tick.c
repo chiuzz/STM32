@@ -70,7 +70,7 @@ void  OS_TickTask (void  *p_arg)
         (void)OSTaskSemPend((OS_TICK  )0,
                             (OS_OPT   )OS_OPT_PEND_BLOCKING,
                             (CPU_TS  *)&ts,
-                            (OS_ERR  *)&err);               /* Wait for signal from tick interrupt                    */
+                            (OS_ERR  *)&err);               /* Wait for signal from tick interrupt  等待时钟节拍中断  */
         if (err == OS_ERR_NONE) {
             if (OSRunning == OS_STATE_OS_RUNNING) {
                 OS_TickListUpdate();                        /* Update all tasks waiting for time                      */

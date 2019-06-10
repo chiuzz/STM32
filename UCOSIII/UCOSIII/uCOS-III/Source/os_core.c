@@ -198,13 +198,13 @@ void  OSInit (OS_ERR  *p_err)
 #endif
 
 
-    OS_IdleTaskInit(p_err);                                 /* Initialize the Idle Task                               */
+    OS_IdleTaskInit(p_err);                                 /* Initialize the Idle Task  初始化空闲任务   */
     if (*p_err != OS_ERR_NONE) {
         return;
     }
 
 
-    OS_TickTaskInit(p_err);                                 /* Initialize the Tick Task                               */
+    OS_TickTaskInit(p_err);                                 /* Initialize the Tick Task  初始化时钟节拍任务   */
     if (*p_err != OS_ERR_NONE) {
         return;
     }
@@ -788,7 +788,7 @@ void  OS_IdleTask (void  *p_arg)
 
     while (DEF_ON) {
         CPU_CRITICAL_ENTER();
-        OSIdleTaskCtr++;
+        OSIdleTaskCtr++;			//可用于检测空闲任务活跃度
 #if OS_CFG_STAT_TASK_EN > 0u
         OSStatTaskCtr++;
 #endif

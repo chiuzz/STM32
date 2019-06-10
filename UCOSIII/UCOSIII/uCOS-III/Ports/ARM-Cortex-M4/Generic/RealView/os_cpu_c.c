@@ -410,7 +410,7 @@ void  OSTimeTickHook (void)
 *********************************************************************************************************
 */
 
-void  OS_CPU_SysTickHandler (void)
+void  OS_CPU_SysTickHandler (void)		//时钟节拍中断函数
 {
     CPU_SR_ALLOC();
 

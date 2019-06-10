@@ -334,7 +334,7 @@ void  OSTaskCreate (OS_TCB        *p_tcb,
 
     if (prio == (OS_CFG_PRIO_MAX - 1u)) {
         if (p_tcb != &OSIdleTaskTCB) {
-            *p_err = OS_ERR_PRIO_INVALID;                    /* Not allowed to use same priority as idle task          */
+            *p_err = OS_ERR_PRIO_INVALID;                    /* Not allowed to use same priority as idle task 不允许使用空闲任务专属优先级*/
             return;
         }
     }
@@ -342,7 +342,7 @@ void  OSTaskCreate (OS_TCB        *p_tcb,
     OS_TaskInitTCB(p_tcb);                                  /* Initialize the TCB to default values                   */
 
     *p_err = OS_ERR_NONE;
-    /* --------------- CLEAR THE TASK'S STACK --------------- */
+    /* --------------- CLEAR THE TASK'S STACK --------------- 清空栈空间*/
     if ((opt & OS_OPT_TASK_STK_CHK) != (OS_OPT)0) {         /* See if stack checking has been enabled                 */
         if ((opt & OS_OPT_TASK_STK_CLR) != (OS_OPT)0) {     /* See if stack needs to be cleared                       */
             p_sp = p_stk_base;
@@ -353,10 +353,10 @@ void  OSTaskCreate (OS_TCB        *p_tcb,
         }
     }
     /* ------- INITIALIZE THE STACK FRAME OF THE TASK ------- */
-#if (CPU_CFG_STK_GROWTH == CPU_STK_GROWTH_HI_TO_LO)
-    p_stk_limit = p_stk_base + stk_limit;
+#if (CPU_CFG_STK_GROWTH == CPU_STK_GROWTH_HI_TO_LO)		//根据栈增长方向设置限位
+    p_stk_limit = p_stk_base + stk_limit;		//从堆栈数组高下标往低下标增长
 #else
-    p_stk_limit = p_stk_base + (stk_size - 1u) - stk_limit;
+    p_stk_limit = p_stk_base + (stk_size - 1u) - stk_limit;//从堆栈数组低下标往高下标增长
 #endif
 
     p_sp = OSTaskStkInit(p_task,
@@ -411,7 +411,7 @@ void  OSTaskCreate (OS_TCB        *p_tcb,
     }
     OS_TLS_TaskCreate(p_tcb);                               /* Call TLS hook                                          */
 #endif
-    /* --------------- ADD TASK TO READY LIST --------------- */
+    /* --------------- ADD TASK TO READY LIST --------------- 添加到任务就绪表*/
     OS_CRITICAL_ENTER();
     OS_PrioInsert(p_tcb->Prio);
     OS_RdyListInsertTail(p_tcb);

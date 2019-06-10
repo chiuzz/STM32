@@ -937,39 +937,39 @@ struct  os_sem {                                            /* Semaphore        
 */
 
 struct os_tcb {
-    CPU_STK             *StkPtr;                            /* Pointer to current top of stack                        */
+    CPU_STK             *StkPtr;                            /* Pointer to current top of stack 指向任务栈顶 */
 
-    void                *ExtPtr;                            /* Pointer to user definable data for TCB extension       */
+    void                *ExtPtr;                            /* Pointer to user definable data for TCB extension 对应OSTaskCreate的p_ext */
 
-    CPU_STK             *StkLimitPtr;                       /* Pointer used to set stack 'watermark' limit            */
+    CPU_STK             *StkLimitPtr;                       /* Pointer used to set stack 'watermark' limit 对应OSTaskCreate的p_stk_limit */
 
-    OS_TCB              *NextPtr;                           /* Pointer to next     TCB in the TCB list                */
+    OS_TCB              *NextPtr;                           /* Pointer to next     TCB in the TCB list 在任务就绪表中双向链接TCB用 */
     OS_TCB              *PrevPtr;                           /* Pointer to previous TCB in the TCB list                */
 
-    OS_TCB              *TickNextPtr;
+    OS_TCB              *TickNextPtr;												//在延时或指定时间等待的任务中双向链接TCB用
     OS_TCB              *TickPrevPtr;
 
     OS_TICK_SPOKE       *TickSpokePtr;                      /* Pointer to tick spoke if task is in the tick list      */
 
-    CPU_CHAR            *NamePtr;                           /* Pointer to task name                                   */
+    CPU_CHAR            *NamePtr;                           /* Pointer to task name  任务名称 */
 
-    CPU_STK             *StkBasePtr;                        /* Pointer to base address of stack                       */
+    CPU_STK             *StkBasePtr;                        /* Pointer to base address of stack  指向栈基地址 */
 
 #if defined(OS_CFG_TLS_TBL_SIZE) && (OS_CFG_TLS_TBL_SIZE > 0u)
     OS_TLS               TLS_Tbl[OS_CFG_TLS_TBL_SIZE];
 #endif
 
-    OS_TASK_PTR          TaskEntryAddr;                     /* Pointer to task entry point address                    */
-    void                *TaskEntryArg;                      /* Argument passed to task when it was created            */
+    OS_TASK_PTR          TaskEntryAddr;                     /* Pointer to task entry point address  任务函数入口 */
+    void                *TaskEntryArg;                      /* Argument passed to task when it was created  传给任务函数的参数 */
 
     OS_PEND_DATA        *PendDataTblPtr;                    /* Pointer to list containing objects pended on           */
     OS_STATE             PendOn;                            /* Indicates what task is pending on                      */
     OS_STATUS            PendStatus;                        /* Pend status                                            */
 
-    OS_STATE             TaskState;                         /* See OS_TASK_STATE_xxx                                  */
-    OS_PRIO              Prio;                              /* Task priority (0 == highest)                           */
-    CPU_STK_SIZE         StkSize;                           /* Size of task stack (in number of stack elements)       */
-    OS_OPT               Opt;                               /* Task options as passed by OSTaskCreate()               */
+    OS_STATE             TaskState;                         /* See OS_TASK_STATE_xxx   任务状态    */
+    OS_PRIO              Prio;                              /* Task priority (0 == highest)  任务优先级     */
+    CPU_STK_SIZE         StkSize;                           /* Size of task stack (in number of stack elements) 栈空间大小 */
+    OS_OPT               Opt;                               /* Task options as passed by OSTaskCreate() 任务opt参数  */
 
     OS_OBJ_QTY           PendDataTblEntries;                /* Size of array of objects to pend on                    */
 
