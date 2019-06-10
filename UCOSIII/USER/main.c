@@ -112,6 +112,7 @@ void TASK1(void *p_arg)
             OS_CRITICAL_ENTER();
             printf("test-zzz1--%d\r\n",j);
             OS_CRITICAL_EXIT();
+            OSSchedRoundRobinYield(&err);		//∑≈∆˙ £”‡ ±º‰∆¨
         }
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }

@@ -1194,7 +1194,7 @@ OS_EXT            CPU_TS_TMR                OSSchedLockTimeMax;
 OS_EXT            CPU_TS_TMR                OSSchedLockTimeMaxCur;
 #endif
 
-OS_EXT            OS_NESTING_CTR            OSSchedLockNestingCtr;      /* Lock nesting level                         */
+OS_EXT            OS_NESTING_CTR            OSSchedLockNestingCtr;      /* Lock nesting level 调度器锁定等级 */
 #if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
 OS_EXT            OS_TICK                   OSSchedRoundRobinDfltTimeQuanta;
 OS_EXT            CPU_BOOLEAN               OSSchedRoundRobinEn;        /* Enable/Disable round-robin scheduling      */
