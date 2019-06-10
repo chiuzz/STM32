@@ -88,7 +88,8 @@ void START_TASK(void *p_arg)
                   OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                   &err);
     OS_CRITICAL_EXIT(); //退出临界段
-    OSTaskSuspend ((OS_TCB *)0, &err);			//挂起任务，可以传入NULL或自己的TCB来挂起自己
+    //OSTaskSuspend ((OS_TCB *)0, &err);			//挂起任务，可以传入NULL或自己的TCB来挂起自己
+    OSTaskDel ((OS_TCB *)0,&err);			//删除任务，可以传入NULL或自己的TCB来删除自己
 
     while(1)
     {

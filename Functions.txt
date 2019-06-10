@@ -84,7 +84,18 @@ void   OSTaskSuspend (OS_TCB  *p_tcb,
 void  OSTaskResume (OS_TCB  *p_tcb,
                     OS_ERR  *p_err)
 
-
+/*
+************************************************************************************************************************
+*                                                     DELETE A TASK
+*
+* Description: This function allows you to delete a task.  The calling task can delete itself by specifying a NULL
+*              pointer for 'p_tcb'.  The deleted task is returned to the dormant state and can be re-activated by
+*              creating the deleted task again.
+*
+************************************************************************************************************************
+*/
+void  OSTaskDel (OS_TCB  *p_tcb,
+                 OS_ERR  *p_err)
 
 
 
