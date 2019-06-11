@@ -72,7 +72,7 @@ void USART2_IRQHandler(void)                	//串口2中断服务程序
 {
     u8 Res;
 #if SYSTEM_SUPPORT_OS  //使用UCOS操作系统
-    OSIntEnter();
+    OSIntEnter();				//进入中断管理
 #endif
     if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
     {
@@ -99,7 +99,7 @@ void USART2_IRQHandler(void)                	//串口2中断服务程序
     }
 
 #if SYSTEM_SUPPORT_OS
-    OSIntExit();    	//退出中断
+    OSIntExit();    	//退出中断管理
 #endif
 }
 #endif

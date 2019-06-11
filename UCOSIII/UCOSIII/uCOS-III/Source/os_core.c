@@ -265,15 +265,15 @@ void  OSInit (OS_ERR  *p_err)
 
 void  OSIntEnter (void)
 {
-    if (OSRunning != OS_STATE_OS_RUNNING) {                 /* Is OS running?                                         */
+    if (OSRunning != OS_STATE_OS_RUNNING) {                 /* Is OS running? 系统不运行直接返回                      */
         return;                                             /* No                                                     */
     }
 
-    if (OSIntNestingCtr >= (OS_NESTING_CTR)250u) {          /* Have we nested past 250 levels?                        */
+    if (OSIntNestingCtr >= (OS_NESTING_CTR)250u) {          /* Have we nested past 250 levels? 超出中断嵌套最大值返回 */
         return;                                             /* Yes                                                    */
     }
 
-    OSIntNestingCtr++;                                      /* Increment ISR nesting level                            */
+    OSIntNestingCtr++;                                      /* Increment ISR nesting level   增加嵌套层数             */
 }
 
 /*$PAGE*/
@@ -313,17 +313,17 @@ void  OSIntExit (void)
         return;
     }
     OSIntNestingCtr--;
-    if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* ISRs still nested?                                     */
+    if (OSIntNestingCtr > (OS_NESTING_CTR)0) {              /* ISRs still nested?        仍有中断等待处理             */
         CPU_INT_EN();                                       /* Yes                                                    */
         return;
     }
 
-    if (OSSchedLockNestingCtr > (OS_NESTING_CTR)0) {        /* Scheduler still locked?                                */
+    if (OSSchedLockNestingCtr > (OS_NESTING_CTR)0) {        /* Scheduler still locked?   调度器仍旧锁定               */
         CPU_INT_EN();                                       /* Yes                                                    */
         return;
     }
 
-    OSPrioHighRdy   = OS_PrioGetHighest();                  /* Find highest priority                                  */
+    OSPrioHighRdy   = OS_PrioGetHighest();                  /* Find highest priority     准备系统调度                 */
     OSTCBHighRdyPtr = OSRdyList[OSPrioHighRdy].HeadPtr;     /* Get highest priority task ready-to-run                 */
     if (OSTCBHighRdyPtr == OSTCBCurPtr) {                   /* Current task still the highest priority?               */
         CPU_INT_EN();                                       /* Yes                                                    */
