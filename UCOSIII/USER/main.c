@@ -1,6 +1,7 @@
 #include "sys.h"
 #include "delay.h"
 #include "usart.h"
+#include "usart2.h"
 #include "led.h"
 #include "includes.h"
 #include "os_app_hooks.h"
@@ -31,6 +32,7 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     delay_init(168);
     uart_init(115200);
+		uart2_init(115200);
     OSInit(&err); //1、初始化ucos
     OS_CRITICAL_ENTER(); //进入临界段
     OSTaskCreate (&TCB_START_TASK,		//2、创建任务
@@ -108,12 +110,7 @@ void TASK1(void *p_arg)
     CPU_SR_ALLOC();
     while(1)
     {
-        for(j=0; ; j++) {
-            OS_CRITICAL_ENTER();
-            printf("test-zzz1--%d\r\n",j);
-            OS_CRITICAL_EXIT();
-            OSSchedRoundRobinYield(&err);		//放弃剩余时间片
-        }
+        printf("zzz-%s\r\n",USART_RX_BUF2);
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -125,11 +122,7 @@ void TASK2(void *p_arg)
     CPU_SR_ALLOC();
     while(1)
     {
-        for(j=0; ; j++) {
-            OS_CRITICAL_ENTER();
-            printf("test-zzzzzz2--%d\r\n",j);
-            OS_CRITICAL_EXIT();
-        }
+        printf("test-zzzzzz2--%d\r\n",j);
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
