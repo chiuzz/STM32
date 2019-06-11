@@ -175,7 +175,8 @@ void  OSStatReset (OS_ERR  *p_err)
 *              counter would count to in 1/10 second if no other tasks were to execute during that time.  CPU usage is
 *              then determined by a low priority task which keeps track of this 32-bit counter every second but this
 *              time, with other tasks running.  CPU usage is determined by:
-*
+*								用来确定一个32位计数器在没有其他任务运行时能达到的最大值，在调用该函数前必须先创建唯一一个应用任务，并启
+*								动多任务管理系统，该函数必须是由应用程序创建的第一个也是唯一一个任务调用。
 *                                             OS_Stat_IdleCtr
 *                 CPU Usage (%) = 100 * (1 - ------------------)
 *                                            OS_Stat_IdleCtrMax

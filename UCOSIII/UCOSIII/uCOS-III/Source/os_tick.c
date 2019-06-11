@@ -71,7 +71,7 @@ void  OS_TickTask (void  *p_arg)
                             (OS_OPT   )OS_OPT_PEND_BLOCKING,
                             (CPU_TS  *)&ts,
                             (OS_ERR  *)&err);               /* Wait for signal from tick interrupt  等待时钟节拍中断  */
-        if (err == OS_ERR_NONE) {
+        if (err == OS_ERR_NONE) {														//跟踪正在延时的任务，以及在指定时间内等待某个内核对象的任务。
             if (OSRunning == OS_STATE_OS_RUNNING) {
                 OS_TickListUpdate();                        /* Update all tasks waiting for time                      */
             }
