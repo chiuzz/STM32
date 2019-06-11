@@ -6,19 +6,19 @@
 #include "includes.h"
 #include "os_app_hooks.h"
 
-#define				START_TASK_STK_SIZE				64		//堆栈大小如何设置?
+#define				START_TASK_STK_SIZE				256		//堆栈大小如何设置?
 #define				START_TASK_PRIO				5
 OS_TCB        TCB_START_TASK;
 CPU_STK       START_TASK_STK[START_TASK_STK_SIZE];
 void START_TASK(void *p_arg);
 
-#define				TASK1_STK_SIZE				64
+#define				TASK1_STK_SIZE				256
 #define				TASK1_PRIO				11//10
 OS_TCB        TCB_TASK1;
 CPU_STK       TASK1_STK[TASK1_STK_SIZE];
 void TASK1(void *p_arg);
 
-#define				TASK2_STK_SIZE				64
+#define				TASK2_STK_SIZE				256
 #define				TASK2_PRIO				11
 OS_TCB        TCB_TASK2;
 CPU_STK       TASK2_STK[TASK2_STK_SIZE];
@@ -32,7 +32,7 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     delay_init(168);
     uart_init(115200);
-		uart2_init(115200);
+    uart2_init(115200);
     OSInit(&err); //1、初始化ucos
     OS_CRITICAL_ENTER(); //进入临界段
     OSTaskCreate (&TCB_START_TASK,		//2、创建任务
@@ -107,10 +107,18 @@ void TASK1(void *p_arg)
 {
     u8 j=0;
     OS_ERR err;
-    CPU_SR_ALLOC();
+//    CPU_SR_ALLOC();
+    u8 buf[USART_REC_LEN2]= {0};
     while(1)
     {
-        printf("zzz-%s\r\n",USART_RX_BUF2);
+        if(USART_RX_STA2&0x8000) {
+            USART_RX_STA2=0;
+            Str_Copy((CPU_CHAR*)buf,(CPU_CHAR*)USART_RX_BUF2);
+            for(j=0; j<USART_REC_LEN2; j++) {
+                USART_RX_BUF2[j]=0;
+            }
+        }
+        printf("zzz-%s\r\n",buf);
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -119,7 +127,7 @@ void TASK2(void *p_arg)
 {
     OS_ERR err;
     u8 j=0;
-    CPU_SR_ALLOC();
+//    CPU_SR_ALLOC();
     while(1)
     {
         printf("test-zzzzzz2--%d\r\n",j);
