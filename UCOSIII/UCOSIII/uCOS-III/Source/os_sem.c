@@ -563,7 +563,7 @@ OS_OBJ_QTY  OSSemPendAbort (OS_SEM  *p_sem,
 *              opt      determines the type of POST performed:
 *
 *                           OS_OPT_POST_1            POST and ready only the highest priority task waiting on semaphore
-*                                                    (if tasks are waiting).
+*                                                    (if tasks are waiting).	仅向等待该信号量的优先级最高的任务发生信号量
 *                           OS_OPT_POST_ALL          POST to ALL tasks that are waiting on the semaphore
 *
 *                           OS_OPT_POST_NO_SCHED     Do not call the scheduler
