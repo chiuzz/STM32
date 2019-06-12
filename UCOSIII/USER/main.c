@@ -103,6 +103,8 @@ void START_TASK(void *p_arg)
     }
 }
 
+u8 ShareBuf[20];
+
 void TASK1(void *p_arg)
 {
     u8 j=0;
@@ -118,7 +120,12 @@ void TASK1(void *p_arg)
                 USART_RX_BUF2[j]=0;
             }
         }
-        printf("zzz-%s\r\n",buf);
+//        printf("zzz-%s\r\n",buf);
+
+        strcpy((char *)ShareBuf,"TASK1");
+        OSTimeDlyHMSM (0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
+        printf("%s\r\n",ShareBuf);
+
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -130,7 +137,12 @@ void TASK2(void *p_arg)
 //    CPU_SR_ALLOC();
     while(1)
     {
-        printf("test-zzzzzz2--%d\r\n",j);
+//        printf("test-zzzzzz2--%d\r\n",j);
+
+        strcpy((char *)ShareBuf,"TASK2xxxxx");
+        OSTimeDlyHMSM (0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
+        printf("%s\r\n",ShareBuf);
+
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
