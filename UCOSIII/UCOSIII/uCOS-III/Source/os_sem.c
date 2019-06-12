@@ -52,7 +52,7 @@ const  CPU_CHAR  *os_sem__c = "$Id: $";
 *
 *              cnt           is the initial value for the semaphore.
 *                            If used to share resources, you should initialize to the number of resources available.
-*                            If used to signal the occurrence of event(s) then you should initialize to 0.
+*                            If used to signal the occurrence of event(s) then you should initialize to 0.如果用于等待事件发生应该设置为0
 *
 *              p_err         is a pointer to a variable that will contain an error code returned by this function.
 *

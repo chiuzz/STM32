@@ -13,7 +13,7 @@ CPU_STK       START_TASK_STK[START_TASK_STK_SIZE];
 void START_TASK(void *p_arg);
 
 #define				TASK1_STK_SIZE				256
-#define				TASK1_PRIO				11//10
+#define				TASK1_PRIO				10
 OS_TCB        TCB_TASK1;
 CPU_STK       TASK1_STK[TASK1_STK_SIZE];
 void TASK1(void *p_arg);
@@ -64,7 +64,7 @@ void START_TASK(void *p_arg)
 
     OSSemCreate (&TASK_SEM,
                  "TASK_SEM",
-                 1,				//二值信号量
+                 0,				//同步任务
                  &err);
 #if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
     OSSchedRoundRobinCfg (DEF_ENABLED, (OS_TICK)1, &err);		//打开时间片轮转调度功能，设置默认时间片长度1
@@ -133,12 +133,7 @@ void TASK1(void *p_arg)
                    OS_OPT_PEND_BLOCKING,	//阻塞
                    0,											//不需要时间戳
                    &err);
-        strcpy((char *)ShareBuf,"TASK1");
-        OSTimeDlyHMSM (0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
-        printf("%s\r\n",ShareBuf);
-        OSSemPost (&TASK_SEM,
-                   OS_OPT_POST_ALL,
-                   &err);
+        printf("zzz1end\r\n");
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -151,17 +146,10 @@ void TASK2(void *p_arg)
     while(1)
     {
         printf("zzz2\r\n");
-        OSSemPend (&TASK_SEM,
-                   0,											//一直等待
-                   OS_OPT_PEND_BLOCKING,	//阻塞
-                   0,											//不需要时间戳
-                   &err);
-        strcpy((char *)ShareBuf,"TASK2xxxxx");
-        OSTimeDlyHMSM (0,0,0,50,OS_OPT_TIME_HMSM_STRICT,&err);
-        printf("%s\r\n",ShareBuf);
         OSSemPost (&TASK_SEM,
-                   OS_OPT_POST_ALL,
+                   OS_OPT_POST_NO_SCHED,
                    &err);
+        printf("zzz2end\r\n");
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
