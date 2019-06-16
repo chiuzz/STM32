@@ -1,0 +1,3 @@
+Record=SheetSymbol|SourceDocument=Sheet4.SchDoc|Designator=M1|SchDesignator=M1|FileName=SCR.SchDoc|SymbolType=Normal|RawFileName=SCR.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Sheet4.SchDoc|Designator=M2|SchDesignator=M2|FileName=Sheet1.SchDoc|SymbolType=Normal|RawFileName=Sheet1.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=TopLevelDocument|FileName=Sheet4.SchDoc

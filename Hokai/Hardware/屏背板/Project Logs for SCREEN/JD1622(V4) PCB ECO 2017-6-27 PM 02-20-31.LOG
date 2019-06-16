@@ -1,0 +1,8 @@
+Removed Pin From Net: NetName=SDATA Pin=U2-25
+Removed Pin From Net: NetName=SWR Pin=U2-26
+Removed Pin From Net: NetName=SCS1 Pin=U2-27
+Removed Pin From Net: NetName=SCS2 Pin=U2-28
+Added Pin To Net: NetName=SWR Pin=U2-25
+Added Pin To Net: NetName=SDATA Pin=U2-26
+Added Pin To Net: NetName=SCS2 Pin=U2-27
+Added Pin To Net: NetName=SCS1 Pin=U2-28

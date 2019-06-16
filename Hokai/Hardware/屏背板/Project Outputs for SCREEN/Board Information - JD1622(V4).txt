@@ -1,0 +1,12 @@
+Board Information Report
+Filename     : I:\ÆÁ±³°å\JD1622(V4).PcbDoc
+Date         : 2017-7-14
+Time         : ÏÂÎç 08:38:08
+Time Elapsed : 00:00:00
+
+Routing Information
+    Routing completion, 100.00%
+    Connections, 301
+    Connections routed, 301
+    Connections remaining, 0
+count : 4

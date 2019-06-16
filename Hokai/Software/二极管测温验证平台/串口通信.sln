@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "串口通信", "串口通信\串口通信.csproj", "{49B78D4F-815F-4024-9553-73AE7308AEB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49B78D4F-815F-4024-9553-73AE7308AEB6}.Debug|x86.ActiveCfg = Debug|x86
+		{49B78D4F-815F-4024-9553-73AE7308AEB6}.Debug|x86.Build.0 = Debug|x86
+		{49B78D4F-815F-4024-9553-73AE7308AEB6}.Release|x86.ActiveCfg = Release|x86
+		{49B78D4F-815F-4024-9553-73AE7308AEB6}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

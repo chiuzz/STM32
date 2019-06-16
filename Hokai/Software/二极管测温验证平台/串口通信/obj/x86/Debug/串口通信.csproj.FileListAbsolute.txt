@@ -1,0 +1,113 @@
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\bin\Debug\串口通信.exe
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\bin\Debug\串口通信.pdb
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\ResolveAssemblyReference.cache
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\串口通信.Form1.resources
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\GenerateResource.read.1.tlog
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\GenerateResource.write.1.tlog
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\串口通信.exe
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\串口通信.pdb
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\bin\Debug\MedicalRecords.mdb
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\bin\Debug\串口通信.exe.config
+d:\用户目录\documents\visual studio 2010\Projects\串口通信\串口通信\obj\x86\Debug\串口通信.Form2.resources
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\bin\Debug\串口通信.exe.config
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.exe
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.pdb
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\bin\Debug\MedicalRecords.mdb
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\bin\Debug\串口通信.exe
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\bin\Debug\串口通信.pdb
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.Form1.resources
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.Form2.resources
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+E:\HGCF-3000-III 射频机项目\射频针\串口通信\串口通信\obj\x86\Debug\串口通信.csproj.GenerateResource.Cache
+E:\place\串口通信\串口通信\串口通信\bin\Debug\串口通信.exe.config
+E:\place\串口通信\串口通信\串口通信\bin\Debug\MedicalRecords.mdb
+E:\place\串口通信\串口通信\串口通信\bin\Debug\串口通信.exe
+E:\place\串口通信\串口通信\串口通信\bin\Debug\串口通信.pdb
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonControls.dll
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonFunctions.dll
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonControls.pdb
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonControls.xml
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonFunctions.pdb
+E:\place\串口通信\串口通信\串口通信\bin\Debug\Hokai_CommonFunctions.xml
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\串口通信.Form1.resources
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\串口通信.exe
+E:\place\串口通信\串口通信\串口通信\obj\x86\Debug\串口通信.pdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\串口通信.exe.config
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\串口通信.exe
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\串口通信.pdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\MedicalRecords.mdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\串口通信.exe
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\串口通信.pdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.dll
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.dll
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.pdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.xml
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.pdb
+E:\place\串口通信\测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.xml
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\串口通信.Form1.resources
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\place\串口通信\测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.ResolveComReference.cache
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe.config
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.ResolveComReference.cache
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.exe
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.pdb
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Form1.resources
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\place\串口通信\二极管测温验证平台\串口通信\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\MedicalRecords.mdb
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\串口通信.pdb
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.dll
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.dll
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.pdb
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.xml
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.pdb
+E:\place\串口通信\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.xml
+F:\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.dll
+F:\二极管测温验证平台\串口通信\bin\Debug\MedicalRecords.mdb
+F:\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe.config
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.dll
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.pdb
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.xml
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.pdb
+F:\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.xml
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.ResolveComReference.cache
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Form1.resources
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.exe
+F:\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.pdb
+F:\二极管测温验证平台\串口通信\bin\Debug\串口通信.pdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe.config
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.ResolveComReference.cache
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.exe
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.pdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\MedicalRecords.mdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\串口通信.pdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.dll
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.dll
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.pdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonControls.xml
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.pdb
+D:\原D盘数据\二极管测温验证平台\串口通信\bin\Debug\Hokai_CommonFunctions.xml
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Form1.resources
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.Properties.Resources.resources
+D:\原D盘数据\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.GenerateResource.Cache
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\二极管测温验证平台\串口通信\bin\Debug\串口通信.exe.config
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.csproj.ResolveComReference.cache
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.exe
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\二极管测温验证平台\串口通信\obj\x86\Debug\串口通信.pdb

@@ -1,0 +1,1047 @@
+//*
+//*********************************************************************************************************
+//*
+//*                                                 LOGO
+//*
+//*
+//* 文 件 名 : ModuleScr.c
+//*
+//* 文件描述 : SCR任务
+//*
+//* 作    者 :
+//* 版    本 :
+//* 编 译 器 : IAR EWARM 5.20
+//*********************************************************************************************************
+//*
+#include "ModuleScr.h"
+#include "led.h"
+#include "msg_def.h"
+//#include "usart.h"
+BOOLEAN ModuleScrInit(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+
+    HT1621B_Init();//显示屏硬件驱动
+    HtbRamInit(pArg);//显示屏元素的初始化
+    if(pData != NULL)
+    {
+			pData->m_FlashCount = 0;
+    }
+    return ret;
+}
+
+BOOLEAN ModuleScrReset(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    pData->m_PressSta = FALSE;
+    pData->m_Count = 0;
+    return ret;
+}
+
+BOOLEAN ModuleScrStart(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    pData->m_PressSta = TRUE;
+    disp_all(); //tommy
+    //disp_clear();
+
+    return ret;
+}
+
+BOOLEAN ModuleScrStop(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    pData->m_PressSta = FALSE;
+    return ret;
+}
+
+BOOLEAN ModuleScrRelease(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(pData != NULL)
+        free(pData);
+    return ret;
+}
+
+void ModuleScr50msProcess(void* pArg)
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+//     printf("ModuleScr1sProcess !! \n");
+    if(pData->m_PressSta == FALSE)
+        return;
+    pData->m_Count++;
+    if(pData->m_Count > 10)
+    {
+        pData->m_Count = 0;
+			pData->m_FlashCount++;	
+        pData->m_50msCount++;
+    }
+    else
+    {
+        return;
+    }
+
+    if(pData->m_pSysData->m_SystemSta==Stop )
+    {
+        SystemStaStop(pArg);//系统在停止状态下,显示屏信息
+    }
+
+
+    DisplayWorkMode(pArg,pData->m_pSysData->m_SystemSta);//系统制冷或制热模式下
+
+    DisplayWorkStatus(pArg,pData->m_pSysData->m_Cooler,pData->m_pSysData->m_Heater);//系统的工作模式
+
+    DisplayCycleMode(pArg,pData->m_pSysData->m_Cycle1Set,pData->m_pSysData->m_Cycle2Set);//水路显示模式
+
+    DisplayBumpMode(pArg,pData->m_pSysData->m_Bump1Status,pData->m_pSysData->m_Bump2Status);//水泵的工作模式
+
+    DisplayWaterStatus(pArg,pData->m_pSysData->m_WaterStatus);//水位状态
+
+    DisplaySystemAlm(pArg,pData->m_pSysData->m_SystemAlm,pData->m_pSysData->m_Temp1, pData->m_pSysData->m_Temp2, pData->m_pSysData->m_WaterTemp);//报警状态
+
+    DisplaySetTemp(pArg,pData->m_pSysData->m_FocusStatus,pData->m_pSysData->m_Temp1Set, pData->m_pSysData->m_Temp2Set,pData->m_pSysData->m_WaterTempSet);//温度设置
+
+    DisplayRefresh(pArg);//刷新区域
+
+}
+
+void ScrMsgNotify(void* pArg, INT8U MsgId, INT16U lParam, INT16U wParam, void* pBuf) //消息处理
+{
+
+//    switch(MsgId)
+//    {
+//        case MSG_SCR_SAVE:
+//          if(lParam == 1)
+//          {
+//            //立即执行配置保存，调用处理函数
+//              ScrSave();
+//          }
+//          break;
+//        default:break;
+//    }
+//    printf("Receive MSG !!!\n");
+
+}
+
+PMODULEBASE CreateModuleScr(PMODULESERVERDATA pServerData)
+{
+    PMODULESCR pModScr = NULL;
+    PMODULESCRDATA pData = NULL;
+
+    pModScr = (PMODULESCR)malloc(sizeof(MODULESCR));//申请基类结构
+    pData = (PMODULESCRDATA)malloc(sizeof(MODULESCRDATA));//申请基类数据结构
+//  ASSERT(pModScr != NULL);
+//  ASSERT(pData != NULL);
+    pData->m_pMsgQueue = pServerData->m_pMsgQueue;
+    pModScr->m_pBaseData = (PVOID)pData;
+    pData->m_pSysData = pServerData->m_pSysData;
+    //************************以下模块接口必须赋值******************************
+    pModScr->pModeleInit = ModuleScrInit; //实现模块初始化
+    pModScr->pModeleReset = ModuleScrReset; //实现模块复位
+    pModScr->pModeleStart = ModuleScrStart; //实现模块开始
+    pModScr->pModeleStop = ModuleScrStop; //实现模块结束
+    pModScr->pModeleRelease = ModuleScrRelease;//实现
+    pModScr->pMsgNotify = ScrMsgNotify;//实现消息队列处理
+    pModScr->pModele10msProcess = NULL;//不实现，置为NULL
+    pModScr->pModele50msProcess = ModuleScr50msProcess;//不实现，置为NULL
+    pModScr->pModele1sProcess = NULL;//实现1s调用
+    pModScr->pModele1msProcess = NULL;//实现1s调用
+    strcpy(pModScr->m_ModName, "ModScr");
+
+//     printf("CreateModuleScr!!\n");
+    return (PMODULEBASE)pModScr;
+}
+
+void WriteHT1621Temperature(INT16U TempCH,INT16U Data ,INT16U WhichIC,void* pArg)//显示温度
+{
+
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    INT16U	 addr_Thousands=0;
+    INT16U   addr_Hundreds=0;
+    INT16U   addr_Ten=0;
+    INT16U TenBit=0;
+    INT16U HundredsBit=0;
+    INT16U ThousandsBits=0;
+    INT8U TempCH_ADDR=0;
+    Data+=5;
+    TenBit=(Data%100)/10;
+    HundredsBit=(Data%1000)/100;
+    ThousandsBits=(Data%10000)/1000;
+    if(ThousandsBits==0)
+    {
+        ThousandsBits=99; //判断千位是零就不显示
+    }
+
+    switch(TempCH)
+    {
+    case 1:
+        //TempCH_ADDR=0;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S0]),&(pData->IC1_S[Screen_1_S1]), ThousandsBits);
+        HTBSegVal(&pData->IC1_S[Screen_1_S2],&pData->IC1_S[Screen_1_S3], HundredsBit);
+        HTBSegVal(&pData->IC1_S[Screen_1_S4],&pData->IC1_S[Screen_1_S5], TenBit);
+        HTBICNSVal(pData->IC1_S[Screen_1_S0]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S1]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S2]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S3]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S4]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S5]);
+
+        break;
+    case 2:
+        //TempCH_ADDR=6;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S6]),&(pData->IC1_S[Screen_1_S7]), ThousandsBits);
+        HTBSegVal(&pData->IC1_S[Screen_1_S8],&pData->IC1_S[Screen_1_S9], HundredsBit);
+//					//HTB_Seg_Val(&pData->IC1_S[WaterSetCH_PIN_ADDR+4],&pData->IC1_S[WaterSetCH_PIN_ADDR+5], TenBit);
+        HTBICNSVal(pData->IC1_S[Screen_1_S6]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S7]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S8]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S9]);
+//			    //HTB_ICN_S_Val(pData->IC1_S[TempSet1CH_PIN_ADDR+4]);
+//			    //HTB_ICN_S_Val(pData->IC1_S[TempSet1CH_PIN_ADDR+5]);
+        break;
+    case 3:
+        //TempCH_ADDR=10;
+        //pData->IC1_S[TempSet2CH_PIN_ADDR].COM4=1;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S10]),&(pData->IC1_S[Screen_1_S11]),ThousandsBits);//6);//
+        HTBSegVal(&pData->IC1_S[Screen_1_S12],&pData->IC1_S[Screen_1_S13], HundredsBit);
+        HTBSegVal(&pData->IC1_S[Screen_1_S14],&pData->IC1_S[Screen_1_S15], TenBit);
+        HTBICNSVal(pData->IC1_S[Screen_1_S10]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S11]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S12]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S13]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S14]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S15]);
+        break;
+    case 4:
+        //TempCH_ADDR=0;
+        HTBSegVal(&(pData->IC2_S[Temp1CH2_PIN_ADDR]),&(pData->IC2_S[Temp1CH2_PIN_ADDR+1]), ThousandsBits);
+        HTBSegVal(&pData->IC2_S[Temp1CH2_PIN_ADDR+2],&pData->IC2_S[Temp1CH2_PIN_ADDR+3], HundredsBit);
+        HTBSegVal(&pData->IC2_S[Temp1CH2_PIN_ADDR+4],&pData->IC2_S[Temp1CH2_PIN_ADDR+5], TenBit);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR]);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR+1]);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR+2]);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR+3]);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR+4]);
+        HTBICNSVal(pData->IC2_S[Temp1CH2_PIN_ADDR+5]);
+        break;
+    case 5:
+        //TempCH_ADDR=6;
+        HTBSegVal(&(pData->IC2_S[TWaterCH2_PIN_ADDR]),&(pData->IC2_S[TWaterCH2_PIN_ADDR+1]), ThousandsBits);
+        HTBSegVal(&pData->IC2_S[TWaterCH2_PIN_ADDR+2],&pData->IC2_S[TWaterCH2_PIN_ADDR+3], HundredsBit);
+        HTBSegVal(&pData->IC2_S[TWaterCH2_PIN_ADDR+4],&pData->IC2_S[TWaterCH2_PIN_ADDR+5], TenBit);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+1]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+2]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+3]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+4]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+5]);
+        break;
+    case 6:
+        //TempCH_ADDR=12;
+        HTBSegVal(&(pData->IC2_S[Temp2CH2_PIN_ADDR]),&(pData->IC2_S[Temp2CH2_PIN_ADDR+1]), ThousandsBits);
+        HTBSegVal(&pData->IC2_S[Temp2CH2_PIN_ADDR+2],&pData->IC2_S[Temp2CH2_PIN_ADDR+3], HundredsBit);
+        HTBSegVal(&pData->IC2_S[Temp2CH2_PIN_ADDR+4],&pData->IC2_S[Temp2CH2_PIN_ADDR+5], TenBit);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR]);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR+1]);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR+2]);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR+3]);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR+4]);
+        HTBICNSVal(pData->IC2_S[Temp2CH2_PIN_ADDR+5]);
+        break;
+    default:
+        break;
+    }
+}
+//显示数码管8字
+void HTBSegVal(HTB_ICN *H_Ram,HTB_ICN *L_Ram, INT16U SegData)
+{
+    switch (SegData)
+    {
+    case 0:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3= 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 0;
+        H_Ram->COM3 = 1;
+        break;
+
+    case 1:
+        L_Ram->COM1 = 0;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3= 1;
+        L_Ram->COM4 = 0;
+        H_Ram->COM1 = 0;
+        H_Ram->COM2 = 0;
+        H_Ram->COM3 = 0;
+        break;
+
+    case 2:
+        L_Ram->COM1  = 1;
+        L_Ram->COM2= 1;
+        L_Ram->COM3= 0;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 0;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3= 1;
+        break;
+
+    case 3:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 0;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 0;
+        break;
+
+    case 4:
+        L_Ram->COM1 = 0;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 0;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 0;
+        break;
+
+    case 5:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2= 0;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 0;
+        break;
+
+    case 6:
+        L_Ram->COM1= 1;
+        L_Ram->COM2 = 0;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 1;
+        break;
+
+    case 7:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 0;
+        H_Ram->COM1 = 0;
+        H_Ram->COM2 = 0;
+        H_Ram->COM3 = 0;
+        break;
+
+    case 8:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 1;
+        break;
+
+    case 9:
+        L_Ram->COM1 = 1;
+        L_Ram->COM2 = 1;
+        L_Ram->COM3 = 1;
+        L_Ram->COM4 = 1;
+        H_Ram->COM1 = 1;
+        H_Ram->COM2 = 1;
+        H_Ram->COM3 = 0;
+        break;
+    default:
+        L_Ram->COM1 = 0;
+        L_Ram->COM2 = 0;
+        L_Ram->COM3 = 0;
+        L_Ram->COM4 = 0;
+        H_Ram->COM1 = 0;
+        H_Ram->COM2 = 0;
+        H_Ram->COM3 = 0;
+        break;
+    }
+}
+
+void ShowHT1621Temperature(INT16U TempCH,void* pArg)//显示体温信息为--
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    switch(TempCH)
+    {
+    case 1:
+        pData->IC1_S[Screen_1_S0].COM1=0;
+        pData->IC1_S[Screen_1_S0].COM2=1;
+        pData->IC1_S[Screen_1_S0].COM3=0;
+
+        pData->IC1_S[Screen_1_S1].COM1=0;
+        pData->IC1_S[Screen_1_S1].COM2=0;
+        pData->IC1_S[Screen_1_S1].COM3=0;
+        pData->IC1_S[Screen_1_S1].COM4=0;
+        pData->IC1_S[Screen_1_S2].COM1=0;
+        pData->IC1_S[Screen_1_S2].COM2=1;
+        pData->IC1_S[Screen_1_S2].COM3=0;
+        pData->IC1_S[Screen_1_S2].COM4=0;
+        pData->IC1_S[Screen_1_S3].COM1=0;
+        pData->IC1_S[Screen_1_S3].COM2=0;
+        pData->IC1_S[Screen_1_S3].COM3=0;
+        pData->IC1_S[Screen_1_S3].COM4=0;
+        pData->IC1_S[Screen_1_S4].COM1=0;
+        pData->IC1_S[Screen_1_S4].COM2=1;
+        pData->IC1_S[Screen_1_S4].COM3=0;
+        //pData->IC2_S[4].COM4=0;
+        pData->IC1_S[Screen_1_S5].COM1=0;
+        pData->IC1_S[Screen_1_S5].COM2=0;
+        pData->IC1_S[Screen_1_S5].COM3=0;
+        pData->IC1_S[Screen_1_S5].COM4=0;
+
+
+        HTBICNSVal(pData->IC1_S[Screen_1_S0]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S1]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S2]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S3]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S4]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S5]);
+        break;
+    case 2:
+        pData->IC1_S[Screen_1_S6].COM1=0;
+        pData->IC1_S[Screen_1_S6].COM2=1;
+        pData->IC1_S[Screen_1_S6].COM3=0;
+        //pData->IC2_S[0].COM4=0;
+        pData->IC1_S[Screen_1_S7].COM1=0;
+        pData->IC1_S[Screen_1_S7].COM2=0;
+        pData->IC1_S[Screen_1_S7].COM3=0;
+        pData->IC1_S[Screen_1_S7].COM4=0;
+        pData->IC1_S[Screen_1_S8].COM1=0;
+        pData->IC1_S[Screen_1_S8].COM2=1;
+        pData->IC1_S[Screen_1_S8].COM3=0;
+        pData->IC1_S[Screen_1_S8].COM4=0;
+        pData->IC1_S[Screen_1_S9].COM1=0;
+        pData->IC1_S[Screen_1_S9].COM2=0;
+        pData->IC1_S[Screen_1_S9].COM3=0;
+        pData->IC1_S[Screen_1_S9].COM4=0;
+        HTBICNSVal(pData->IC1_S[Screen_1_S6]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S7]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S8]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S9]);
+        break;
+    case 3:
+        pData->IC1_S[Screen_1_S10].COM1=0;
+        pData->IC1_S[Screen_1_S10].COM2=1;
+        pData->IC1_S[Screen_1_S10].COM3=0;
+        //pData->IC2_S[12].COM4=0;
+        pData->IC1_S[Screen_1_S11].COM1=0;
+        pData->IC1_S[Screen_1_S11].COM2=0;
+        pData->IC1_S[Screen_1_S11].COM3=0;
+        pData->IC1_S[Screen_1_S11].COM4=0;
+        pData->IC1_S[Screen_1_S12].COM1=0;
+        pData->IC1_S[Screen_1_S12].COM2=1;
+        pData->IC1_S[Screen_1_S12].COM3=0;
+        //pData->IC1_S[12].COM4=0;
+        pData->IC1_S[Screen_1_S13].COM1=0;
+        pData->IC1_S[Screen_1_S13].COM2=0;
+        pData->IC1_S[Screen_1_S13].COM3=0;
+        pData->IC1_S[Screen_1_S13].COM4=0;
+        pData->IC1_S[Screen_1_S14].COM1=0;
+        pData->IC1_S[Screen_1_S14].COM2=1;
+        pData->IC1_S[Screen_1_S14].COM3=0;
+        pData->IC1_S[Screen_1_S14].COM4=1;
+        pData->IC1_S[Screen_1_S15].COM1=0;
+        pData->IC1_S[Screen_1_S15].COM2=0;
+        pData->IC1_S[Screen_1_S15].COM3=0;
+        pData->IC1_S[Screen_1_S15].COM4=0;
+
+        HTBICNSVal(pData->IC1_S[Screen_1_S10]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S11]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S12]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S13]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S14]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S15]);
+        break;
+    case 4:
+        pData->IC2_S[0].COM1=0;
+        pData->IC2_S[0].COM2=1;
+        pData->IC2_S[0].COM3=0;
+        //pData->IC2_S[0].COM4=0;
+        pData->IC2_S[1].COM1=0;
+        pData->IC2_S[1].COM2=0;
+        pData->IC2_S[1].COM3=0;
+        pData->IC2_S[1].COM4=0;
+        pData->IC2_S[2].COM1=0;
+        pData->IC2_S[2].COM2=1;
+        pData->IC2_S[2].COM3=0;
+        pData->IC2_S[2].COM4=0;
+        pData->IC2_S[3].COM1=0;
+        pData->IC2_S[3].COM2=0;
+        pData->IC2_S[3].COM3=0;
+        pData->IC2_S[3].COM4=0;
+        pData->IC2_S[4].COM1=0;
+        pData->IC2_S[4].COM2=1;
+        pData->IC2_S[4].COM3=0;
+        //pData->IC2_S[4].COM4=0;
+        pData->IC2_S[5].COM1=0;
+        pData->IC2_S[5].COM2=0;
+        pData->IC2_S[5].COM3=0;
+        pData->IC2_S[5].COM4=0;
+
+        HTBICNSVal(pData->IC2_S[0]);
+        HTBICNSVal(pData->IC2_S[1]);
+        HTBICNSVal(pData->IC2_S[2]);
+        HTBICNSVal(pData->IC2_S[3]);
+        HTBICNSVal(pData->IC2_S[4]);
+        HTBICNSVal(pData->IC2_S[5]);
+        break;
+    case 5:
+        pData->IC2_S[6].COM1=0;
+        pData->IC2_S[6].COM2=1;
+        pData->IC2_S[6].COM3=0;
+        //pData->IC2_S[0].COM4=0;
+        pData->IC2_S[7].COM1=0;
+        pData->IC2_S[7].COM2=0;
+        pData->IC2_S[7].COM3=0;
+        pData->IC2_S[7].COM4=0;
+        pData->IC2_S[8].COM1=0;
+        pData->IC2_S[8].COM2=1;
+        pData->IC2_S[8].COM3=0;
+        pData->IC2_S[8].COM4=0;
+        pData->IC2_S[9].COM1=0;
+        pData->IC2_S[9].COM2=0;
+        pData->IC2_S[9].COM3=0;
+        pData->IC2_S[9].COM4=0;
+        pData->IC2_S[10].COM1=0;
+        pData->IC2_S[10].COM2=1;
+        pData->IC2_S[10].COM3=0;
+        //pData->IC2_S[4].COM4=0;
+        pData->IC2_S[11].COM1=0;
+        pData->IC2_S[11].COM2=0;
+        pData->IC2_S[11].COM3=0;
+        pData->IC2_S[11].COM4=0;
+
+        HTBICNSVal(pData->IC2_S[6]);
+        HTBICNSVal(pData->IC2_S[7]);
+        HTBICNSVal(pData->IC2_S[8]);
+        HTBICNSVal(pData->IC2_S[9]);
+        HTBICNSVal(pData->IC2_S[10]);
+        HTBICNSVal(pData->IC2_S[11]);
+        break;
+    case 6:
+        pData->IC2_S[12].COM1=0;
+        pData->IC2_S[12].COM2=1;
+        pData->IC2_S[12].COM3=0;
+        //pData->IC2_S[12].COM4=0;
+        pData->IC2_S[13].COM1=0;
+        pData->IC2_S[13].COM2=0;
+        pData->IC2_S[13].COM3=0;
+        pData->IC2_S[13].COM4=0;
+        pData->IC2_S[14].COM1=0;
+        pData->IC2_S[14].COM2=1;
+        pData->IC2_S[14].COM3=0;
+        pData->IC2_S[14].COM4=0;
+        pData->IC2_S[15].COM1=0;
+        pData->IC2_S[15].COM2=0;
+        pData->IC2_S[15].COM3=0;
+        pData->IC2_S[15].COM4=0;
+        pData->IC2_S[16].COM1=0;
+        pData->IC2_S[16].COM2=1;
+        pData->IC2_S[16].COM3=0;
+        //pData->IC2_S[16].COM4=0;
+        pData->IC2_S[17].COM1=0;
+        pData->IC2_S[17].COM2=0;
+        pData->IC2_S[17].COM3=0;
+        pData->IC2_S[17].COM4=0;
+
+        HTBICNSVal(pData->IC2_S[12]);
+        HTBICNSVal(pData->IC2_S[13]);
+        HTBICNSVal(pData->IC2_S[14]);
+        HTBICNSVal(pData->IC2_S[15]);
+        HTBICNSVal(pData->IC2_S[16]);
+        HTBICNSVal(pData->IC2_S[17]);
+        break;
+    default:
+        break;
+    }
+}
+
+void HTBICNSVal(HTB_ICN HTBRam) //显示屏区域
+{
+    INT8U HT1621Data=(HTBRam.COM1<<3)+(HTBRam.COM2<<2)+(HTBRam.COM3<<1)+(HTBRam.COM4);
+    WriteHT1621OneData(HTBRam.P_Addr,HT1621Data ,HTBRam.P_WhichIC);
+}
+
+
+void HideHT1621Temperature(INT16U TempCH,void* pArg)//隐藏温度显示区域
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    switch(TempCH)
+    {
+    case 1:
+        //TempCH_ADDR=0;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S0]),&(pData->IC1_S[Screen_1_S1]), 99);
+        HTBSegVal(& pData->IC1_S[Screen_1_S2],&pData->IC1_S[Screen_1_S3], 99);
+        HTBSegVal(& pData->IC1_S[Screen_1_S4],&pData->IC1_S[Screen_1_S5], 99);
+        HTBICNSVal(pData->IC1_S[Screen_1_S0]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S1]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S2]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S3]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S4]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S5]);
+        break;
+    case 2:
+        //TempCH_ADDR=6;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S6]),&(pData->IC1_S[Screen_1_S7]), 99);
+        HTBSegVal(&pData->IC1_S[Screen_1_S8],&pData->IC1_S[Screen_1_S9], 99);
+        //HTB_Seg_Val(&pData->IC1_S[WaterSetCH_PIN_ADDR+4],&pData->IC1_S[WaterSetCH_PIN_ADDR+5], 99);
+        HTBICNSVal(pData->IC1_S[Screen_1_S6]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S7]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S8]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S9]);
+        break;
+    case 3:
+        //TempCH_ADDR=10;
+        HTBSegVal(&(pData->IC1_S[Screen_1_S10]),&(pData->IC1_S[Screen_1_S11]), 99);
+        HTBSegVal(&pData->IC1_S[Screen_1_S12],&pData->IC1_S[Screen_1_S13], 99);
+        HTBSegVal(&pData->IC1_S[Screen_1_S14],&pData->IC1_S[Screen_1_S15], 99);
+        HTBICNSVal(pData->IC1_S[Screen_1_S10]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S11]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S12]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S13]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S14]);
+        HTBICNSVal(pData->IC1_S[Screen_1_S15]);
+        break;
+    case 4:
+        //TempCH_ADDR=0;
+        HTBSegVal(&(pData->IC2_S[Temp1CH2_PIN_ADDR]),&(pData->IC2_S[Temp1CH2_PIN_ADDR+1]), 99);
+        HTBSegVal(&pData->IC2_S[Temp1CH2_PIN_ADDR+2],&pData->IC2_S[Temp1CH2_PIN_ADDR+3], 99);
+        HTBSegVal(&pData->IC2_S[Temp1CH2_PIN_ADDR+4],&pData->IC2_S[Temp1CH2_PIN_ADDR+5], 99);
+        break;
+    case 5:
+        //TempCH_ADDR=6;
+        HTBSegVal(&(pData->IC2_S[TWaterCH2_PIN_ADDR]),&(pData->IC2_S[TWaterCH2_PIN_ADDR+1]), 99);
+        HTBSegVal(&pData->IC2_S[TWaterCH2_PIN_ADDR+2],&pData->IC2_S[TWaterCH2_PIN_ADDR+3], 99);
+        HTBSegVal(&pData->IC2_S[TWaterCH2_PIN_ADDR+4],&pData->IC2_S[TWaterCH2_PIN_ADDR+5], 99);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+1]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+2]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+3]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+4]);
+        HTBICNSVal(pData->IC2_S[TWaterCH2_PIN_ADDR+5]);
+        break;
+    case 6:
+        //TempCH_ADDR=12;
+        HTBSegVal(&(pData->IC2_S[Temp2CH2_PIN_ADDR]),&(pData->IC2_S[Temp2CH2_PIN_ADDR+1]), 99);
+        HTBSegVal(&pData->IC2_S[Temp2CH2_PIN_ADDR+2],&pData->IC2_S[Temp2CH2_PIN_ADDR+3], 99);
+        HTBSegVal(&pData->IC2_S[Temp2CH2_PIN_ADDR+4],&pData->IC2_S[Temp2CH2_PIN_ADDR+5], 99);
+        break;
+    default:
+        break;
+    }
+}
+
+void SystemStaStop(void* pArg)//系统在停止状态下,显示屏信息
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    pData->IC2_S[0].COM4=0;
+    pData->IC2_S[12].COM4=0;
+
+    pData->IC2_S[6].COM4=0;  //制冷
+    pData->IC2_S[8].COM4=0;  //制热
+
+    HTBICNSVal(pData->IC2_S[8]);//p11
+    HTBICNSVal(pData->IC2_S[12]);//水路2关
+    HTBICNSVal(pData->IC2_S[6]);//s8
+    HTBICNSVal(pData->IC2_S[0]);//水路1关
+}
+
+void DisplayTemp(void* pArg, INT16U Temp1, INT16U Temp2, INT16U WaterTemp )//温度显示
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    WriteHT1621Temperature(Temp1Set_ADDRESS,Temp1 ,IC1_PIN,pArg);//显示温度设置1
+    WriteHT1621Temperature(Temp2Set_ADDRESS,Temp2 ,IC1_PIN,pArg);//显示温度设置2
+    WriteHT1621Temperature(WaterTempSet_ADDRESS,WaterTemp ,IC1_PIN,pArg);//显示水温设置
+}
+
+void TempShow(void* pArg, INT16U Temp1, INT16U Temp2, INT16U WaterTemp )//温度显示
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    WriteHT1621Temperature(Temp1_ADDRESS , Temp1,IC1_PIN,pArg);//显示温度设置1
+    WriteHT1621Temperature(Temp2_ADDRESS,Temp2 ,IC1_PIN,pArg);//显示温度设置2
+    WriteHT1621Temperature(WaterTemp_ADDRESS,WaterTemp ,IC1_PIN,pArg);//显示水温设置
+}
+
+void DisplayWorkMode(void* pArg,eSystemStatus SystemSta)//系统制冷或制热模式下
+{
+
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(SystemSta==Cooler) //系统在制冷状态
+    {
+        pData->IC2_S[6].COM4=1;
+        pData->IC2_S[8].COM4=0;
+    }
+    if(SystemSta==Heater) //系统在制热状态
+    {
+        pData->IC2_S[6].COM4=0;
+        pData->IC2_S[8].COM4=1;
+    }
+}
+void DisplayWorkStatus(void* pArg,eStatus Cooler,eStatus Heater)//系统的工作模式
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(Cooler==Status_On) //制冷开
+    {
+        pData->IC2_S[20].COM4=1;//雪花
+
+    }
+    else
+    {
+        pData->IC2_S[20].COM4=0;//雪花
+    }
+    //----------------------------------
+    if(Heater==Status_On) //制热开
+    {
+        pData->IC2_S[20].COM2=1;//太阳
+    }
+    else
+    {
+        pData->IC2_S[20].COM2=0;//太阳
+    }
+//     printf("Cooler:%d\r\n",Cooler);
+//     printf("Heater:%d\r\n",Heater);
+}
+void DisplayCycleMode(void* pArg,eStatus Cycle1,eStatus Cycle2)//水路显示模式
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(Cycle1==Status_On) //水路1开启了
+    {
+        pData->IC2_S[0].COM4=1;
+    }
+    else
+    {
+        pData->IC2_S[0].COM4=0;
+    }
+
+
+    if(Cycle2==Status_On) //水路2开启了
+    {
+        pData->IC2_S[12].COM4=1;
+    }
+    else
+    {
+        pData->IC2_S[12].COM4=0;
+    }
+}
+
+void DisplayBumpMode(void* pArg,eStatus Bump1,eStatus Bump2)//水泵的工作模式
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(Bump1==Status_On) //水泵1开启了
+    {
+        if(pData->HTBBoolCycle1Set==1)
+        {
+            pData->IC2_S[21].COM1=1;
+            pData->IC2_S[21].COM2=0;
+            pData->IC2_S[21].COM3=0;
+            pData->IC2_S[21].COM4=1;
+            pData->HTBBoolCycle1Set=0;
+        }
+        else
+        {
+            pData->IC2_S[21].COM1=0;
+            pData->IC2_S[21].COM2=1;
+            pData->IC2_S[21].COM3=1;
+            pData->IC2_S[21].COM4=0;
+            pData->HTBBoolCycle1Set=1;
+        }
+    }
+    else
+    {
+
+        pData->IC2_S[21].COM1=1;
+        pData->IC2_S[21].COM2=1;
+        pData->IC2_S[21].COM3=1;
+        pData->IC2_S[21].COM4=1;
+    }
+
+    if(Bump2==Status_On) //水泵2开启
+    {
+        if(pData->HTBBoolCycle2Set==1)
+        {
+            pData->IC2_S[18].COM1=1;
+            pData->IC2_S[18].COM2=0;
+            pData->IC2_S[18].COM3=0;
+            pData->IC2_S[18].COM4=1;
+            pData->HTBBoolCycle2Set=0;
+
+        }
+        else
+        {
+            pData->IC2_S[18].COM1=0;
+            pData->IC2_S[18].COM2=1;
+            pData->IC2_S[18].COM3=1;
+            pData->IC2_S[18].COM4=0;
+            pData->HTBBoolCycle2Set=1;
+        }
+    }
+    else
+    {
+        pData->IC2_S[18].COM1=1;
+        pData->IC2_S[18].COM2=1;
+        pData->IC2_S[18].COM3=1;
+        pData->IC2_S[18].COM4=1;
+    }
+}
+
+
+void DisplayWaterStatus(void* pArg,eNoStatus Status)//水位状态
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    switch(Status)
+    {
+    case  Status_I://缺水（水位线显示1条）p16
+        pData->IC2_S[20].COM3=0; //p12
+        pData->IC2_S[19].COM4=0; //p13
+        pData->IC2_S[19].COM3=0; //p14
+        pData->IC2_S[19].COM2=0; //p15
+        pData->IC2_S[19].COM1=1;//p16
+
+        break;
+    case  Status_II://显示两条水位线
+        pData->IC2_S[20].COM3=0; //p12
+        pData->IC2_S[19].COM4=0; //p13
+        pData->IC2_S[19].COM3=1; //p14
+        pData->IC2_S[19].COM2=1; //p15
+        pData->IC2_S[19].COM1=1;//p16
+
+        break;
+    case  Status_III://满水（水位线显示4条）
+        pData->IC2_S[20].COM3=1; //p12
+        pData->IC2_S[19].COM4=1; //p13
+        pData->IC2_S[19].COM3=1; //p14
+        pData->IC2_S[19].COM2=1; //p15
+        pData->IC2_S[19].COM1=1;//p16
+
+        break;
+    default :
+        break;
+    }
+}
+// 		    ShowHT1621Temperature(Temp1Set_ADDRESS,pArg);//显示体温信息为--
+//ShowHT1621Temperature(WaterTempSet_ADDRESS,pArg);
+//     ShowHT1621Temperature(Temp2Set_ADDRESS,pArg);
+
+void DisplaySystemAlm(void* pArg,eSystemAlm  StatusAlm,INT16U Temp1, INT16U Temp2, INT16U WaterTemp)//报警状态
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    INT16U m_AlmStatus;
+    INT16U m_WAlmStatus;
+    BOOLEAN Beep1Sta = 0;
+    BOOLEAN Beep2Sta = 0;
+
+    m_AlmStatus = (StatusAlm & BIT1)>>1;
+    if(m_AlmStatus !=0) //判断系统的报警状态，把温度显示为--
+    {
+        ShowHT1621Temperature(Temp1_ADDRESS, pArg);
+        Beep1Sta = TRUE;
+    }
+    else
+    {
+        WriteHT1621Temperature(Temp1_ADDRESS, Temp1 ,IC2_PIN, pArg);//显示温度1
+    }
+
+
+    m_AlmStatus = (StatusAlm & BIT2)>>2;
+    if(m_AlmStatus)//判断系统的报警状态，把温度显示为--
+    {
+        Beep1Sta = TRUE;
+        ShowHT1621Temperature(Temp2_ADDRESS,pArg);
+    }
+    else
+    {
+        WriteHT1621Temperature(Temp2_ADDRESS,Temp2 ,IC2_PIN,pArg);//显示温度  2
+    }
+
+    m_AlmStatus = (StatusAlm & BIT3)>>3;
+    m_WAlmStatus = (StatusAlm & BIT5)>>5;
+    if(m_AlmStatus||m_WAlmStatus)
+    {
+        if(pData->m_50msCount%2==1)
+            WriteHT1621Temperature(WaterTemp_ADDRESS,WaterTemp ,IC2_PIN,pArg);//显示水温
+        else
+            HideHT1621Temperature(WaterTemp_ADDRESS,pArg);
+        Beep2Sta = TRUE;
+    } else {
+        WriteHT1621Temperature(WaterTemp_ADDRESS,WaterTemp ,IC2_PIN,pArg);//显示水温
+    }
+
+
+
+    m_AlmStatus = (StatusAlm & BIT4)>>4;
+    if(m_AlmStatus)//水位报警
+    {
+        WaterStatusAlm(pArg,m_AlmStatus);//水位报警
+        Beep1Sta = TRUE;
+    }
+    else {
+    }
+
+    if(Beep2Sta)
+    {
+        pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData, MS_ALM_BEEP, 1, AlmBeep2, NULL);
+    }
+    else if(Beep1Sta) {
+        pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData, MS_ALM_BEEP, 1, AlmBeep1, NULL);
+    }
+    else {
+        pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData, MS_ALM_BEEP, 1, NoBeep, NULL);
+    }
+
+}
+
+
+
+void DisplaySetTemp(void* pArg,INT16U FocusStatus,INT16U Temp1Set, INT16U Temp2Set, INT16U WaterTempSet)//温度设置
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(pData->m_pSysData->m_SystemSta==Stop )
+    {
+        ShowHT1621Temperature(Temp1Set_ADDRESS,pArg);//显示体温信息为--
+    }
+    else {
+        if(FocusStatus==Temp1Focus) //功能按钮在温度设置1
+        {
+            if(pData->m_FlashCount%2==1)
+            {
+							PS("2");
+                WriteHT1621Temperature(Temp1Set_ADDRESS,Temp1Set ,IC1_PIN,pArg);//显示温度
+            }
+            else
+            {
+							PS("1");
+                HideHT1621Temperature(Temp1Set_ADDRESS,pArg);
+            }
+        }
+        else {
+            WriteHT1621Temperature(Temp1Set_ADDRESS,Temp1Set ,IC1_PIN,pArg);//显示温度
+        }
+    }
+		
+    if(pData->m_pSysData->m_SystemSta==Stop )
+    {
+        ShowHT1621Temperature(WaterTempSet_ADDRESS,pArg);//显示体温信息为--
+    }
+    else {
+        if(FocusStatus==TempWFocus) //功能按钮在水温设置
+        {
+            if(pData->m_FlashCount%2==1)
+            {
+                WriteHT1621Temperature(WaterTempSet_ADDRESS,WaterTempSet ,IC1_PIN,pArg);//显示温度
+            }
+            else
+            {
+                HideHT1621Temperature(WaterTempSet_ADDRESS,pArg);
+            }
+        }
+        else {
+            WriteHT1621Temperature(WaterTempSet_ADDRESS,WaterTempSet ,IC1_PIN,pArg);//显示温度
+        }
+    }
+		
+    if(pData->m_pSysData->m_SystemSta==Stop )
+    {
+        ShowHT1621Temperature(Temp2Set_ADDRESS,pArg);//显示体温信息为--
+    }
+    else {
+    if(FocusStatus==Temp2Focus) //功能按钮在温度设置2
+    {
+        if(pData->m_FlashCount%2==1)
+        {
+            WriteHT1621Temperature(Temp2Set_ADDRESS,Temp2Set ,IC1_PIN,pArg);//显示温度
+        }
+        else
+        {
+            HideHT1621Temperature(Temp2Set_ADDRESS,pArg);
+        }
+    }
+    else {
+        WriteHT1621Temperature(Temp2Set_ADDRESS,Temp2Set ,IC1_PIN,pArg);//显示温度
+    }
+	}
+}
+
+void DisplayRefresh(void* pArg)//刷新区域
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    //刷新区域
+    HTBICNSVal(pData->IC2_S[21]);
+    HTBICNSVal(pData->IC2_S[20]);
+    HTBICNSVal(pData->IC2_S[19]);
+    HTBICNSVal(pData->IC2_S[18]);
+    HTBICNSVal(pData->IC2_S[12]);
+    HTBICNSVal(pData->IC2_S[8]);
+    HTBICNSVal(pData->IC2_S[6]);
+    HTBICNSVal(pData->IC2_S[0]);
+
+}
+
+void HtbRamInit(void* pArg) //显示屏区域初始化
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    INT16U i=0;
+
+    for(i=0; i<IC_PIN; i++)
+    {
+        pData->IC1_S[i].P_Addr=i;
+        pData->IC1_S[i].P_WhichIC=1;
+        pData->IC2_S[i].P_Addr=i;
+        pData->IC2_S[i].P_WhichIC=2;
+    }
+
+    pData->IC1_S[Screen_1_S0].COM4=1; //体温设置S2
+    pData->IC1_S[Screen_1_S4].COM4=1;  //体温设置的小数点 T1
+    pData->IC1_S[Screen_1_S6].COM4=1;  //水温设置 t2/s3
+    pData->IC1_S[Screen_1_S10].COM4=1;  //体温设置2  t3/s4
+    pData->IC1_S[Screen_1_S14].COM4=1;   //t5 小数点
+    pData->IC1_S[Screen_1_S12].COM4=1;   //温度t6
+
+    pData->IC2_S[22].COM1=1;   //p21.s5 ,T7,S7,T8,S9,T9
+    pData->IC2_S[20].COM1=1;
+    pData->IC2_S[4].COM4=1;   //p1
+    pData->IC2_S[10].COM4=1;   //p2
+    pData->IC2_S[16].COM4=1;   //p3
+
+    //tommy fix
+    pData->IC1_S[Screen_1_S0].COM4=1;
+    pData->IC1_S[Screen_1_S6].COM4=1;
+    pData->IC1_S[Screen_1_S4].COM4=1;
+    //HTBICNSVal(pData->IC2_S[22]);
+
+}
+
+void WriteHT1621OneData(INT16U Addr,INT16U Data ,INT16U WhichIC)//把数据送给驱动LCD.H
+{
+    HT1621WrOneData(Addr,Data ,WhichIC);
+}
+
+void WaterStatusAlm(void* pArg,eNoStatus Status)//水位报警
+{
+    PMODULESCRDATA pData = (PMODULESCRDATA)pArg;
+    if(pData->m_50msCount%2==1)
+        pData->IC2_S[19].COM1=1;//p16
+    else
+        pData->IC2_S[19].COM1=0;//p16
+
+    HTBICNSVal(pData->IC2_S[19]);
+}
+
+void WaterTempSetAlm(void* pArg)//水位报警
+{
+
+}

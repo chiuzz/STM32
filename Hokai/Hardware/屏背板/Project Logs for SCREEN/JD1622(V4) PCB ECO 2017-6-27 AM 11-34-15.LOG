@@ -1,0 +1,7 @@
+Removed Member From Class: ClassName=M2 Member=RLEN1
+Change Component DesignItemId : Designator=U2 Old DesignItemId=STM32F103C New DesignItemId=STM32F
+Change Component Designator: OldDesignator=RLED1 NewDesignator=RLED3
+Change Component Designator: OldDesignator=RLEN1 NewDesignator=RLED1
+Change Net Name : Old Net Name=NetP8_1 New Net Name=K
+Change Net Name : Old Net Name=NetP8_2 New Net Name=A
+Added Member To Class: ClassName=M2 Member=Component RLED3 100¦¸/0.25W

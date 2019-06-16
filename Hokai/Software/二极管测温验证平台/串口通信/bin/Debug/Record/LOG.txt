@@ -1,0 +1,43 @@
+[2017/2/23 15:30:40][SendStartCalcCmdPkg]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendStartCalcCmdPkg(String str, Int32 PointNum) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 157
+[2017/2/23 15:30:40][SendSetVref]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendSetVref(Int32 val) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 192
+[2017/2/27 11:44:09][SendStartCalcCmdPkg]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendStartCalcCmdPkg(String str, Int32 PointNum) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 157
+[2017/2/27 11:44:09][SendSetVref]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendSetVref(Int32 val) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 192
+[2017/2/28 10:36:41][SetTempVal]2
+[2017/2/28 10:36:43][SetTempVal]4
+[2017/2/28 10:39:26][Open_sPort]System.UnauthorizedAccessException: 对端口“COM1”的访问被拒绝。
+   在 System.IO.Ports.InternalResources.WinIOError(Int32 errorCode, String str)
+   在 System.IO.Ports.SerialStream..ctor(String portName, Int32 baudRate, Parity parity, Int32 dataBits, StopBits stopBits, Int32 readTimeout, Int32 writeTimeout, Handshake handshake, Boolean dtrEnable, Boolean rtsEnable, Boolean discardNull, Byte parityReplace)
+   在 System.IO.Ports.SerialPort.Open()
+   在 Module_HardWare.TempSensor.Open_sPort() 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 424
+[2017/2/28 10:39:42][SetTempVal]2
+[2017/2/28 10:39:44][SetTempVal]4
+[2017/3/2 14:33:29][Open_sPort]System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Module_HardWare.TempSensor.Close_sPort() 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 454
+[2017/3/2 14:34:25][Open_sPort]System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Module_HardWare.TempSensor.Close_sPort() 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 454
+[2017/3/2 14:34:42][Open_sPort]System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 Module_HardWare.TempSensor.Close_sPort() 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 454
+[2017/3/2 15:59:56][SetTempVal]30
+[2017/3/2 15:59:56][SendStartCalcCmdPkg]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendStartCalcCmdPkg(String str, Int32 PointNum) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 157
+[2017/3/2 15:59:57][SendSetVref]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendSetVref(Int32 val) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 192
+[2017/3/2 16:00:05][ SendSetAdVal]System.InvalidOperationException: 端口被关闭。
+   在 System.IO.Ports.SerialPort.Write(Byte[] buffer, Int32 offset, Int32 count)
+   在 Module_HardWare.TempSensor.SendSetAdVal(Int32 PointNo, Int16 val1, Int16 val2, Int16 val3, Int16 val4, Int16 val5, Int16 val6, Int16 val7) 位置 F:\二极管测温验证平台\串口通信\TempSensor.cs:行号 269
+[2017/3/2 16:00:26][btnOpenSenial_Click]System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 串口通信.Form1.btnOpenSenial_Click(Object sender, EventArgs e) 位置 F:\二极管测温验证平台\串口通信\Form1.cs:行号 309
+[2017/3/2 16:00:35][SetTempVal]30
+[2017/3/2 16:00:50][SetTempVal]50
+[2017/5/19 8:51:56][SetTempVal]5
+[2017/5/19 8:52:07][SetTempVal]5

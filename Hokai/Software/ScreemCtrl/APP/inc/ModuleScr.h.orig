@@ -1,0 +1,171 @@
+//*
+//*********************************************************************************************************
+//*
+//*                                                 LOGO
+//*
+//*
+//* 文 件 名 : ModuleScr.h
+//*
+//* 文件描述 : 主服务任务文件
+//*
+//* 作    者 : LGL
+//* 版    本 : 
+//* 编 译 器 : IAR EWARM 5.20
+//*********************************************************************************************************
+//*
+#ifndef  __MODULE_SCR_H__
+#define  __MODULE_SCR_H__
+
+#include "common.h"
+#include "struct_def.h"
+
+#define Temp1_ADDRESS 4
+#define WaterTemp_ADDRESS 5
+#define Temp2_ADDRESS 6
+#define Temp1Set_ADDRESS    1	 //设置体温1的地址
+#define Temp2Set_ADDRESS     3	//设置体温2的地址
+#define WaterTempSet_ADDRESS   2 //水温设置的地址
+#define IC_PIN 23    //显示屏的通道数量
+
+#define TempSet1CH_PIN_ADDR 0 // 体温1设置
+#define WaterSetCH_PIN_ADDR 6 // 水温设置温度显示区域
+#define TempSet2CH_PIN_ADDR 10 // 体温2设置
+#define Temp1CH2_PIN_ADDR 0 // 体温1温度显示区域
+#define TWaterCH2_PIN_ADDR 6 // 水温
+#define Temp2CH2_PIN_ADDR 12 // 体温2
+
+#define IC1_PIN   1          //显示屏的pin1
+#define IC2_PIN   2         //显示屏的pin2
+#define Screen_1_S0 		9
+#define Screen_1_S1		8
+#define Screen_1_S2		7
+#define Screen_1_S3		6
+#define Screen_1_S4		5
+#define Screen_1_S5		4
+#define Screen_1_S6		3
+#define Screen_1_S7		2
+#define Screen_1_S8		1
+#define Screen_1_S9		0
+#define Screen_1_S10		10
+#define Screen_1_S11		11
+#define Screen_1_S12		12
+#define Screen_1_S13		13
+#define Screen_1_S14		15
+#define Screen_1_S15		14
+#define Screen_1_S16		16
+#define Screen_1_S17		17
+#define Screen_1_S18		18
+#define Screen_1_S19		19
+#define Screen_1_S20		20
+#define Screen_1_S21		21
+#define Screen_1_S22		22
+#define Screen_1_S23		23
+#define Screen_1_S24		24
+#define Screen_1_S25		25
+#define Screen_1_S26		26
+#define Screen_1_S27		27
+#define Screen_1_S28		28
+#define Screen_1_S29		29
+#define Screen_1_S30		30
+#define Screen_1_S31		31
+#define Screen_1_S32		32
+#define Screen_1_S33		33
+#define Screen_1_S34		34
+#define Screen_1_S35		35
+
+typedef struct 
+{
+        INT8U COM1 : 1;         // 
+        INT8U COM2 : 1;         // 
+        INT8U COM3 : 1;         //  
+        INT8U COM4 : 1;         // 
+			  INT8U P_WhichIC : 2;
+			  INT8U P_Addr  : 8;
+} HTB_ICN; //定义其他
+
+
+
+typedef struct ModuleScrData //配置类数据结构
+{ 
+   P_MSGQUEUE m_pMsgQueue;  //消息队列 
+   INT16U m_Count; //计时器
+	 INT16U m_50msCount;
+
+
+   BOOLEAN m_PressSta; //处理调用状态记录
+	 PCONFIGDATA m_pSysData;     //系统数据
+ //************************以下增加模块内部使用的变量或者其它元素******************************//  
+   HTB_ICN  IC1_S[IC_PIN]; //通道1
+	 HTB_ICN  IC2_S[IC_PIN];//通道2
+	 BOOLEAN  HTBBoolCycle1Set;
+	 BOOLEAN  HTBBoolCycle2Set;
+	 BOOLEAN WaterHotBOOL; //水温过高
+	 BOOLEAN Temp1SetBOOL;//体温设置1的标记
+	 BOOLEAN WaterSetBOOL;//水温设置标记
+	 BOOLEAN Temp2SetBOOL;//体温设置2的标记
+	 BOOLEAN CoolerFlag;//制冷旋转标记
+	 BOOLEAN HotFlag;//制热旋转标记
+}MODULESCRDATA,*PMODULESCRDATA;
+
+typedef struct ModuleScr //服务器类
+{ 
+    char m_ModName[16];  
+    BOOLEAN (*pModeleInit)(void* pArg); //初始化 输入m_pBaseData
+    BOOLEAN (*pModeleReset)(void* pArg); //复位 输入m_pBaseData
+    BOOLEAN (*pModeleStart)(void* pArg); //开始 输入m_pBaseData
+    BOOLEAN (*pModeleStop)(void* pArg); //停止 输入m_pBaseData
+    BOOLEAN (*pModeleRelease)(void* pArg); //释放 输入m_pBaseData
+	void (*pMsgNotify)(PVOID pArg, INT8U MsgId, INT16U lParam, INT16U wParam, void* pBuf); //消息处理 主任务
+    void (*pModele10msProcess)(void* pArg); //10ms调度任务
+    void (*pModele50msProcess)(void* pArg); //50ms调度任务
+    void (*pModele1sProcess)(void* pArg);  //1s调度任务
+	    void (*pModele1msProcess)(void* pArg);  //1s调度任务
+    PVOID m_pBaseData;
+}MODULESCR,*PMODULESCR;
+//*
+//********************************************************************************************************
+//* 函 数 名 : void CreateModuleScr(void)
+//**------------------------------------------------------------------------------------------------------
+//* 描    述 : 创建模块
+//**------------------------------------------------------------------------------------------------------
+//* 输入参数 : PMODULEBASE. 空指针
+//**------------------------------------------------------------------------------------------------------
+//* 输出参数 : PMODULEBASE. 申请内存空间后返回基类指针
+//**------------------------------------------------------------------------------------------------------
+//* 返   回  : PMODULESCRDATA.申请内存空间后返回基类数据指针
+//********************************************************************************************************
+//*
+extern PMODULEBASE CreateModuleScr(PMODULESERVERDATA pServerData);
+
+//************************内部处理函数实现******************************//
+static BOOLEAN ModuleScrInit(void* pArg);
+static BOOLEAN ModuleScrReset(void* pArg);
+static BOOLEAN ModuleScrStart(void* pArg);
+static BOOLEAN ModuleScrStop(void* pArg);
+static BOOLEAN ModuleScrRelease(void* pArg);
+static void ModuleScr50msProcess(void* pArg);
+static void ScrMsgNotify(void* pArg, INT8U MsgId, INT16U lParam, INT16U wParam, void* pBuf);
+
+//************************模块功能实现函数******************************//
+ void HTBICNSVal(HTB_ICN HTBRam); //显示屏区域
+ void HTBSegVal(HTB_ICN* H_Ram,HTB_ICN* L_Ram, INT16U SegData);//显示数
+ void ShowHT1621Temperature(INT16U TempCH,void* pArg);//显示体温信息为--
+ void WriteHT1621OneData(INT16U Addr,INT16U Data ,INT16U WhichIC);//把数据送给驱动LCD.H
+ void SystemStaStop(void* pArg);//系统在停止状态下,显示屏信息
+ void DisplayTemp(void* pArg, INT16U Temp1, INT16U Temp2, INT16U WaterTemp );//显示温度设置的信息
+ void DisplayWorkMode(void* pArg,eSystemStatus SystemSta);////系统制冷或制热模式下
+ void DisplayWorkStatus(void* pArg,eStatus Cooler,eStatus Heater);//系统在停止状态下,显示屏信息
+ void DisplayCycleMode(void* pArg,eStatus Cycle1,eStatus Cycle2);//系统在停止状态下,显示屏信息
+ void DisplayBumpMode(void* pArg,eStatus Bump1,eStatus Bump2);//系统在停止状态下,显示屏信息
+ void DisplayWaterStatus(void* pArg,eNoStatus Status);//水位状态
+ void DisplaySetTemp(void* pArg,INT16U FocusStatus,INT16U Temp1Set, INT16U Temp2Set, INT16U WaterTempSet);//报警状态
+ void DisplaySystemAlm(void* pArg,eSystemAlm  StatusAlm,INT16U Temp1, INT16U Temp2, INT16U WaterTemp);//报警状态
+ void DisplayRefresh(void* pArg);//刷新区域
+ void HtbRamInit(void* pArg); //显示屏区域初始化
+ void TempShow(void* pArg, INT16U Temp1, INT16U Temp2, INT16U WaterTemp );//温度显示
+ void WaterStatusAlm(void* pArg,eNoStatus Status);//水位报警
+ void WaterTempSetAlm(void* pArg);//水位报警
+ 
+
+//************************内部处理函数实现******************************//
+#endif

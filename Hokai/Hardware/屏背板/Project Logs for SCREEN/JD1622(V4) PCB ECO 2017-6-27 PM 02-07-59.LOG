@@ -1,0 +1,13 @@
+Removed Pin From Net: NetName=GND Pin=Q1-1
+Removed Pin From Net: NetName=NetLS1_2 Pin=Q1-3
+Change Component Comment : Designator=Q1 Old Comment=9015 New Comment=C9015/TO-92
+Change Component Description : Designator=Q1 Old Description=PNP Bipolar Transistor New Description=
+Change Component Library : Designator=Q1 Old Library=Miscellaneous Devices.IntLib New Library=COOLCONTROL.SCHLIB
+Added Component: Designator=Q?(SOT-23)
+Added Pin To Net: NetName=NetLS1_2 Pin=Q1-2
+Added Pin To Net: NetName=GND Pin=Q1-3
+Added Pin To Net: NetName=NetQ1_1 Pin=Q1-1
+Added Pin To Net: NetName=NetQ1_1 Pin=R24-1
+Added Pin To Net: NetName=NetQ1_1 Pin=R28-2
+Added Net: Name=NetQ1_1
+Added Member To Class: ClassName=M1 Member=Component Q? PNP

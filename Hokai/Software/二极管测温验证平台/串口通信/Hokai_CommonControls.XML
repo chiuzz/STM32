@@ -1,0 +1,1273 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Hokai_CommonControls</name>
+    </assembly>
+    <members>
+        <member name="M:Hokai.DlgTouchBoard.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgTouchBoard.ShowTouchBoard(System.Windows.Forms.Control)">
+            <summary>
+            显示窗口
+            </summary>
+            <param name="ctrl"></param>
+        </member>
+        <member name="F:Hokai.DlgTouchBoard.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgTouchBoard.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.DlgTouchBoard.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="T:Hokai.Properties.Resources">
+            <summary>
+              强类型资源类，用于查找本地化字符串等。
+            </summary>
+        </member>
+        <member name="P:Hokai.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Hokai.Properties.Resources.Culture">
+            <summary>
+              为使用此强类型资源类的所有资源查找
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="T:Hokai.hkNumPad">
+            <summary>
+            Numerical keyboard
+            </summary>
+        </member>
+        <member name="F:Hokai.hkNumPad.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPad.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.hkNumPad.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPad.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPad.UpdateState">
+            <summary>
+            添加处理
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPad.GetValue">
+            <summary>
+            获取数值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.hkNumPad.SetHeatPowerMode(System.Boolean)">
+            <summary>
+            热灌注加热功率
+            </summary>
+            <param name="flag">true:保留，false:令6~9Disable</param>
+        </member>
+        <member name="P:Hokai.hkNumPad.TextSelected">
+            <summary>
+            文字选中状态
+            文字被选中时, 点击按键自动清空原来的text内容
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.TextValue">
+            <summary>
+            输入值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.MaxValue">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.EnableMaxChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.MinValue">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.EnableMinChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.Decimals">
+            <summary>
+            格式（小数点）
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.EnableDecimalsChecking">
+            <summary>
+            小数输入
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPad.EnableNegtiveButton">
+            <summary>
+            显示负值按钮
+            </summary>
+        </member>
+        <member name="F:Hokai.DlgNumPad.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPad.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.DlgNumPad.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPad.GetText">
+            <summary>
+            获取输入框文字
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPad.GetValue">
+            <summary>
+            获取输入框数值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPad.SetValue(System.Double)">
+            <summary>
+            设置输入框数值
+            </summary>
+            <param name="v"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPad.GetNumPad">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPad.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPad.ShowDialog">
+            <summary>
+            刷新窗口显示
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPad.Mode(Hokai.DlgNumPad.ModeDef)">
+            <summary>
+            模式
+            </summary>
+            <param name="m"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPad.SetHeatPowerMode(System.Boolean)">
+            <summary>
+            热灌注加热功率
+            </summary>
+            <param name="flag">true:保留，false:令6~9Disable</param>
+        </member>
+        <member name="P:Hokai.DlgNumPad.Title">
+            <summary>
+            输入框名称
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.Unit">
+            <summary>
+            输入框单位
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.MaxValue">
+            <summary>
+            输入框最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.MinValue">
+            <summary>
+            输入框最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.EnableMaxChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.EnableMinChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.Decimals">
+            <summary>
+            输入框格式
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPad.EnableNegtiveButton">
+            <summary>
+            显示负值按钮
+            </summary>
+        </member>
+        <member name="T:Hokai.DlgNumPad.ModeDef">
+            <summary>
+            采用格式
+            </summary>
+        </member>
+        <member name="F:Hokai.DlgNumPadEx.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.GetText1">
+            <summary>
+            获取输入框1文字
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.GetText2">
+            <summary>
+            获取输入框2文字
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.GetText3">
+            <summary>
+            获取输入框3文字
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.GetNumPad">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.ShowDialog">
+            <summary>
+            刷新窗口
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.GetValue(System.Int32)">
+            <summary>
+            获取输入框数值
+            </summary>
+            <param name="num">输入框编号(1.2.3)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.SetValue(System.Double,System.Int32)">
+            <summary>
+            设置输入框数值
+            </summary>
+            <param name="v">值</param>
+            <param name="num">文本框编号</param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.Mode(Hokai.DlgNumPadEx.ModeDef,System.Int32)">
+            <summary>
+            模式
+            </summary>
+            <param name="m"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.SetHeatPowerMode(System.Boolean)">
+            <summary>
+            热灌注加热功率
+            </summary>
+            <param name="flag">true:保留，false:令6~9Disable</param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.UpdateRangeLable(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            显示参数范围
+            </summary>
+            <param name="MinValue">最小值</param>
+            <param name="MaxValue">最大值</param>
+            <param name="Decimals">数据格式</param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.IntiSetDouble1(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            双输入框的第一个框
+            </summary>
+            <param name="MinValue"></param>
+            <param name="MaxValue"></param>
+            <param name="Decimals"></param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.IntiSetDouble2(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            双输入框的第二个框
+            </summary>
+            <param name="MinValue"></param>
+            <param name="MaxValue"></param>
+            <param name="Decimals"></param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.IntiSetThree1(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            三输入输入框的第一个框
+            </summary>
+            <param name="MinValue"></param>
+            <param name="MaxValue"></param>
+            <param name="Decimals"></param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.IntiSetThree2(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            三输入输入框的第二个框
+            </summary>
+            <param name="MinValue"></param>
+            <param name="MaxValue"></param>
+            <param name="Decimals"></param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="M:Hokai.DlgNumPadEx.IntiSetThree3(System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            三输入输入框的第三个框
+            </summary>
+            <param name="MinValue"></param>
+            <param name="MaxValue"></param>
+            <param name="Decimals"></param>
+            <param name="EnableMaxChecking"></param>
+            <param name="EnableMinChecking"></param>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.TbNum">
+            <summary>
+            输入框个数
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Title1">
+            <summary>
+            输入框1名称
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Title2">
+            <summary>
+            输入框2名称
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Title3">
+            <summary>
+            输入框3名称
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Unit1">
+            <summary>
+            输入框1单位
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Unit2">
+            <summary>
+            输入框2单位
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Unit3">
+            <summary>
+            输入框3单位
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MaxValue1">
+            <summary>
+            输入框1最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MaxValue2">
+            <summary>
+            输入框2最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MaxValue3">
+            <summary>
+            输入框3最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MinValue1">
+            <summary>
+            输入框1最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MinValue2">
+            <summary>
+            输入框1最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.MinValue3">
+            <summary>
+            输入框1最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMaxChecking1">
+            <summary>
+            输入框1最大值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMaxChecking2">
+            <summary>
+            输入框2最大值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMaxChecking3">
+            <summary>
+            输入框3最大值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMinChecking1">
+            <summary>
+            输入框1最小值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMinChecking2">
+            <summary>
+            输入框2最小值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableMinChecking3">
+            <summary>
+            输入框3最小值设置是否有效
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Decimals1">
+            <summary>
+            输入框格式
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Decimals2">
+            <summary>
+            输入框格式
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.Decimals3">
+            <summary>
+            输入框格式
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.IsMaxEndMin">
+            <summary>
+            输入框是否有上下限设置
+            </summary>
+        </member>
+        <member name="P:Hokai.DlgNumPadEx.EnableNegtiveButton">
+            <summary>
+            显示负值按钮
+            </summary>
+        </member>
+        <member name="T:Hokai.DlgNumPadEx.ModeDef">
+            <summary>
+            模板
+            </summary>
+        </member>
+        <member name="T:Hokai.hkNumPadEx">
+            <summary>
+            Numerical keyboard
+            </summary>
+        </member>
+        <member name="F:Hokai.hkNumPadEx.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.#ctor">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.GetValue1">
+            <summary>
+            获取输入框一的值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.GetValue2">
+            <summary>
+            获取输入框2得值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.GetValue3">
+            <summary>
+            获取输入框3的值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.hkNumPadEx.SetHeatPowerMode(System.Boolean)">
+            <summary>
+            热灌注加热功率
+            </summary>
+            <param name="flag">true:保留，false:令6~9Disable</param>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TextSelected">
+            <summary>
+            文字选中状态
+            文字被选中时, 点击按键自动清空原来的text内容
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TbCurrentNum">
+            <summary>
+            当前为第几输入框
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TbNum">
+            <summary>
+            输入框总数
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TextValue">
+            <summary>
+            输入值01
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TextValue2">
+            <summary>
+            输入值02
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.TextValue3">
+            <summary>
+            输入值03
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MaxValue">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MaxValue2">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MaxValue3">
+            <summary>
+            最大值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MinValue">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MinValue2">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.MinValue3">
+            <summary>
+            最小值
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMaxChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMaxChecking2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMaxChecking3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMinChecking">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMinChecking2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableMinChecking3">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.Decimals">
+            <summary>
+            格式（小数点）
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.Decimals2">
+            <summary>
+            格式（小数点）
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.Decimals3">
+            <summary>
+            格式（小数点）
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableDecimalsChecking">
+            <summary>
+            小数点检测
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableDecimalsChecking2">
+            <summary>
+            小数点检测
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableDecimalsChecking3">
+            <summary>
+            小数点检测
+            </summary>
+        </member>
+        <member name="P:Hokai.hkNumPadEx.EnableNegtiveButton">
+            <summary>
+            显示负值按钮
+            </summary>
+        </member>
+        <member name="T:Hokai.UnvisibleButton">
+            <summary>
+            表示不可见按钮。
+            </summary>
+        </member>
+        <member name="M:Hokai.UnvisibleButton.#ctor(System.Windows.Forms.Control)">
+            <summary>
+            初始化HGCF3000.Controls.UnvisibleButton类的新实例。
+            </summary>
+            <param name="container">UnvisibleButton实例的容器。</param>
+        </member>
+        <member name="M:Hokai.UnvisibleButton.Replace(System.Windows.Forms.Control)">
+            <summary>
+            替代指定的控件。
+            </summary>
+            <param name="ctrl">目标控件。</param>
+        </member>
+        <member name="P:Hokai.UnvisibleButton.Location">
+            <summary>
+            获取或设置UnvisibleButton实例的左上角坐标（相对于容器的左上角坐标）。
+            </summary>
+        </member>
+        <member name="P:Hokai.UnvisibleButton.Size">
+            <summary>
+            获取或设置UnvisibleButton实例的大小。
+            </summary>
+        </member>
+        <member name="P:Hokai.UnvisibleButton.Enabled">
+            <summary>
+            获取或设置控件是否被激活。
+            </summary>
+        </member>
+        <member name="P:Hokai.UnvisibleButton.Click">
+            <summary>
+            在鼠标单击UnvisibleButton实例时触发。
+            </summary>
+        </member>
+        <member name="F:Hokai.TouchKeyboard.components">
+            <summary>
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.Dispose(System.Boolean)">
+            <summary>
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.InitializeComponent">
+            <summary>
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.Init(System.Windows.Forms.Control)">
+            <summary>
+            初始化
+            </summary>
+            <param name="ctrl">目标控件</param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.StartHandInput(System.String,System.Int32,System.Int32)">
+            <summary>
+            启动输入法控件
+            </summary>
+            <param name="startPath">输入法程序路径</param>
+            <param name="dx">在父窗口中的位置x</param>
+            <param name="dy">在父窗口中的位置y</param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.AutoPlacePanels(System.Windows.Forms.Panel[])">
+            <summary>
+            设置遮罩容器的属性
+            </summary>
+            <param name="pnls">容器数组</param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.ResetPosition">
+            <summary>
+            重设窗口位置
+            </summary>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.ClickHandinput(System.Int32,System.Int32)">
+            <summary>
+            模拟鼠标点击手写板
+            </summary>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.btnInputLanguage_Click(System.Object,System.EventArgs)">
+            <summary>
+            系统输入法切换
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.butChange_Click(System.Object,System.EventArgs)">
+            <summary>
+            字母数字切换
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.btnCancle_Click(System.Object,System.EventArgs)">
+            <summary>
+            取消输入
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.Change2LowerCase">
+            <summary>
+            切换到小写
+            </summary>
+        </member>
+        <member name="M:Hokai.TouchKeyboard.Change2UpperCase">
+            <summary>
+            切换到大写
+            </summary>
+        </member>
+        <member name="P:Hokai.TouchKeyboard.Context">
+            <summary>
+            结果
+            </summary>
+        </member>
+        <member name="P:Hokai.TouchKeyboard.HandInputStartWaitTime">
+            <summary>
+            输入板启动等待时间, mm
+            </summary>
+        </member>
+        <member name="T:Hokai.Sound">
+            <summary>
+            声效资源
+            </summary>
+        </member>
+        <member name="M:Hokai.Sound.Beep(System.Int32,System.Int32)">
+            <summary>
+            系统声音提示报警
+            </summary>
+            <param name="freq">频率</param>
+            <param name="duration">持续时间</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.Sound.BeepBtn">
+            <summary>
+            按键提示音
+            </summary>
+        </member>
+        <member name="M:Hokai.Sound.BellRing(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            警报声(线程)
+            </summary>
+            <param name="delayed">间隔时间</param>
+            <param name="counterBell">鸣叫次数</param>
+            <param name="frequency">频率</param>
+            <param name="duration">单次持续时间</param>
+        </member>
+        <member name="M:Hokai.Sound.BellRing(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            警报声(timer)
+            </summary>
+            <param name="frequency">频率</param>
+            <param name="duration">单次持续时间</param>
+            <param name="beeptime">总时间</param>
+        </member>
+        <member name="M:Hokai.Sound.SoundPlayCir(System.String,System.Int32,System.Int32)">
+            <summary>
+            外置音频文件循环播放
+            </summary>
+            <param name="path">路径</param>
+            <param name="soundtime">播放时间</param>
+            <param name="loadTimerOut">加载时间</param>
+        </member>
+        <member name="M:Hokai.Sound.SoundPlayOne(System.String,System.Int32)">
+            <summary>
+            外置音频文件单曲播放音频
+            </summary>
+        </member>
+        <member name="M:Hokai.Sound.#ctor">
+            <summary>
+            Sound
+            </summary>
+        </member>
+        <member name="M:Hokai.Sound.ThreadSetValue">
+            <summary>
+            线程
+            </summary>
+        </member>
+        <member name="T:Hokai.CurveF">
+            <summary>
+            Curve made of float points
+            </summary>
+        </member>
+        <member name="F:Hokai.CurveF.Name">
+            <summary>
+            曲线名
+            </summary>
+        </member>
+        <member name="F:Hokai.CurveF.Left_Coordinate_System">
+            <summary>
+            选择绘制坐标系(true为左边坐标Y轴，false为右边坐标Y轴)
+            </summary>
+        </member>
+        <member name="F:Hokai.CurveF.Line_Coordinate_System">
+            <summary>
+            选择绘制坐标系(true为线性坐标Y轴，false为对数坐标Y轴)
+            </summary>
+        </member>
+        <member name="F:Hokai.CurveF.IsDraw">
+            <summary>
+            是否绘制曲线以下的区域(true为绘制)
+            </summary>
+        </member>
+        <member name="F:Hokai.CurveF.data">
+            <summary>
+            数据 - PointF 列表
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveF.UpdateCurveRange">
+            <summary>
+            更新曲线范围
+            </summary>
+        </member>
+        <member name="P:Hokai.CurveF.CurvePen">
+            <summary>
+            用于绘制线条, 设置时同步CurveBrush颜色
+            </summary>
+        </member>
+        <member name="P:Hokai.CurveF.AreaPen">
+            <summary>
+            用于绘制曲线以下区域
+            </summary>
+        </member>
+        <member name="P:Hokai.CurveF.CurveWord">
+            <summary>
+            用于绘制注释文字
+            </summary>
+        </member>
+        <member name="P:Hokai.CurveF.CurveBrush">
+            <summary>
+            用于绘制注释文字横线
+            </summary>
+        </member>
+        <member name="T:Hokai.CurveDraw">
+            <summary>
+            Draw Curve Lines 
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.AddTimeSeparator(System.Double)">
+            <summary>
+            添加时间轴分隔线
+            </summary>
+            <param name="x"></param>
+        </member>
+        <member name="M:Hokai.CurveDraw.ClearTimeSeparator">
+            <summary>
+            清空时间轴分隔线
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.Reduce">
+            <summary>
+            缩小
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.Magnify">
+            <summary>
+            放大
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.UpdateCurves">
+            <summary>
+            刷新
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.GetRealValueRange">
+            <summary>
+            获取曲线Y轴取值范围
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertX(System.Double)">
+            <summary>
+            Math Coordinate to Graph Coordinate
+            </summary>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertX1(System.Int32)">
+            <summary>
+            Graph Coordinate to Math Coordinate
+            </summary>
+            <param name="x1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLineY(System.Double)">
+            <summary>
+            Math Coordinate to Graph Coordinate(左Y线性坐标)
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLineY(System.Double)">
+            <summary>
+            Math Coordinate to Graph Coordinate(右Y线性坐标)
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLogY(System.Double)">
+            <summary>
+            Math Coordinate to Graph Coordinate(右Y轴对数坐标系)
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLogY(System.Double)">
+            <summary>
+            Math Coordinate to Graph Coordinate(左Y轴对数坐标系)
+            </summary>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLineY1(System.Int32)">
+            <summary>
+            Graph Coordinate to Math Coordinate(左Y轴线性坐标系)
+            </summary>
+            <param name="y1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLineY1(System.Int32)">
+            <summary>
+            Graph Coordinate to Math Coordinate(右Y轴线性坐标系)
+            </summary>
+            <param name="y1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLogY1(System.Int32)">
+            <summary>
+            Graph Coordinate to Math Coordinate(右Y轴转换为对数坐标系)
+            </summary>
+            <param name="y1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLogY1(System.Int32)">
+            <summary>
+            Graph Coordinate to Math Coordinate(左Y轴转换为对数坐标系)
+            </summary>
+            <param name="y1"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLinePointF(System.Drawing.PointF)">
+            <summary>
+            Math Coordinate to Graph Coordinate(左转换为对线性标系)
+            </summary>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLinePointF(System.Drawing.PointF)">
+            <summary>
+            Math Coordinate to Graph Coordinate(右转换为对线性标系)
+            </summary>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertRightLogPointF(System.Drawing.PointF)">
+            <summary>
+            Math Coordinate to Graph Coordinate(右坐标系转换为对数坐标系)
+            </summary>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.ConvertLeftLogPointF(System.Drawing.PointF)">
+            <summary>
+            Math Coordinate to Graph Coordinate(左坐标系转换为对数坐标系)
+            </summary>
+            <param name="pt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.CurveDraw.DrawCurvesDown(System.Drawing.Graphics,Hokai.CurveF,System.Drawing.PointF,System.Int32)">
+            <summary>
+             绘制曲线以下区域
+            </summary>
+            <param name="g"></param>
+            <param name="crv">目标曲线</param>
+            <param name="pt">目标曲线需绘制的点</param>
+            <param name="i">曲线上的第i+1个点</param>
+        </member>
+        <member name="M:Hokai.CurveDraw.UpdateTimeAxis">
+            <summary>
+            Auto Move Time Axis
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.Save(System.IO.BinaryWriter)">
+            <summary>
+            保存所有曲线数据及阶段分隔线, 完成后不关闭文件
+            </summary>
+            <param name="bw"></param>
+        </member>
+        <member name="M:Hokai.CurveDraw.Read(System.IO.BinaryReader)">
+            <summary>
+            读取数据及阶段分隔线, 完成后不关闭文件
+            </summary>
+            <param name="br"></param>
+        </member>
+        <member name="F:Hokai.CurveDraw.components">
+            <summary> 
+            必需的设计器变量。
+            </summary>
+        </member>
+        <member name="M:Hokai.CurveDraw.Dispose(System.Boolean)">
+            <summary> 
+            清理所有正在使用的资源。
+            </summary>
+            <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        </member>
+        <member name="M:Hokai.CurveDraw.InitializeComponent">
+            <summary> 
+            设计器支持所需的方法 - 不要
+            使用代码编辑器修改此方法的内容。
+            </summary>
+        </member>
+        <member name="E:Hokai.CurveDraw.EventLeftBlankClick">
+            <summary>
+            鼠标点击了左侧空白处
+            </summary>
+        </member>
+        <member name="E:Hokai.CurveDraw.EventBottomBlankClick">
+            <summary>
+            鼠标点击了下侧空白处 
+            </summary>
+        </member>
+        <member name="P:Hokai.CurveDraw.EnableAutoMove">
+            <summary>
+            Auto Move Mode
+            </summary>
+        </member>
+        <member name="T:Hokai.DrawString">
+            <summary>
+            表示绘制文字资源。
+            </summary>
+        </member>
+        <member name="M:Hokai.DrawString.#ctor(System.Windows.Forms.Control)">
+            <summary>
+            初始化HGCF3000.Controls.DrawString类的新实例。
+            </summary>
+            <param name="ctrl">绘制字符串目标控件。</param>
+        </member>
+        <member name="M:Hokai.DrawString.Replace(System.Windows.Forms.Control)">
+            <summary>
+            替代指定的控件。
+            </summary>
+            <param name="ctrl">目标控件。</param>
+        </member>
+        <member name="P:Hokai.DrawString.Location">
+            <summary>
+            绘制文字的位置。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Size">
+            <summary>
+            获取或设置绘制字体区域的大小。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Font">
+            <summary>
+            绘制文字的字体。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.FontSize">
+            <summary>
+            获取当前绘制字体的大小。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Color">
+            <summary>
+            绘制文字的颜色。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Text">
+            <summary>
+            绘制的文字。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Visible">
+            <summary>
+            获取或设置文字的可见性。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Format">
+            <summary>
+            获取或设置文字的格式。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Click">
+            <summary>
+            在鼠标单击时触发。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawString.Enabled">
+            <summary>
+            获取或设置实例是否被激活。
+            </summary>
+        </member>
+        <member name="T:Hokai.DrawImage">
+            <summary>
+            表示绘制图像。
+            </summary>
+        </member>
+        <member name="M:Hokai.DrawImage.#ctor(System.Windows.Forms.Control)">
+            <summary>
+            初始化HGCF3000.Controls.DrawImage类的新实例。
+            </summary>
+            <param name="ctrl">绘图的目标控件。</param>
+        </member>
+        <member name="M:Hokai.DrawImage.Replace(System.Windows.Forms.Button)">
+            <summary>
+            用绘制图像替代指定控件。
+            </summary>
+            <param name="target">目标控件。</param>
+        </member>
+        <member name="P:Hokai.DrawImage.Location">
+            <summary>
+            获取或设置图像的位置。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawImage.Size">
+            <summary>
+            获取或设置图像的大小。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawImage.Visible">
+            <summary>
+            获取或设置图像的可见性。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawImage.Image">
+            <summary>
+            获取或设置图像。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawImage.Enabled">
+            <summary>
+            获取或设置实例是否被激活。
+            </summary>
+        </member>
+        <member name="P:Hokai.DrawImage.Click">
+            <summary>
+            在鼠标单击时发生。
+            </summary>
+        </member>
+        <member name="T:Hokai.DebugInfomation">
+            <summary>
+            表示调试信息。
+            </summary>
+        </member>
+        <member name="M:Hokai.DebugInfomation.#ctor">
+            <summary>
+            初始化Hokai.DebugInformation类的新实例。
+            </summary>
+        </member>
+        <member name="M:Hokai.DebugInfomation.FillAt(System.Windows.Forms.Control)">
+            <summary>
+            令调试信息在指定控件上进行绘制。
+            </summary>
+            <param name="ctrl">指定控件。</param>
+        </member>
+        <member name="M:Hokai.DebugInfomation.Add(System.Object)">
+            <summary>
+            添加一条调试信息。
+            </summary>
+            <param name="value">调试信息数据。</param>
+        </member>
+        <member name="M:Hokai.DebugInfomation.Update">
+            <summary>
+            绘制调试信息。
+            </summary>
+        </member>
+        <member name="P:Hokai.DebugInfomation.Enabled">
+            <summary>
+            获取或设置实例是否被激活。
+            </summary>
+        </member>
+        <member name="T:Hokai.Led">
+            <summary>
+            Summary description for UserControl1.
+            </summary>
+        </member>
+    </members>
+</doc>

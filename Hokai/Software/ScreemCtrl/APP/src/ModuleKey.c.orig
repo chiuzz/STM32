@@ -1,0 +1,228 @@
+//*
+//*********************************************************************************************************
+//*
+//*                                                 LOGO
+//*
+//*
+//* 文 件 名 : ModuleKey.c
+//*
+//* 文件描述 : KEY任务
+//*
+//* 作    者 :
+//* 版    本 :
+//* 编 译 器 : IAR EWARM 5.20
+//*********************************************************************************************************
+//*
+#include "ModuleKey.h"
+#include "led.h"
+#include "msg_def.h"
+
+BOOLEAN ModuleKeyInit(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    if(pData != NULL)
+    {
+        pData->m_KeyScanMachine = KEY_OFF;
+    }
+    return ret;
+}
+
+BOOLEAN ModuleKeyReset(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    pData->m_PressSta = FALSE;
+    pData->m_Count = 0;
+    return ret;
+}
+
+BOOLEAN ModuleKeyStart(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    pData->m_PressSta = TRUE;
+    return ret;
+}
+
+BOOLEAN ModuleKeyStop(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    pData->m_PressSta = FALSE;
+    return ret;
+}
+
+BOOLEAN ModuleKeyRelease(void* pArg)
+{
+    BOOLEAN ret = TRUE;
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    if(pData != NULL)
+        free(pData);
+    return ret;
+}
+
+void ModuleKey1sProcess(void* pArg)
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+//     printf("ModuleKey1sProcess !! \n");
+    if(pData->m_PressSta == FALSE)
+        return;
+    pData->m_Count++;
+    if(pData->m_Count > 60)
+    {
+        pData->m_Count = 0;
+        //执行配置保存，调用处理函数
+        //  if(pData->m_pMsgQueue != NULL)
+//	        {
+//	            pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData,MS_KEY_SAVE,1,0,NULL);
+//	        }
+    }
+
+// PD(GetButtomValue());
+//    uint16_t data = 0xff;
+//    UartSendData(&data,  1);
+}
+
+void KeyMsgNotify(void* pArg, INT8U MsgId, INT16U lParam, INT16U wParam, void* pBuf) //消息处理
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    switch(MsgId)
+    {
+    case MS_KEY_ON:
+        if(lParam == 1 && pData->m_AlmType == NoBeep)
+        {
+            pData->m_AlmType = BeepON;
+        }
+        break;
+    case MS_KEY_TRIGER:
+        if(lParam == 1 && pData->m_AlmType == BeepON)
+        {
+            pData->m_AlmType = NoBeep;
+        }
+        break;
+    case MS_ALM_BEEP:
+        if(lParam == 1)
+        {
+            pData->m_AlmType = wParam;
+// 					PD(pData->m_AlmType);
+        }
+        break;
+    default:
+        break;
+    }
+//    printf("Receive MSG !!!\n");
+
+}
+
+void ModuleKey50msProcess(void* pArg)
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    pData->m_AlmCount++;
+    AlmBeepTriger(pArg);
+}
+
+void ModuleKey10msProcess(void* pArg)
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    GetButtonKey(pArg);
+}
+#define KEYCOUNTMAX 10 //x10ms的延时滤波
+void GetButtonKey(void* pArg)
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    INT16U val=0;
+
+    val = GetButtomValue();
+// printf("%d",val);
+    switch(pData->m_KeyScanMachine)
+    {
+    default:
+    case KEY_OFF:
+        pData->m_KeyMark = 0;
+        pData->m_KeyCount = 0;
+        pData->m_KeyMark = 0;
+        if(val != 0 )
+        {
+            pData->m_KeyScanMachine = KEY_ON;
+        }
+        break;
+    case KEY_ON:
+        if(pData->m_KeyCount <= KEYCOUNTMAX) {
+            pData->m_KeyCount++;
+        }
+        if(pData->m_KeyCount == KEYCOUNTMAX )
+        {
+            pData->m_KeyMark = val;
+            pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData,MS_KEY_ON, 1, 0, NULL);
+            pData->m_KeyScanMachine = KEY_TRI;
+        }
+        break;
+    case KEY_TRI:
+
+            if(val == 0 && pData->m_KeyLast == pData->m_KeyMark) {
+                pData->m_pMsgQueue->push_back(pData->m_pMsgQueue->pData,MS_KEY_TRIGER, 1, pData->m_KeyMark, NULL);
+                PD(pData->m_KeyMark);
+                pData->m_KeyScanMachine = KEY_OFF;
+            }
+    
+        break;
+    }
+		pData->m_KeyLast = val;
+}
+
+
+PMODULEBASE CreateModuleKey(PMODULESERVERDATA pServerData)
+{
+    PMODULEKEY pModKey = NULL;
+    PMODULEKEYDATA pData = NULL;
+
+    pModKey = (PMODULEKEY)malloc(sizeof(MODULEKEY));//申请基类结构
+    pData = (PMODULEKEYDATA)malloc(sizeof(MODULEKEYDATA));//申请基类数据结构
+//  ASSERT(pModKey != NULL);
+//  ASSERT(pData != NULL);
+    pData->m_pSysData = pServerData->m_pSysData;
+    pData->m_pMsgQueue = pServerData->m_pMsgQueue;
+    pModKey->m_pBaseData = (PVOID)pData;
+
+    //************************以下模块接口必须赋值******************************
+    pModKey->pModeleInit = ModuleKeyInit; //实现模块初始化
+    pModKey->pModeleReset = ModuleKeyReset; //实现模块复位
+    pModKey->pModeleStart = ModuleKeyStart; //实现模块开始
+    pModKey->pModeleStop = ModuleKeyStop; //实现模块结束
+    pModKey->pModeleRelease = ModuleKeyRelease;//实现
+    pModKey->pMsgNotify = KeyMsgNotify;//实现消息队列处理
+    pModKey->pModele10msProcess = ModuleKey10msProcess;//不实现，置为NULL
+    pModKey->pModele50msProcess = ModuleKey50msProcess;//不实现，置为NULL
+    pModKey->pModele1sProcess = ModuleKey1sProcess;//实现1s调用
+    pModKey->pModele1msProcess = NULL;//实现1s调用
+    strcpy(pModKey->m_ModName, "ModKey");
+
+    printf("CreateModuleKey!!\n");
+    return (PMODULEBASE)pModKey;
+}
+
+void AlmBeepTriger(void* pArg)
+{
+    PMODULEKEYDATA pData = (PMODULEKEYDATA)pArg;
+    switch(pData->m_AlmType)
+    {
+    case AlmBeep1:
+        if(pData->m_AlmCount%10==0)
+        {
+            pData->m_AlmStatus = !pData->m_AlmStatus;
+        }
+        Buzze(pData->m_AlmStatus);
+        break;
+    case BeepON:
+    case AlmBeep2:
+        Buzze(0);
+        break;
+    default:
+    case NoBeep:
+        Buzze(1);
+        break;
+    }
+}
+
+

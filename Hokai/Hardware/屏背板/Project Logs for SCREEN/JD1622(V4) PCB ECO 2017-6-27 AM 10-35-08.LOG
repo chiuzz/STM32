@@ -1,0 +1,4 @@
+Added Component: Designator=U6(HT1621B(SSOP))
+Added Component: Designator=U7(HT1621B(SSOP))
+Added Member To Class: ClassName=M2 Member=Component U6 HT1621
+Added Member To Class: ClassName=M2 Member=Component U7 HT1621

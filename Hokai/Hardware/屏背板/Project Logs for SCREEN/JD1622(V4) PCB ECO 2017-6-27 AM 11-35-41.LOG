@@ -1,0 +1,6 @@
+Change Component Footprint: Designator=RLED1 Old Footprint=R0805 New Footprint=1206
+Change Component Footprint: Designator=RLED2 Old Footprint=R0805 New Footprint=1206
+Change Component Footprint: Designator=RLED3 Old Footprint=R0805 New Footprint=1206
+Change Net Name : Old Net Name=A New Net Name=K
+Change Net Name : Old Net Name=K New Net Name=A
+Added Member To Class: ClassName=M2 Member=Component RLED1 100¦¸/0.25W

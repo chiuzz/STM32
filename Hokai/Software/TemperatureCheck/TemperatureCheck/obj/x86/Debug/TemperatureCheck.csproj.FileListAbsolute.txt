@@ -1,0 +1,9 @@
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\bin\Debug\TemperatureCheck.exe
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\bin\Debug\TemperatureCheck.pdb
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.FormCheck.resources
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.Properties.Resources.resources
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.csproj.GenerateResource.Cache
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.exe
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.pdb
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\bin\Debug\TemperatureCheck.exe.config
+E:\DevelopPorject\SvnPorject\TemperatureControl\Software\TemperatureCheck\TemperatureCheck\obj\x86\Debug\TemperatureCheck.csprojResolveAssemblyReference.cache

@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Hokai_CommonFunctions</name>
+    </assembly>
+    <members>
+        <member name="T:Hokai.SystemDataRW">
+            <summary>
+            用于保存和读取系统参数的设置值。
+            </summary>
+        </member>
+        <member name="M:Hokai.SystemDataRW.Save(Hokai.SystemDataRW.Option,System.Object)">
+            <summary>
+            保存系统参数设置值。
+            </summary>
+            <param name="option">需保存参数的选项。</param>
+            <param name="data">参数值。</param>
+        </member>
+        <member name="M:Hokai.SystemDataRW.Read">
+            <summary>
+            读取系统参数配置文件的数据
+            </summary>
+            <returns>系统设置的参数</returns>
+        </member>
+        <member name="T:Hokai.SystemDataRW.Option">
+            <summary>
+            系统参数选项。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.Console">
+            <summary>
+            控制台信息。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.ExitClose">
+            <summary>
+            退出关机。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.Password">
+            <summary>
+            厂家设置密码。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.RecordShow">
+            <summary>
+            病历显示方式。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.TempProtection">
+            <summary>
+            模拟温度保护。
+            </summary>
+        </member>
+        <member name="F:Hokai.SystemDataRW.Option.HosName">
+            <summary>
+            医院名称。
+            </summary>
+        </member>
+        <member name="T:Hokai.CommonFunctions">
+            <summary>
+            表示通用函数资源。
+            </summary>
+        </member>
+        <member name="M:Hokai.CommonFunctions.CopyFile(System.String,System.String,System.String,System.String)">
+            <summary>
+            把文件从源路径夹拷贝至目标路径。
+            </summary>
+            <param name="srcPath">源路径。</param>
+            <param name="aimPath">目标路径。</param>
+            <param name="srcFileName">源文件名。</param>
+            <param name="aimFileName">目标文件名。</param>
+        </member>
+        <member name="F:Hokai.CommonFunctions.CopyFile_FileNotExists">
+            <summary>
+            在使用CopyFile()且源文件不存在时发生。
+            </summary>
+        </member>
+        <member name="F:Hokai.CommonFunctions.CopyFile_SourcePathNotExists">
+            <summary>
+            在使用CopyFile()且源路径不存在时发生。
+            </summary>
+        </member>
+        <member name="M:Hokai.CommonFunctions.CopyDir(System.String,System.String)">
+            <summary>
+            把文件夹从源路径夹拷贝至目标路径。
+            </summary>
+            <param name="srcPath">源路径。</param>
+            <param name="aimPath">目标路径。</param>
+        </member>
+        <member name="M:Hokai.CommonFunctions.DelFile(System.String,System.String)">
+            <summary>
+            删除目标文件。
+            </summary>
+            <param name="aimPath">目标路径。</param>
+            <param name="aimFileName">目标文件。</param>
+        </member>
+        <member name="M:Hokai.CommonFunctions.DelDir(System.String)">
+            <summary>
+            删除目标文件夹。
+            </summary>
+            <param name="aimPath">目标路径。</param>
+        </member>
+        <member name="T:Hokai.TimeStringFunctions">
+            <summary>
+            把日期转换成字符串的类。
+            </summary>
+        </member>
+        <member name="M:Hokai.TimeStringFunctions.GetTimeString(System.Double)">
+            <summary>
+            将秒转换为 "时:分:秒"格式字符串
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hokai.TimeStringFunctions.GetTimeString(System.Double,System.String)">
+            <summary>
+            将秒转换为 "分:秒"格式字符串
+            </summary>
+            <param name="time"></param>
+            <param name="fmt">秒格式</param>
+            <returns></returns>
+        </member>
+        <member name="T:Hokai.Slope">
+            <summary>
+            表示斜率。
+            </summary>
+        </member>
+        <member name="M:Hokai.Slope.#ctor(System.Int32)">
+            <summary>
+            初始化HGCF3000.Slope类的新实例。
+            </summary>
+            <param name="i">用于计算斜率的点数。</param>
+        </member>
+        <member name="M:Hokai.Slope.Add(System.Double[])">
+            <summary>
+            往ValueList里增加值。
+            </summary>
+            <param name="value">{x,y}</param>
+        </member>
+        <member name="M:Hokai.Slope.FitLine(System.Collections.ArrayList)">
+            <summary>
+            线性拟合 f(x) = a0 + a1 * x, 返回向量X = [a0, a1]
+            </summary>
+            <param name="pts">点列表, double[2]</param>
+            <returns></returns>
+        </member>
+        <member name="P:Hokai.Slope.Value">
+            <summary>
+            获取斜率的值。
+            </summary>
+        </member>
+        <member name="P:Hokai.Slope.Count">
+            <summary>
+            获取Slope实例中实际包含的元素数。
+            </summary>
+        </member>
+        <member name="P:Hokai.Slope.Capacity">
+            <summary>
+            获取Slope实例的容量。
+            </summary>
+        </member>
+        <member name="T:Hokai.RegistryFunctions">
+            <summary>
+            表示注册表函数资源。
+            </summary>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.Double)">
+            <summary>
+            向注册表的Software\Hokai子键中写入值。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.String,System.Double)">
+            <summary>
+            向注册表的Software\Hokai子键中创建子键并写入值。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.Boolean)">
+            <summary>
+            向注册表的Software\Hokai子键中写入值。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.String,System.Boolean)">
+            <summary>
+            向注册表的Software\Hokai子键中创建并写入值。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.String)">
+            <summary>
+            向注册表的Software\Hokai子键中写入值。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.SetRegistry(System.String,System.String,System.String)">
+            <summary>
+            向注册表的Software\Hokai子键中创建子键并写入值。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="value">值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.Double)">
+            <summary>
+            从注册表的Software\Hokai目录中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.String,System.Double)">
+            <summary>
+            从注册表的Software\Hokai子键中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.Boolean)">
+            <summary>
+            从注册表的Software目录中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.String,System.Boolean)">
+            <summary>
+            从注册表的Software\Hokai子键中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.String,System.String)">
+            <summary>
+            从注册表的Software\Hokai子键中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="produceModule">子键名称。</param>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="M:Hokai.RegistryFunctions.GetRegistry(System.String,System.String)">
+            <summary>
+            从注册表的Software目录中读取值，若该项目不存在，则写入默认值并返回。
+            </summary>
+            <param name="name">项目名称。</param>
+            <param name="defautValue">默认值。</param>
+        </member>
+        <member name="T:Hokai.Record">
+            <summary>
+            表示记录。
+            </summary>
+        </member>
+        <member name="M:Hokai.Record.#ctor">
+            <summary>
+            初始化Hokai.Record类的新实例。
+            </summary>
+        </member>
+        <member name="M:Hokai.Record.Add(System.String)">
+            <summary>
+            增加一行字符串。
+            </summary>
+            <param name="s">字符串。</param>
+        </member>
+        <member name="M:Hokai.Record.Close">
+            <summary>
+            关闭记录。
+            </summary>
+        </member>
+        <member name="P:Hokai.Record.Enabled">
+            <summary>
+            获取或设置实例是否被激活。
+            </summary>
+        </member>
+        <member name="T:Hokai.SmoothData">
+            <summary>
+            表示平滑数据。
+            </summary>
+        </member>
+        <member name="M:Hokai.SmoothData.#ctor">
+            <summary>
+            初始化Hokai.SmoothData类的新实例。
+            </summary>
+        </member>
+        <member name="M:Hokai.SmoothData.#ctor(System.Int32)">
+            <summary>
+            初始化Hokai.SmoothData类的新实例。
+            </summary>
+            <param name="capacity">用于平滑的数据的容量。</param>
+        </member>
+        <member name="M:Hokai.SmoothData.Add(System.Double)">
+            <summary>
+            往SmoothData类的实例中添加一个数据。
+            </summary>
+            <param name="value">数据。</param>
+        </member>
+        <member name="M:Hokai.SmoothData.Clear">
+            <summary>
+            清除SmoothData类中的所有数据。
+            </summary>
+        </member>
+        <member name="P:Hokai.SmoothData.Value">
+            <summary>
+            平滑后的值。
+            </summary>
+        </member>
+        <member name="P:Hokai.SmoothData.Count">
+            <summary>
+            获取SmoothData实例中实际包含的元素数。
+            </summary>
+        </member>
+        <member name="P:Hokai.SmoothData.Capacity">
+            <summary>
+            获取SmoothData实例的容量。
+            </summary>
+        </member>
+    </members>
+</doc>

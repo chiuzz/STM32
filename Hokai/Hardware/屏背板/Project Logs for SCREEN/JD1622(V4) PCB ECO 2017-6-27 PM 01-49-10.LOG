@@ -1,0 +1,15 @@
+Removed Pin From Net: NetName=OSC_IN Pin=Y1-1
+Removed Pin From Net: NetName=OSC_OUT Pin=Y1-2
+Change Component DesignItemId : Designator=Y1 Old DesignItemId= New DesignItemId=XTAL
+Change Component Comment : Designator=Y1 Old Comment=Comment New Comment=XTAL
+Change Component Description : Designator=Y1 Old Description= New Description=Crystal Oscillator
+Change Component Library : Designator=Y1 Old Library= New Library=Miscellaneous Devices.IntLib
+Added Pin To Net: NetName=GND Pin=C17-2
+Added Pin To Net: NetName=GND Pin=C18-2
+Added Pin To Net: NetName=GND Pin=C19-2
+Added Pin To Net: NetName=GND Pin=C20-2
+Added Pin To Net: NetName=GND Pin=LED1-2
+Added Pin To Net: NetName=GND Pin=U4-1
+Added Pin To Net: NetName=OSC_OUT Pin=Y1-1
+Added Pin To Net: NetName=OSC_IN Pin=Y1-2
+Added Member To Class: ClassName=M1 Member=Component Y1 XTAL
