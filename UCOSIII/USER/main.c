@@ -24,7 +24,11 @@ OS_TCB        TCB_TASK2;
 CPU_STK       TASK2_STK[TASK2_STK_SIZE];
 void TASK2(void *p_arg);
 
-OS_SEM      	TASK_SEM;
+OS_Q        Msg_Que;
+typedef struct student_tab {
+    char stu_name[10];
+    u8 num;
+} STU;
 
 int main(void)
 {
@@ -62,10 +66,11 @@ void START_TASK(void *p_arg)
     OS_ERR err;
     CPU_SR_ALLOC();
 
-    OSSemCreate (&TASK_SEM,
-                 "TASK_SEM",
-                 0,				//同步任务
-                 &err);
+    OSQCreate (&Msg_Que,
+               "Msg_Que",
+               10,
+               &err);
+
 #if OS_CFG_SCHED_ROUND_ROBIN_EN > 0u
     OSSchedRoundRobinCfg (DEF_ENABLED, (OS_TICK)1, &err);		//打开时间片轮转调度功能，设置默认时间片长度1
 #endif
@@ -83,9 +88,7 @@ void START_TASK(void *p_arg)
                   (void*)0,
                   OS_OPT_TASK_STK_CHK|OS_OPT_TASK_STK_CLR,
                   &err);
-    OS_CRITICAL_EXIT(); //退出临界段
 
-    OS_CRITICAL_ENTER(); //进入临界段
     OSTaskCreate (&TCB_TASK2,		//2、创建任务
                   "TASK2",
                   TASK2,
@@ -115,7 +118,9 @@ u8 ShareBuf[20];
 void TASK1(void *p_arg)
 {
     u8 j=0;
+    u16 size;
     OS_ERR err;
+    STU *pSTU;
 //    CPU_SR_ALLOC();
     u8 buf[USART_REC_LEN2]= {0};
     while(1)
@@ -127,13 +132,14 @@ void TASK1(void *p_arg)
                 USART_RX_BUF2[j]=0;
             }
         }
-        printf("zzz1\r\n");
-        OSSemPend (&TASK_SEM,
-                   0,											//一直等待
-                   OS_OPT_PEND_BLOCKING,	//阻塞
-                   0,											//不需要时间戳
-                   &err);
-        printf("zzz1end\r\n");
+        pSTU=(STU *)OSQPend (&Msg_Que,
+                             0,
+                             OS_OPT_PEND_BLOCKING,
+                             (OS_MSG_SIZE *)&size,
+                             0,
+                             &err);
+
+        printf("student name:%s, num:%d, size:%d\r\n",pSTU->stu_name,pSTU->num,size);
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }
@@ -142,14 +148,18 @@ void TASK2(void *p_arg)
 {
     OS_ERR err;
     u8 j=0;
+    STU stu1;
+    Str_Copy((CPU_CHAR*)stu1.stu_name,(CPU_CHAR*)"Chiuzz_");
+    stu1.num=Str_Len(stu1.stu_name);
+
 //    CPU_SR_ALLOC();
     while(1)
     {
-        printf("zzz2\r\n");
-        OSSemPost (&TASK_SEM,
-                   OS_OPT_POST_NO_SCHED,
-                   &err);
-        printf("zzz2end\r\n");
+        OSQPost (&Msg_Que,
+                 (void *)&stu1,
+                 (OS_MSG_SIZE) sizeof(stu1),
+                 OS_OPT_POST_FIFO,
+                 &err);
         OSTimeDlyHMSM (0,0,1,0,OS_OPT_TIME_HMSM_STRICT,&err);
     }
 }

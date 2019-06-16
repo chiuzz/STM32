@@ -162,11 +162,51 @@ OS_SEM_CTR  OSSemPost (OS_SEM  *p_sem,
                        OS_ERR  *p_err)
 
 
+//------------------------------------------------------os_q.c----------------------------------------------------------
+/*
+************************************************************************************************************************
+*                                               CREATE A MESSAGE QUEUE
+*
+* Description: This function is called by your application to create a message queue.  Message queues MUST be created
+*              before they can be used.
+*
+************************************************************************************************************************
+*/
+void  OSQCreate (OS_Q        *p_q,
+                 CPU_CHAR    *p_name,
+                 OS_MSG_QTY   max_qty,
+                 OS_ERR      *p_err)
 
+/*
+************************************************************************************************************************
+*                                            PEND ON A QUEUE FOR A MESSAGE
+*
+* Description: This function waits for a message to be sent to a queue
+*
+************************************************************************************************************************
+*/
+void  *OSQPend (OS_Q         *p_q,
+                OS_TICK       timeout,
+                OS_OPT        opt,
+                OS_MSG_SIZE  *p_msg_size,
+                CPU_TS       *p_ts,
+                OS_ERR       *p_err)
 
-
-
-
+/*
+************************************************************************************************************************
+*                                               POST MESSAGE TO A QUEUE
+*
+* Description: This function sends a message to a queue.  With the 'opt' argument, you can specify whether the message
+*              is broadcast to all waiting tasks and/or whether you post the message to the front of the queue (LIFO)
+*              or normally (FIFO) at the end of the queue.
+*
+************************************************************************************************************************
+*/
+void  OSQPost (OS_Q         *p_q,
+               void         *p_void,
+               OS_MSG_SIZE   msg_size,
+               OS_OPT        opt,
+               OS_ERR       *p_err)
 
 
 

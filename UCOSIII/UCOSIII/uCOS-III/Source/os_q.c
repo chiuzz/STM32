@@ -46,7 +46,7 @@ const  CPU_CHAR  *os_q__c = "$Id: $";
 * Description: This function is called by your application to create a message queue.  Message queues MUST be created
 *              before they can be used.
 *
-* Arguments  : p_q         is a pointer to the message queue
+* Arguments  : p_q         is a pointer to the message queue		//指向消息队列控制块的指针
 *
 *              p_name      is a pointer to an ASCII string that will be used to name the message queue
 *
@@ -341,25 +341,25 @@ OS_MSG_QTY  OSQFlush (OS_Q    *p_q,
 *                                            PEND ON A QUEUE FOR A MESSAGE
 *
 * Description: This function waits for a message to be sent to a queue
-*
-* Arguments  : p_q           is a pointer to the message queue
+*																					//如果有多个任务等待消息，将恢复优先级最高的那个
+* Arguments  : p_q           is a pointer to the message queue	//消息队列控制块
 *
 *              timeout       is an optional timeout period (in clock ticks).  If non-zero, your task will wait for a
 *                            message to arrive at the queue up to the amount of time specified by this argument.  If you
 *                            specify 0, however, your task will wait forever at the specified queue or, until a message
-*                            arrives.
+*                            arrives.														//超时时间
 *
 *              opt           determines whether the user wants to block if the queue is empty or not:
 *
-*                                OS_OPT_PEND_BLOCKING
+*                                OS_OPT_PEND_BLOCKING						//阻塞模式选择
 *                                OS_OPT_PEND_NON_BLOCKING
 *
-*              p_msg_size    is a pointer to a variable that will receive the size of the message
+*              p_msg_size    is a pointer to a variable that will receive the size of the message		//表示接收到的消息的大小
 *
 *              p_ts          is a pointer to a variable that will receive the timestamp of when the message was
 *                            received, pend aborted or the message queue deleted,  If you pass a NULL pointer (i.e.
 *                            (CPU_TS *)0) then you will not get the timestamp.  In other words, passing a NULL pointer
-*                            is valid and indicates that you don't need the timestamp.
+*                            is valid and indicates that you don't need the timestamp.							//时间戳
 *
 *              p_err         is a pointer to a variable that will contain an error code returned by this function.
 *
@@ -373,7 +373,7 @@ OS_MSG_QTY  OSQFlush (OS_Q    *p_q,
 *                                OS_ERR_TIMEOUT            A message was not received within the specified timeout
 *                                                          would lead to a suspension.
 *
-* Returns    : != (void *)0  is a pointer to the message received
+* Returns    : != (void *)0  is a pointer to the message received				//返回消息的指针
 *              == (void *)0  if you received a NULL pointer message or,
 *                            if no message was received or,
 *                            if 'p_q' is a NULL pointer or,
