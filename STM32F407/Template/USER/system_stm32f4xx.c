@@ -312,7 +312,7 @@
 
 /************************* PLL Parameters *************************************/
 #if defined (STM32F40_41xxx) || defined (STM32F427_437xx) || defined (STM32F429_439xx) || defined (STM32F401xx)
-/* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N */
+/* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N */  //8M / 8 * 336 = 336M
 #define PLL_M      8
 #else /* STM32F411xE */
 #if defined (USE_HSE_BYPASS)
@@ -327,7 +327,7 @@
 
 #if defined (STM32F40_41xxx)
 #define PLL_N      336
-/* SYSCLK = PLL_VCO / PLL_P */
+/* SYSCLK = PLL_VCO / PLL_P */  //336M / 2 = 168M
 #define PLL_P      2
 #endif /* STM32F40_41xxx */
 
@@ -594,14 +594,14 @@ static void SetSysClock(void)
         RCC->APB1ENR |= RCC_APB1ENR_PWREN;
         PWR->CR |= PWR_CR_VOS;
 
-        /* HCLK = SYSCLK / 1*/
+        /* HCLK = SYSCLK / 1*/  //PLL=AHB=168M
         RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
 
 #if defined (STM32F40_41xxx) || defined (STM32F427_437xx) || defined (STM32F429_439xx)
-        /* PCLK2 = HCLK / 2*/
+        /* PCLK2 = HCLK / 2*/  //APB2=84M
         RCC->CFGR |= RCC_CFGR_PPRE2_DIV2;
 
-        /* PCLK1 = HCLK / 4*/
+        /* PCLK1 = HCLK / 4*/  //APB1=42M
         RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
 #endif /* STM32F40_41xxx || STM32F427_437x || STM32F429_439xx */
 
