@@ -48,8 +48,19 @@
 	extern uint32_t SystemCoreClock;
 #endif
 
+//FreeRTOS.h:
+//#ifndef configSUPPORT_STATIC_ALLOCATION
+//	/* Defaults to 0 for backward compatibility. */
+//	#define configSUPPORT_STATIC_ALLOCATION 0
+//#endif
+
+//#ifndef configSUPPORT_DYNAMIC_ALLOCATION
+//	/* Defaults to 1 for backward compatibility. */
+//	#define configSUPPORT_DYNAMIC_ALLOCATION 1
+//#endif
+
 //支持静态内存
-#define configSUPPORT_STATIC_ALLOCATION 1
+//#define configSUPPORT_STATIC_ALLOCATION 1
 
 /************************************************************************
 * FreeRTOS 基础配置配置选项
