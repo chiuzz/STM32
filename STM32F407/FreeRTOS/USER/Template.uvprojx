@@ -497,6 +497,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\beep\beep.c</FilePath>
             </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\key\key.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -60,6 +60,7 @@ int main(void)
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
     led_init();
     beep_init();
+    key_init();
     uart_init(115200);
     delay_init(168);
 
@@ -79,10 +80,18 @@ int main(void)
 
 static void LED_Task (void* parameter)
 {
+    u8 i;
     while(1)
     {
         led_breath();
         beep_deal();
+        key_scan();
+        if(read_OK)
+        {
+            read_OK=0;
+            for(i=0; i<KEY_NUM; i++)
+                printf("key:%d value:%d\r\n",key_stu[i].id,key_stu[i].value);
+        }
         vTaskDelay(1);
     }
 }
