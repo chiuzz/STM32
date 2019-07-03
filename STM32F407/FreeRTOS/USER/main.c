@@ -1,11 +1,4 @@
-#include "stm32f4xx.h"
-#include "usart.h"
-#include "delay.h"
-
-/*FreeRTOS 头文件*/
-#include "FreeRTOS.h"
-#include "task.h"
-
+#include "includes.h"
 
 /*
 **************************** 任务句柄 *********************************
@@ -46,7 +39,6 @@ static TaskHandle_t LED_Task_Handle;
 */
 static void AppTaskCreate(void);				/* 用于创建任务 */
 static void LED_Task(void* pvParameters);		/* LED_Task 任务实现 */
-void led_init(void);							/* LED 初始化 */
 
 
 /*****************************************************************
@@ -88,12 +80,8 @@ static void LED_Task (void* parameter)
 {
     while(1)
     {
-        GPIO_SetBits(GPIOF,GPIO_Pin_9|GPIO_Pin_10);
-        printf("LED off!\r\n");
-        vTaskDelay(500);
-        GPIO_ResetBits(GPIOF,GPIO_Pin_9|GPIO_Pin_10);
-        printf("LED on!\r\n");
-        vTaskDelay(500);
+        led_breath();
+        vTaskDelay(1);
     }
 }
 
@@ -119,15 +107,4 @@ static void AppTaskCreate(void)
     taskEXIT_CRITICAL(); //退出临界区
 }
 
-void led_init(void)
-{
-    GPIO_InitTypeDef GPIO_InitStructure;
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_Init(GPIOF, &GPIO_InitStructure);
-}
 
