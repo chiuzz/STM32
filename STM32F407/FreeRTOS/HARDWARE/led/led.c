@@ -14,7 +14,7 @@ void led_init(void)
     LED_GREEN_OFF();
 }
 
-static LED_STA led_sta=TURN_ON;
+static LED_STA led_sta=LED_TURN_ON;
 u16 LedOnCnt=0;
 u16 LedCnt=0;
 
@@ -31,12 +31,12 @@ void led_breath(void)
 
     switch(led_sta)
     {
-    case TURN_ON:
+    case LED_TURN_ON:
         if(LedCnt>=LED_ON_OFF_TIME) {
             LedCnt=0;
             if(LedOnCnt>=LED_ON_OFF_TIME)
             {
-                led_sta=TURN_OFF;
+                led_sta=LED_TURN_OFF;
                 break;
             }
             LedOnCnt+=LED_CNT_STEP;
@@ -47,12 +47,13 @@ void led_breath(void)
         }
         break;
 
-    case TURN_OFF:
+    case LED_TURN_OFF:
         if(LedCnt>=LED_ON_OFF_TIME) {
             LedCnt=0;
             if(LedOnCnt<=0)
             {
-                led_sta=TURN_ON;
+                led_sta=LED_TURN_ON;
+                Beep_Trigger();
                 break;
             }
             if(LedOnCnt<LED_CNT_STEP)

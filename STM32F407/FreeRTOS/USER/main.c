@@ -59,6 +59,7 @@ int main(void)
     */
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
     led_init();
+    beep_init();
     uart_init(115200);
     delay_init(168);
 
@@ -81,6 +82,7 @@ static void LED_Task (void* parameter)
     while(1)
     {
         led_breath();
+        beep_deal();
         vTaskDelay(1);
     }
 }

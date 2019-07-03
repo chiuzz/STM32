@@ -492,6 +492,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\led\led.c</FilePath>
             </File>
+            <File>
+              <FileName>beep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\beep\beep.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -12,7 +12,7 @@
 #include "delay.h"
 #include "sys.h"
 #include "..\HARDWARE\led\led.h"
-
+#include "..\HARDWARE\beep\beep.h"
 
 #endif
 
