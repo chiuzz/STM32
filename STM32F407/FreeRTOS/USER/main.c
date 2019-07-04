@@ -12,7 +12,9 @@ static TaskHandle_t AppTaskCreate_Handle;
 /* LED 任务句柄 */
 static TaskHandle_t LED_Task_Handle;
 /* LCD 任务句柄 */
-static TaskHandle_t LCD_Task_Handle;
+//static TaskHandle_t LCD_Task_Handle;
+/* 100ms调度 任务句柄 */
+static TaskHandle_t Delay100ms_Task_Handle;
 
 /*
 ***************************** 内核对象句柄 ******************************
@@ -42,6 +44,7 @@ static TaskHandle_t LCD_Task_Handle;
 static void AppTaskCreate(void);				/* 用于创建任务 */
 static void LED_Task(void* pvParameters);		/* LED_Task 任务实现 */
 static void LCD_Task(void* pvParameters);		/* LCD_Task 任务实现 */
+static void Delay100ms_Task (void* parameter);	/* 100ms调度 任务实现 */
 
 
 /*****************************************************************
@@ -67,6 +70,7 @@ int main(void)
     uart_init(115200);
     delay_init(168);
     LCD_Init();
+    usmart_init(168);
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, 			/* 任务入口函数 */
                           (const char* )"AppTaskCreate",			/* 任务名字 */
                           (uint16_t )512, 						/* 任务栈大小 */
@@ -159,6 +163,14 @@ static void LCD_Task (void* parameter)
     }
 }
 
+static void Delay100ms_Task (void* parameter)
+{
+    while(1)
+    {
+        usmart_scan();
+        vTaskDelay(100);
+    }
+}
 
 static void AppTaskCreate(void)
 {
@@ -177,14 +189,24 @@ static void AppTaskCreate(void)
         printf("create LED_Task success!\r\n");
 
     /* 创建 LCD_Task 任务 */
-    xReturn = xTaskCreate((TaskFunction_t )LCD_Task, 			/* 任务入口函数 */
-                          (const char* )"LCD_Task",			/* 任务名字 */
+//    xReturn = xTaskCreate((TaskFunction_t )LCD_Task, 			/* 任务入口函数 */
+//                          (const char* )"LCD_Task",			/* 任务名字 */
+//                          (uint16_t )512, 					/* 任务栈大小 */
+//                          (void* )NULL, 						/* 任务入口函数参数 */
+//                          (UBaseType_t )2, 					/* 任务的优先级 */
+//                          (TaskHandle_t* )&LCD_Task_Handle);	/* 任务控制块指针 */
+//    if (pdPASS == xReturn)
+//        printf("create LCD_Task success!\r\n");
+
+    /* 创建 100ms 任务 */
+    xReturn = xTaskCreate((TaskFunction_t )Delay100ms_Task, 			/* 任务入口函数 */
+                          (const char* )"Delay100ms_Task",			/* 任务名字 */
                           (uint16_t )512, 					/* 任务栈大小 */
                           (void* )NULL, 						/* 任务入口函数参数 */
                           (UBaseType_t )2, 					/* 任务的优先级 */
-                          (TaskHandle_t* )&LCD_Task_Handle);	/* 任务控制块指针 */
+                          (TaskHandle_t* )&Delay100ms_Task_Handle);	/* 任务控制块指针 */
     if (pdPASS == xReturn)
-        printf("create LCD_Task success!\r\n");
+        printf("create Delay100ms_Task success!\r\n");
 
     vTaskDelete(AppTaskCreate_Handle); //删除 AppTaskCreate 任务
 

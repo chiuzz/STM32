@@ -11,6 +11,8 @@
 #include "usart.h"
 #include "delay.h"
 #include "sys.h"
+#include "..\USMART\usmart.h"
+
 #include "..\HARDWARE\led\led.h"
 #include "..\HARDWARE\beep\beep.h"
 #include "..\HARDWARE\key\key.h"
