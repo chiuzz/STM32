@@ -53,7 +53,6 @@ void led_breath(void)
             if(LedOnCnt<=0)
             {
                 led_sta=LED_TURN_ON;
-                Beep_Trigger();
                 break;
             }
             if(LedOnCnt<LED_CNT_STEP)

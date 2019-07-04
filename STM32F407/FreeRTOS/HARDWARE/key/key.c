@@ -121,6 +121,7 @@ void key_deal(KEY_STU *key_stu)
     case KEY_TURN_OFF:
         if(key_stu->value!=NONE) {
             read_OK=1;
+            Beep_Trigger();
         }
         key_stu->key_sta=KEY_OFF;
         break;

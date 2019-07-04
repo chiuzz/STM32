@@ -14,6 +14,7 @@
 #include "..\HARDWARE\led\led.h"
 #include "..\HARDWARE\beep\beep.h"
 #include "..\HARDWARE\key\key.h"
+#include "..\HARDWARE\lcd\lcd.h"
 
 #define TRUE  1
 #define FALSE 0

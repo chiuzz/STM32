@@ -502,6 +502,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\key\key.c</FilePath>
             </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\lcd\lcd.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -526,6 +531,11 @@
               <FileName>stm32f4xx_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_fsmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\src\stm32f4xx_fsmc.c</FilePath>
             </File>
           </Files>
         </Group>
