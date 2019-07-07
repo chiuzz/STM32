@@ -29,7 +29,7 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 #include "stm32f4xx.h"
-#include "usart.h"
+#include "usart2.h"
 /*-----------------------------------------------------------
  * Application specific definitions.
  *

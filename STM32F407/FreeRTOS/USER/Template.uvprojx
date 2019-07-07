@@ -553,9 +553,9 @@
               <FilePath>..\SYSTEM\sys\sys.c</FilePath>
             </File>
             <File>
-              <FileName>usart.c</FileName>
+              <FileName>usart2.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\SYSTEM\usart\usart.c</FilePath>
+              <FilePath>..\SYSTEM\usart\usart2.c</FilePath>
             </File>
           </Files>
         </Group>
