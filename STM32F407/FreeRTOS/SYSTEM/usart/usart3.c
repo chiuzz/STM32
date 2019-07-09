@@ -33,6 +33,7 @@ void uart3_init(u32 bound) {
     //USART_ClearFlag(USART1, USART_FLAG_TC);
 
     USART_ITConfig(USART3, USART_IT_RXNE, ENABLE);
+    USART_ITConfig(USART3, USART_IT_IDLE, ENABLE);
 
     NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3;
@@ -53,6 +54,13 @@ void USART3_IRQHandler(void)
         ch =USART_ReceiveData(USART3);
         USART2->DR = ch;
     }
+    else if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
+    {
+        printf("idle\r\n");
+        ch=USART3->SR;
+        ch=USART3->DR;
+    }
+
 #if SYSTEM_SUPPORT_OS 	//如果SYSTEM_SUPPORT_OS为真，则需要支持OS.
     OSIntExit();
 #endif
