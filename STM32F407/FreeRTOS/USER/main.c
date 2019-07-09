@@ -68,6 +68,7 @@ int main(void)
     beep_init();
     key_init();
     uart2_init(115200);
+    uart3_init(115200);
     delay_init(168);
     LCD_Init();
     usmart_init(168);

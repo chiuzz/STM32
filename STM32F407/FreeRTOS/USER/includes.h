@@ -9,6 +9,7 @@
 
 /*模块头文件*/
 #include "usart2.h"
+#include "usart3.h"
 #include "delay.h"
 #include "sys.h"
 #include "..\USMART\usmart.h"

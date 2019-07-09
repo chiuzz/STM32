@@ -1,5 +1,5 @@
-#ifndef __USART_H
-#define __USART_H
+#ifndef __USART2_H
+#define __USART2_H
 #include "stdio.h"
 #include "stm32f4xx_conf.h"
 #include "sys.h"
