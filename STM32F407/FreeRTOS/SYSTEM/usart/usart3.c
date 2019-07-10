@@ -41,8 +41,9 @@ void uart3_init(u32 bound) {
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
 }
-
-
+u8 uart3_sta=0;
+u8 uart3_cnt=0;
+u8 uart3_buf[200]= {0};
 void USART3_IRQHandler(void)
 {
     u8 ch;
@@ -53,12 +54,16 @@ void USART3_IRQHandler(void)
     {
         ch =USART_ReceiveData(USART3);
         USART2->DR = ch;
+        uart3_buf[uart3_cnt] = ch;
+        uart3_cnt++;
     }
     else if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
     {
-        printf("idle\r\n");
         ch=USART3->SR;
         ch=USART3->DR;
+        uart3_buf[uart3_cnt] = '\0';
+        uart3_cnt=0;
+        uart3_sta=1;
     }
 
 #if SYSTEM_SUPPORT_OS 	//如果SYSTEM_SUPPORT_OS为真，则需要支持OS.

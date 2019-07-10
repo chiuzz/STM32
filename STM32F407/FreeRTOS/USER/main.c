@@ -11,8 +11,8 @@
 static TaskHandle_t AppTaskCreate_Handle;
 /* LED 任务句柄 */
 static TaskHandle_t LED_Task_Handle;
-/* LCD 任务句柄 */
-//static TaskHandle_t LCD_Task_Handle;
+/* 10ms调度 任务句柄 */
+static TaskHandle_t Delay10ms_Task_Handle;
 /* 100ms调度 任务句柄 */
 static TaskHandle_t Delay100ms_Task_Handle;
 
@@ -41,11 +41,10 @@ static TaskHandle_t Delay100ms_Task_Handle;
 * 函数声明
 *************************************************************************
 */
-static void AppTaskCreate(void);				/* 用于创建任务 */
-static void LED_Task(void* pvParameters);		/* LED_Task 任务实现 */
-static void LCD_Task(void* pvParameters);		/* LCD_Task 任务实现 */
-static void Delay100ms_Task (void* parameter);	/* 100ms调度 任务实现 */
-
+static void AppTaskCreate(void);					/* 用于创建任务 */
+static void LED_Task(void* pvParameters);			/* LED_Task 任务实现 */
+static void Delay10ms_Task(void* pvParameters);		/* 10ms调度_Task 任务实现 */
+static void Delay100ms_Task (void* parameter);		/* 100ms调度 任务实现 */
 
 /*****************************************************************
 * @brief 主函数
@@ -88,7 +87,7 @@ int main(void)
 
 static void LED_Task (void* parameter)
 {
-    u8 i;
+//    u8 i;
     while(1)
     {
         led_breath();
@@ -97,70 +96,23 @@ static void LED_Task (void* parameter)
         if(read_OK)
         {
             read_OK=0;
-            for(i=0; i<KEY_NUM; i++)
-                printf("key:%d value:%d\r\n",key_stu[i].id,key_stu[i].value);
+//            for(i=0; i<KEY_NUM; i++)
+//                printf("key:%d value:%d\r\n",key_stu[i].id,key_stu[i].value);
+            AT_Test((u8 *)"OK");
         }
         vTaskDelay(1);
     }
 }
 
-static void LCD_Task (void* parameter)
+static void Delay10ms_Task (void* parameter)
 {
-    u8 x=0;
-    u8 lcd_id[12];
-    POINT_COLOR=RED;
-    sprintf((char*)lcd_id,"LCD ID:%04X",lcddev.id);
     while(1)
     {
-        switch(x)
-        {
-        case 0:
-            LCD_Clear(WHITE);
-            break;
-        case 1:
-            LCD_Clear(BLACK);
-            break;
-        case 2:
-            LCD_Clear(BLUE);
-            break;
-        case 3:
-            LCD_Clear(RED);
-            break;
-        case 4:
-            LCD_Clear(MAGENTA);
-            break;
-        case 5:
-            LCD_Clear(GREEN);
-            break;
-        case 6:
-            LCD_Clear(CYAN);
-            break;
-        case 7:
-            LCD_Clear(YELLOW);
-            break;
-        case 8:
-            LCD_Clear(BRRED);
-            break;
-        case 9:
-            LCD_Clear(GRAY);
-            break;
-        case 10:
-            LCD_Clear(LGRAY);
-            break;
-        case 11:
-            LCD_Clear(BROWN);
-            break;
-        }
-        POINT_COLOR=RED;
-        LCD_ShowString(30,40,210,24,24,(void*)"Explorer STM32F4");
-        LCD_ShowString(30,70,200,16,16,(void*)"TFTLCD TEST");
-        LCD_ShowString(30,90,200,16,16,(void*)"ATOM@ALIENTEK");
-        LCD_ShowString(30,110,200,16,16,lcd_id);
-        LCD_ShowString(30,130,200,12,12,(void*)"2014/5/4");
-        x++;
-        if(x==12)x=0;
-
-        vTaskDelay(1000);
+//		if(uart3_sta){
+//			uart3_sta=0;
+//			AT_Test((u8 *)"OK");
+//		}
+        vTaskDelay(10);
     }
 }
 
@@ -180,31 +132,31 @@ static void AppTaskCreate(void)
     taskENTER_CRITICAL(); //进入临界区
 
     /* 创建 LED_Task 任务 */
-    xReturn = xTaskCreate((TaskFunction_t )LED_Task, 			/* 任务入口函数 */
-                          (const char* )"LED_Task",			/* 任务名字 */
-                          (uint16_t )512, 					/* 任务栈大小 */
-                          (void* )NULL, 						/* 任务入口函数参数 */
-                          (UBaseType_t )2, 					/* 任务的优先级 */
-                          (TaskHandle_t* )&LED_Task_Handle);	/* 任务控制块指针 */
+    xReturn = xTaskCreate((TaskFunction_t )LED_Task, 				/* 任务入口函数 */
+                          (const char* )"LED_Task",					/* 任务名字 */
+                          (uint16_t )512, 							/* 任务栈大小 */
+                          (void* )NULL, 							/* 任务入口函数参数 */
+                          (UBaseType_t )10, 						/* 任务的优先级 */
+                          (TaskHandle_t* )&LED_Task_Handle);		/* 任务控制块指针 */
     if (pdPASS == xReturn)
         printf("create LED_Task success!\r\n");
 
-    /* 创建 LCD_Task 任务 */
-//    xReturn = xTaskCreate((TaskFunction_t )LCD_Task, 			/* 任务入口函数 */
-//                          (const char* )"LCD_Task",			/* 任务名字 */
-//                          (uint16_t )512, 					/* 任务栈大小 */
-//                          (void* )NULL, 						/* 任务入口函数参数 */
-//                          (UBaseType_t )2, 					/* 任务的优先级 */
-//                          (TaskHandle_t* )&LCD_Task_Handle);	/* 任务控制块指针 */
-//    if (pdPASS == xReturn)
-//        printf("create LCD_Task success!\r\n");
+    /* 创建 Delay10ms_Task 任务 */
+    xReturn = xTaskCreate((TaskFunction_t )Delay10ms_Task, 			/* 任务入口函数 */
+                          (const char* )"Delay10ms_Task",			/* 任务名字 */
+                          (uint16_t )1024, 							/* 任务栈大小 */
+                          (void* )NULL, 							/* 任务入口函数参数 */
+                          (UBaseType_t )2, 							/* 任务的优先级 */
+                          (TaskHandle_t* )&Delay10ms_Task_Handle);	/* 任务控制块指针 */
+    if (pdPASS == xReturn)
+        printf("create Delay10ms_Task success!\r\n");
 
-    /* 创建 100ms 任务 */
-    xReturn = xTaskCreate((TaskFunction_t )Delay100ms_Task, 			/* 任务入口函数 */
+    /* 创建 Delay100ms_Task 任务 */
+    xReturn = xTaskCreate((TaskFunction_t )Delay100ms_Task, 		/* 任务入口函数 */
                           (const char* )"Delay100ms_Task",			/* 任务名字 */
-                          (uint16_t )512, 					/* 任务栈大小 */
-                          (void* )NULL, 						/* 任务入口函数参数 */
-                          (UBaseType_t )2, 					/* 任务的优先级 */
+                          (uint16_t )512, 							/* 任务栈大小 */
+                          (void* )NULL, 							/* 任务入口函数参数 */
+                          (UBaseType_t )5, 							/* 任务的优先级 */
                           (TaskHandle_t* )&Delay100ms_Task_Handle);	/* 任务控制块指针 */
     if (pdPASS == xReturn)
         printf("create Delay100ms_Task success!\r\n");
