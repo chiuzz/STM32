@@ -1,6 +1,7 @@
 #include "sys.h"
 #include "usart3.h"
 #include "string.h"
+#include "..\ESP8266\common.h"
 
 void uart3_init(u32 bound) {
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -64,6 +65,7 @@ void USART3_IRQHandler(void)
         uart3_buf[uart3_cnt] = '\0';
         uart3_cnt=0;
         uart3_sta=1;
+        string_deal(uart3_buf);
     }
 
 #if SYSTEM_SUPPORT_OS 	//如果SYSTEM_SUPPORT_OS为真，则需要支持OS.

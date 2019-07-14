@@ -68,7 +68,7 @@ void key_deal(KEY_STU *key_stu)
     switch(key_stu->key_sta)
     {
     case KEY_OFF:
-        key_stu->value=NONE;
+//        key_stu->value=NONE;
         key_stu->cnt=0;
         if(key_stu->key==TRUE) {
             key_stu->key_sta=KEY_ON;

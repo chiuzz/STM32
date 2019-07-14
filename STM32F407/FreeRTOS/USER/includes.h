@@ -18,6 +18,7 @@ typedef u8 BOOL;
 #include "sys.h"
 #include "..\USMART\usmart.h"
 #include "..\ESP8266\common.h"
+#include "..\Application\ModuleNetWork.h"
 
 #include "..\HARDWARE\led\led.h"
 #include "..\HARDWARE\beep\beep.h"

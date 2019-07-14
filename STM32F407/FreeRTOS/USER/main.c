@@ -87,7 +87,6 @@ int main(void)
 
 static void LED_Task (void* parameter)
 {
-//    u8 i;
     while(1)
     {
         led_breath();
@@ -96,9 +95,24 @@ static void LED_Task (void* parameter)
         if(read_OK)
         {
             read_OK=0;
-//            for(i=0; i<KEY_NUM; i++)
-//                printf("key:%d value:%d\r\n",key_stu[i].id,key_stu[i].value);
-            AT_Test((u8 *)"OK");
+            if(key_stu[KEY_UP_ID].value==SINGLE) {
+                key_stu[KEY_UP_ID].value=NONE;
+                AT_Cmd_Send((void *)"AT+CIPSTART=\"TCP\",\"192.168.43.177\",8888");
+            }
+            if(key_stu[KEY_LEFT_ID].value==SINGLE) {
+                key_stu[KEY_LEFT_ID].value=NONE;
+                AT_Cmd_Send((void *)"AT+CWJAP_CUR=\"Chiuzz_MI\",\"19931008\"");
+            }
+            if(key_stu[KEY_MID_ID].value==SINGLE) {
+                key_stu[KEY_MID_ID].value=NONE;
+                AT_Cmd_Send((void *)"AT+CWMODE_CUR=1");
+            }
+            if(key_stu[KEY_RIGHT_ID].value==SINGLE) {
+                key_stu[KEY_RIGHT_ID].value=NONE;
+                AT_Cmd_Send((void *)"AT+CIPMUX?");
+                AT_Cmd_Send((void *)"AT+CIPMUX=0");
+            }
+
         }
         vTaskDelay(1);
     }
@@ -121,6 +135,7 @@ static void Delay100ms_Task (void* parameter)
     while(1)
     {
         usmart_scan();
+        NetWorkDeal();
         vTaskDelay(100);
     }
 }
@@ -128,7 +143,7 @@ static void Delay100ms_Task (void* parameter)
 static void AppTaskCreate(void)
 {
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为 pdPASS */
-
+    AT_Cmd_Send((void *)"AT+RST");
     taskENTER_CRITICAL(); //进入临界区
 
     /* 创建 LED_Task 任务 */

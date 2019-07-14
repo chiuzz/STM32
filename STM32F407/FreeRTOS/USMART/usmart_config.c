@@ -25,7 +25,7 @@ struct _m_usmart_nametab usmart_nametab[]=
     (void*)LCD_ShowxNum,"void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode)",
     (void*)Beep_Trigger,"void Beep_Trigger(void)",
     (void*)uart3_send,"void uart3_send(u8 *ch)",
-    (void*)AT_Test,"void AT_Test(u8 *ack)",
+    (void*)AT_Cmd_Send,"void AT_Cmd_Send(u8 *cmd,u16 tim)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

@@ -510,6 +510,16 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application</GroupName>
+          <Files>
+            <File>
+              <FileName>ModuleNetWork.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\ModuleNetWork.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>FWLIB</GroupName>
           <Files>
             <File>
@@ -656,6 +666,11 @@
               <FileName>common.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\ESP8266\common.c</FilePath>
+            </File>
+            <File>
+              <FileName>stamode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\ESP8266\stamode.c</FilePath>
             </File>
           </Files>
         </Group>
