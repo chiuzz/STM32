@@ -50,7 +50,7 @@ void ClientTest(void)
     {
     case staAPCONNECTING:
         if(cnt==0)
-            JoinAP((void *)"Chiuzz_MI",(void *)"19931008");
+            JoinAP((void *)"HOME_2.4G",(void *)"home102338");
         if(APCONNECTTIME==cnt++)
         {
             cnt=0;
@@ -77,7 +77,7 @@ void ClientTest(void)
             while(0!=GetCipMux()) {
                 SetCipMux(0);		//开启单连接
             }
-            StartTcpConnect(0,(void *)"TCP",(void *)"192.168.43.177",8888);
+            StartTcpConnect(0,(void *)"TCP",(void *)"192.168.0.123",8888);
         }
         if(TCPCONNECTTIME==cnt++)
         {
@@ -101,7 +101,7 @@ void ClientTest(void)
             }
         }
     case staLINKING:
-
+//检查连接状态
         break;
     }
 }

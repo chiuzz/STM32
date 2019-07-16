@@ -20,7 +20,7 @@ typedef enum {
 #define APCONNECTTIME 100
 #define TCPCONNECTTIME 100
 
-
+extern CTSTA ctsta;
 extern void NetWorkDeal(void);
 
 void ClientTest(void);

@@ -6,6 +6,11 @@ typedef enum {
     LED_TURN_ON,
 } LED_STA;
 
+typedef enum {
+    RED_LED=0,
+    GREEN_LED,
+} LEDCOLOR;
+
 #define _LED_ON		0
 #define _LED_OFF		1
 #define LED_RED		PFout(9)
@@ -21,7 +26,7 @@ typedef enum {
 #define LED_CNT_STEP	1
 
 extern void led_init(void);
-extern void led_breath(void);
+extern void led_breath(LEDCOLOR color);
 
 #endif
 

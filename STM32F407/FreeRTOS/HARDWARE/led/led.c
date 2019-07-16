@@ -18,15 +18,20 @@ static LED_STA led_sta=LED_TURN_ON;
 u16 LedOnCnt=0;
 u16 LedCnt=0;
 
-void led_breath(void)
+void led_breath(LEDCOLOR color)
 {
-    if(LedCnt<LedOnCnt)
-        LED_RED_ON();
-    //LED_GREEN_ON();
-    else
-        LED_RED_OFF();
-    //LED_GREEN_OFF();
-
+    if(LedCnt<LedOnCnt) {
+        if(color==RED_LED)
+            LED_RED_ON();
+        else
+            LED_GREEN_ON();
+    }
+    else {
+        if(color==RED_LED)
+            LED_RED_OFF();
+        else
+            LED_GREEN_OFF();
+    }
     LedCnt++;
 
     switch(led_sta)

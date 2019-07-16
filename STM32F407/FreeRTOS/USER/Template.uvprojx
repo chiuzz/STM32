@@ -667,11 +667,6 @@
               <FileType>1</FileType>
               <FilePath>..\ESP8266\common.c</FilePath>
             </File>
-            <File>
-              <FileName>stamode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\ESP8266\stamode.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>

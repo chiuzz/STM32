@@ -89,7 +89,19 @@ static void LED_Task (void* parameter)
 {
     while(1)
     {
-        led_breath();
+        if(NetWorkData.CmdStu.cmd==LED_RED_OFF)
+            LED_RED_OFF();
+        else if(NetWorkData.CmdStu.cmd==LED_RED_ON)
+            LED_RED_ON();
+        else if(NetWorkData.CmdStu.cmd==LED_GREEN_OFF)
+            LED_GREEN_OFF();
+        else if(NetWorkData.CmdStu.cmd==LED_GREEN_ON)
+            LED_GREEN_ON();
+        else if(NetWorkData.CmdStu.cmd==LED_RED_BREATH)
+            led_breath(RED_LED);
+        else if(NetWorkData.CmdStu.cmd==LED_GREEN_BREATH)
+            led_breath(GREEN_LED);
+
         beep_deal();
         key_scan();
         if(read_OK)

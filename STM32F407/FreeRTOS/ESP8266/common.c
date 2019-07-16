@@ -72,12 +72,10 @@ void StartTcpConnect(u8 link_id,u8 *type,u8 *remote_ip,u32 remote_port)
     AT_Cmd_Send(buf);
 }
 
-
-
-
-
-
-
+void RemoteCmdScan(void)
+{
+    AT_Info_Get((void *)"RemoteCmd");
+}
 
 
 BOOL AT_Cmd_Send(u8 *cmd)
@@ -168,7 +166,64 @@ BOOL AT_Info_Get(u8 *cmd)
             printf("TCP/UDP connect fail!\r\n");
         }
     }
+    else if(0==strcmp("RemoteCmd",(const char *)cmd))
+    {
+        err=AT_Arg_Get((u8 *)"+IPD,",buf);
+        RemoteCmdArgGet(buf2,buf);
+        myatoi(buf2,(void *)&NetWorkData.CmdStu.cmdlength);
+        RemoteCmdArgGet(buf2,buf);
+        RemoteCmdTransform(buf2,&NetWorkData.CmdStu.cmd);
+    }
     return err;
+}
+
+//远端命令键值转换
+void RemoteCmdTransform(u8 *cmdbuf,REMOTECMDENUM *cmd)
+{
+    if(0==strcmp("LED_RED_OFF",(void *)cmdbuf))
+    {
+        *cmd=LED_RED_OFF;
+    }
+    else if(0==strcmp("LED_RED_ON",(void *)cmdbuf))
+    {
+        *cmd=LED_RED_ON;
+    }
+    else if(0==strcmp("LED_GREEN_OFF",(void *)cmdbuf))
+    {
+        *cmd=LED_GREEN_OFF;
+    }
+    else if(0==strcmp("LED_GREEN_ON",(void *)cmdbuf))
+    {
+        *cmd=LED_GREEN_ON;
+    }
+    else if(0==strcmp("LED_RED_BREATH",(void *)cmdbuf))
+    {
+        *cmd=LED_RED_BREATH;
+    }
+    else if(0==strcmp("LED_GREEN_BREATH",(void *)cmdbuf))
+    {
+        *cmd=LED_GREEN_BREATH;
+    }
+}
+
+//获取远端命令参数
+void RemoteCmdArgGet(u8 *arg,u8 *buf)
+{
+    u8 i=0,j=0;
+    while(buf[i]!=':' && buf[i]!='\0')
+    {
+        arg[j++]=buf[i++];
+    }
+    arg[i++]='\0';
+    j=0;
+    while(buf[i]!='\0')
+    {
+        buf[j]=buf[i];
+        buf[i]='\0';
+        i++;
+        j++;
+    }
+    buf[j]='\0';
 }
 
 //获取网络参数
