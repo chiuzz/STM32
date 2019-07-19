@@ -1,3 +1,5 @@
+del *.chiuzz /s
+del *.orig /s
 del *.bak /s
 del *.ddk /s
 del *.edk /s
