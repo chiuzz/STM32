@@ -11,7 +11,8 @@ void NetWorkInit(void)
     u8 *p=(void *)&NetWorkData;
     for(i=0; i<sizeof(NetWorkData); i++)
         *(p+i)=0;
-
+    StopTransmit();
+    AT_Cmd_Send((void *)"AT+RST");
     AT_Cmd_Send((u8 *)"AT");
     AT_Cmd_Send((u8 *)"ATE1");				//关回显
 }
@@ -77,14 +78,35 @@ void RemoteCmdScan(void)
     AT_Info_Get((void *)"RemoteCmd");
 }
 
+void StartTransmit(void)		//仅单连接client时支持
+{
+    AT_Cmd_Send((void *)"AT+CIPMODE=1");
+    AT_Cmd_Send((void *)"AT+CIPSEND");
+}
+
+void TlinkConnect(void)
+{
+    uart3_send((void *)"4R71HU35W421GLJ7");
+}
+
+void StopTransmit(void)
+{
+    AT_Cmd_Send((void *)"+++");
+}
 
 BOOL AT_Cmd_Send(u8 *cmd)
 {
     BOOL err;
     uart3_send(cmd);
+    if(0==strcmp("+++",(void *)cmd))
+    {
+        vTaskDelay(1000);
+        return TRUE;
+    }
+    uart3_send((void *)"\r\n");
     while(!uart3_sta);		//等待返回消息接收完
     uart3_sta=0;
-    vTaskDelay(200);
+    vTaskDelay(50);
     err=AT_Info_Get(cmd);
     return err;
 }
@@ -101,7 +123,7 @@ BOOL AT_Info_Get(u8 *cmd)
         if(err)
             printf("AT success!\r\n");
     }
-    if(0==strcmp("AT+CWMODE_CUR?",(const char *)cmd) || 0==strcmp("AT+CWMODE_DEF?",(const char *)cmd))
+    else if(0==strcmp("AT+CWMODE_CUR?",(const char *)cmd) || 0==strcmp("AT+CWMODE_DEF?",(const char *)cmd))
     {
         err=AT_Arg_Get((u8 *)"+CWMODE_CUR:",buf);
         myatoi(buf,(void *)&NetWorkData.wifimod);
@@ -322,7 +344,7 @@ void myatoi(u8 *str,s32 *num)
         }
         else
         {
-            printf("atoi fali!\r\n");
+            printf("atoi fail!\r\n");
             return;
         }
     }

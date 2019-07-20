@@ -68,6 +68,10 @@ extern void SetCipMux(u8 mod);
 extern NETWORKSTU *GetTcpSta(void);
 extern void StartTcpConnect(u8 link_id,u8 *type,u8 *remote_ip,u32 remote_port);
 
+extern void StartTransmit(void);
+extern void StopTransmit(void);
+extern void TlinkConnect(void);
+
 void NetWorkArgGet(u8 *arg,u8 *buf);
 BOOL AT_Info_Get(u8 *cmd);
 BOOL AT_Arg_Get(u8 *arg,u8 *buf);

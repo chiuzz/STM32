@@ -87,10 +87,6 @@ void uart3_send(u8 *ch)
         USART3->DR = *ch;
         ch++;
     }
-    while(USART_GetFlagStatus(USART3,USART_FLAG_TC)==RESET);
-    USART3->DR = '\r';
-    while(USART_GetFlagStatus(USART3,USART_FLAG_TC)==RESET);
-    USART3->DR = '\n';
 }
 
 

@@ -109,7 +109,7 @@ static void LED_Task (void* parameter)
             read_OK=0;
             if(key_stu[KEY_UP_ID].value==SINGLE) {
                 key_stu[KEY_UP_ID].value=NONE;
-                AT_Cmd_Send((void *)"AT+CIPSTART=\"TCP\",\"192.168.43.177\",8888");
+                uart3_send((void*)"123456790");
             }
             if(key_stu[KEY_LEFT_ID].value==SINGLE) {
                 key_stu[KEY_LEFT_ID].value=NONE;
@@ -117,12 +117,13 @@ static void LED_Task (void* parameter)
             }
             if(key_stu[KEY_MID_ID].value==SINGLE) {
                 key_stu[KEY_MID_ID].value=NONE;
-                AT_Cmd_Send((void *)"AT+CWMODE_CUR=1");
+                StopTransmit();
             }
             if(key_stu[KEY_RIGHT_ID].value==SINGLE) {
                 key_stu[KEY_RIGHT_ID].value=NONE;
-                AT_Cmd_Send((void *)"AT+CIPMUX?");
-                AT_Cmd_Send((void *)"AT+CIPMUX=0");
+                AT_Cmd_Send((void *)"AT+CIPMODE=1");
+                AT_Cmd_Send((void *)"AT+CIPSEND");
+                uart3_send((void *)"92DALGM027W6J9MK");
             }
 
         }
@@ -155,7 +156,6 @@ static void Delay100ms_Task (void* parameter)
 static void AppTaskCreate(void)
 {
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为 pdPASS */
-    AT_Cmd_Send((void *)"AT+RST");
     taskENTER_CRITICAL(); //进入临界区
 
     /* 创建 LED_Task 任务 */

@@ -45,6 +45,8 @@ void NetWorkDeal(void)		//100ms调度
 CTSTA ctsta=staAPCONNECTING;
 void ClientTest(void)
 {
+    u8 buf[100]= {0};
+    u8 led1,led2;
     NETWORKSTU *pNetWorkData;
     switch(ctsta)
     {
@@ -77,7 +79,8 @@ void ClientTest(void)
             while(0!=GetCipMux()) {
                 SetCipMux(0);		//开启单连接
             }
-            StartTcpConnect(0,(void *)"TCP",(void *)"192.168.0.123",8888);
+//            StartTcpConnect(0,(void *)"TCP",(void *)"192.168.0.123",8888);
+            StartTcpConnect(0,(void *)"TCP",(void *)"tcp.tlink.io",8647);
         }
         if(TCPCONNECTTIME==cnt++)
         {
@@ -91,6 +94,8 @@ void ClientTest(void)
         {
             cnt=0;
             ctsta=staLINKING;
+            StartTransmit();
+            TlinkConnect();
         }
         else
         {
@@ -102,6 +107,25 @@ void ClientTest(void)
         }
     case staLINKING:
 //检查连接状态
+//上传led状态到tlink
+        cnt++;
+        if(cnt>=10) {
+            cnt=0;
+            if(NetWorkData.CmdStu.cmd==LED_RED_OFF)
+                led1=0;
+
+            if(NetWorkData.CmdStu.cmd==LED_RED_ON)
+                led1=1;
+
+            if(NetWorkData.CmdStu.cmd==LED_GREEN_OFF)
+                led2=0;
+
+            if(NetWorkData.CmdStu.cmd==LED_GREEN_ON)
+                led2=1;
+
+            sprintf((void*)buf,"CH,%d,%d,CHEND",led1,led2);
+            uart3_send((void*)buf);
+        }
         break;
     }
 }
