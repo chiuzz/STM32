@@ -85,45 +85,58 @@ int main(void)
     while (1); /* 正常不会执行到这里 */
 }
 
+const u8 TEXT_Buffer[]= {"STM32 FLASH TEST"};
+#define TEXT_LENTH sizeof(TEXT_Buffer)
+#define SIZE TEXT_LENTH/2+((TEXT_LENTH%4)?1:0)
+
+#define FLASH_SAVE_ADDR  0X08010002
+
 static void LED_Task (void* parameter)
 {
+    u8 datatemp[SIZE]= {0};
     while(1)
     {
-        if(NetWorkData.CmdStu.cmd==LED_RED_OFF)
-            LED_RED_OFF();
-        else if(NetWorkData.CmdStu.cmd==LED_RED_ON)
-            LED_RED_ON();
-        else if(NetWorkData.CmdStu.cmd==LED_GREEN_OFF)
-            LED_GREEN_OFF();
-        else if(NetWorkData.CmdStu.cmd==LED_GREEN_ON)
-            LED_GREEN_ON();
-        else if(NetWorkData.CmdStu.cmd==LED_RED_BREATH)
-            led_breath(RED_LED);
-        else if(NetWorkData.CmdStu.cmd==LED_GREEN_BREATH)
-            led_breath(GREEN_LED);
+//        if(NetWorkData.CmdStu.cmd==LED_RED_OFF)
+//            LED_RED_OFF();
+//        else if(NetWorkData.CmdStu.cmd==LED_RED_ON)
+//            LED_RED_ON();
+//        else if(NetWorkData.CmdStu.cmd==LED_GREEN_OFF)
+//            LED_GREEN_OFF();
+//        else if(NetWorkData.CmdStu.cmd==LED_GREEN_ON)
+//            LED_GREEN_ON();
+//        else if(NetWorkData.CmdStu.cmd==LED_RED_BREATH)
+//            led_breath(RED_LED);
+//        else if(NetWorkData.CmdStu.cmd==LED_GREEN_BREATH)
+//            led_breath(GREEN_LED);
 
-        beep_deal();
+//        beep_deal();
         key_scan();
         if(read_OK)
         {
             read_OK=0;
+
             if(key_stu[KEY_UP_ID].value==SINGLE) {
                 key_stu[KEY_UP_ID].value=NONE;
-                uart3_send((void*)"123456790");
+                SaveIntoFlash(FLASH_SAVE_ADDR,(u16*)TEXT_Buffer,SIZE);
+                printf("save\r\n");
             }
             if(key_stu[KEY_LEFT_ID].value==SINGLE) {
                 key_stu[KEY_LEFT_ID].value=NONE;
-                AT_Cmd_Send((void *)"AT+CWJAP_CUR=\"Chiuzz_MI\",\"19931008\"");
+                printf("str:%s\r\n",datatemp);
             }
             if(key_stu[KEY_MID_ID].value==SINGLE) {
                 key_stu[KEY_MID_ID].value=NONE;
-                StopTransmit();
+                ReadFromFlash(FLASH_SAVE_ADDR,(u16*)datatemp,SIZE);
+                printf("load\r\n");
             }
             if(key_stu[KEY_RIGHT_ID].value==SINGLE) {
                 key_stu[KEY_RIGHT_ID].value=NONE;
-                AT_Cmd_Send((void *)"AT+CIPMODE=1");
-                AT_Cmd_Send((void *)"AT+CIPSEND");
-                uart3_send((void *)"92DALGM027W6J9MK");
+                FLASH_Unlock();
+                FLASH_DataCacheCmd(DISABLE);
+                EraseFlash();
+                FLASH_DataCacheCmd(ENABLE);
+                FLASH_Lock();
+                printf("erase\r\n");
             }
 
         }
@@ -148,7 +161,7 @@ static void Delay100ms_Task (void* parameter)
     while(1)
     {
         usmart_scan();
-        NetWorkDeal();
+//        NetWorkDeal();
         vTaskDelay(100);
     }
 }

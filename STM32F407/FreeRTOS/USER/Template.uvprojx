@@ -507,6 +507,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\lcd\lcd.c</FilePath>
             </File>
+            <File>
+              <FileName>flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\flash\flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -546,6 +551,11 @@
               <FileName>stm32f4xx_fsmc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FWLIB\src\stm32f4xx_fsmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FWLIB\src\stm32f4xx_flash.c</FilePath>
             </File>
           </Files>
         </Group>

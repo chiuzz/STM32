@@ -24,6 +24,7 @@ typedef u8 BOOL;
 #include "..\HARDWARE\beep\beep.h"
 #include "..\HARDWARE\key\key.h"
 #include "..\HARDWARE\lcd\lcd.h"
+#include "..\HARDWARE\flash\flash.h"
 
 #include "string.h"
 
